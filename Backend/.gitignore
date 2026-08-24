@@ -1,0 +1,13 @@
+# Ignore environment variables and local configs
+.env
+
+# Ignore python bytecode and cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+venv/
+ENV/
+env/
