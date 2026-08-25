@@ -1,0 +1,23 @@
+# Local Environment Folder (Credentials and config notes)
+env_local/
+.env_local/
+
+# Environment Variables
+.env
+Backend/.env
+
+# Python bytecodes and cache directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+ENV/
+
+# Frontend Node dependencies and build assets
+node_modules/
+dist/
+.eslintcache
+.vite/
