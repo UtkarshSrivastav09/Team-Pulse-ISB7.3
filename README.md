@@ -140,6 +140,10 @@ Moving forward, the project will expand to incorporate deeper intelligence and d
 
 ---
 
-## Team
+## Team & Leadership
+
+* **[Utkarsh Srivastav](https://github.com/UtkarshSrivastav09)** — **Team Lead & Full Stack Developer**
+
+---
 
 Developed by **Team Pulse** for Infosys Springboard 7.0 Batch 3.
