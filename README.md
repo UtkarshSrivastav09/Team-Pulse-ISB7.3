@@ -31,19 +31,19 @@ The project is structured as a decoupled client-server architecture:
 ```mermaid
 graph TD
     User([User])
-    UI[Web Interface - React & Vite]
-    API[Backend API - FastAPI]
-    WSA[Web Search Service]
-    Tavily[Search Index API]
+    UI["Web Interface - React and Vite"]
+    API["Backend API - FastAPI"]
+    WSA["Web Search Service"]
+    Tavily["Search Index API"]
 
     User -->|Enters startup details| UI
     UI -->|Sends JSON POST /search| API
     API -->|Invokes with query parameters| WSA
-    WSA -->|Formulates & Executes query| Tavily
+    WSA -->|Formulates and Executes query| Tavily
     Tavily -->|Returns raw search web data| WSA
-    WSA -->|Formats & Filters results| API
+    WSA -->|Formats and Filters results| API
     API -->|Returns HTTP 200 JSON payload| UI
-    UI -->|Displays results list & insights| User
+    UI -->|Displays results list and insights| User
 ```
 
 For more details on components and data schemas, view the [System Architecture Document](docs/system-architecture.md).

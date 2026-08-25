@@ -2,22 +2,45 @@
 env_local/
 .env_local/
 
-# Environment Variables
-.env
-Backend/.env
+# Environment Variables / Secrets
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
 # Python bytecodes and cache directories
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.venv/
-venv/
-env/
-ENV/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.pytest_cache/
+**/.venv/
+**/venv/
+**/env/
+**/ENV/
 
-# Frontend Node dependencies and build assets
-node_modules/
-dist/
-.eslintcache
-.vite/
+# Frontend dependencies, build assets, and cache
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/.eslintcache
+**/.vite/
+
+# Editor/System Files
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
