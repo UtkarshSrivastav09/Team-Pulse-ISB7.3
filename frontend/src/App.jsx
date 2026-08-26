@@ -50,8 +50,9 @@ function App() {
     }, 1200)
 
     try {
-      // Send request to FastAPI backend
-      const response = await fetch('http://localhost:8000/search', {
+      // Send request to FastAPI backend (uses environment variable VITE_API_URL if present, otherwise defaults to localhost)
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+      const response = await fetch(`${apiUrl}/search`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +73,8 @@ function App() {
       setSearchResult(data)
     } catch (err) {
       console.error("Search failed:", err)
-      setError(err.message || "An unexpected error occurred while communicating with the backend. Make sure your FastAPI server is running on http://localhost:8000.")
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+      setError(err.message || `An unexpected error occurred while communicating with the backend. Make sure your API server is running and accessible at ${apiUrl}.`)
     } finally {
       clearInterval(stepInterval)
       setLoading(false)
