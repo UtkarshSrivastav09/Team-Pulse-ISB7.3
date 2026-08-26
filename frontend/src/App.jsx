@@ -322,7 +322,7 @@ function App() {
 
       {/* Footer Section */}
       <footer className="app-footer">
-        <p>Team Pulse — Infosys Springboard 7.0 (Batch 3) • AI Startup Validator</p>
+        <p>Team Pulse — Infosys Springboard 7.0 Batch 3</p>
       </footer>
     </div>
   )
