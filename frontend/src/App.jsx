@@ -15,12 +15,41 @@ function App() {
 
   // Simulation steps for loading feedback
   const loadingSteps = [
-    "Analyzing target industry & indexing keywords...",
-    "Formulating search parameters and search strings...",
-    "Querying search databases and compiling web data...",
-    "Parsing web responses and compiling competitor metrics...",
-    "Structuring analysis report and loading layout..."
+    "Analyzing target industry & indexing market parameters...",
+    "Formulating AI search queries and intelligence filters...",
+    "Querying real-time market indices & scraping live competitor data...",
+    "Synthesizing market feasibility and opportunity metrics...",
+    "Generating executive validation report..."
   ]
+
+  // Sample prompt presets for quick testing
+  const samplePrompts = [
+    {
+      label: "⚡ Electric Urban Logistics",
+      idea: "An AI-powered route planning app for electric cargo bike deliveries in dense urban areas.",
+      industry: "Green Logistics & Mobility",
+      market: "Local e-commerce shops, urban couriers"
+    },
+    {
+      label: "🥗 Smart Meal Prep",
+      idea: "A personalized AI meal planner that scans household groceries to minimize food waste and optimize nutrition.",
+      industry: "FoodTech & Health",
+      market: "Busy professionals, fitness enthusiasts"
+    },
+    {
+      label: "🩺 Telehealth for Pets",
+      idea: "An on-demand veterinary telehealth platform with instant AI triage and symptom detection from smartphone photos.",
+      industry: "Pet Care & HealthTech",
+      market: "Pet owners, veterinary clinics"
+    }
+  ]
+
+  const handleApplyPreset = (preset) => {
+    setStartupIdea(preset.idea)
+    setIndustry(preset.industry)
+    setTargetMarket(preset.market)
+    setError(null)
+  }
 
   const handleSearch = async (e) => {
     e.preventDefault()
@@ -33,7 +62,7 @@ function App() {
 
     // Basic Validation
     if (!startupIdea.trim() || !industry.trim() || !targetMarket.trim()) {
-      setError("Please fill out all the fields.")
+      setError("Please fill out all required fields.")
       setLoading(false)
       return
     }
@@ -90,9 +119,13 @@ function App() {
     <div className="app-container">
       {/* Header Section */}
       <header className="app-header">
-        <h1>Development of AI Based Startup Idea Validator with Market Analysis Assistance</h1>
+        <div className="brand-badge">
+          <span className="live-indicator-dot"></span>
+          <span>Infosys Springboard 7.0 • Team Pulse</span>
+        </div>
+        <h1>AI-Based Startup Idea Validator & Market Intelligence</h1>
         <p className="subtitle">
-          Submit your concept to compile target market intelligence and map the competitor landscape.
+          Submit your concept to evaluate market feasibility, map competitors in real-time, and extract actionable executive intelligence.
         </p>
       </header>
 
@@ -101,10 +134,30 @@ function App() {
         {/* State 1: Input Form */}
         {!searchResult && !loading && (
           <div className="glass-card form-card animate-fade-in">
-            <h2 className="section-title">Startup Idea Parameters</h2>
+            <h2 className="section-title">
+              <span>🚀</span> Startup Concept Parameters
+            </h2>
+
+            {/* Quick Demo Idea Prompts */}
+            <div className="demo-prompts-bar">
+              <span className="demo-prompts-label">Try an example:</span>
+              {samplePrompts.map((preset, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  className="demo-chip"
+                  onClick={() => handleApplyPreset(preset)}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+
             <form onSubmit={handleSearch} className="startup-form">
               <div className="form-group">
-                <label htmlFor="startupIdea">Startup Idea Description</label>
+                <label htmlFor="startupIdea">
+                  <span>💡</span> Startup Idea & Description
+                </label>
                 <textarea
                   id="startupIdea"
                   placeholder="e.g., An AI-powered route planning app for electric cargo bike deliveries in dense urban areas..."
@@ -117,7 +170,9 @@ function App() {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="industry">Industry / Sector</label>
+                  <label htmlFor="industry">
+                    <span>🏢</span> Industry / Domain
+                  </label>
                   <input
                     id="industry"
                     type="text"
@@ -129,7 +184,9 @@ function App() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="targetMarket">Target Market</label>
+                  <label htmlFor="targetMarket">
+                    <span>🎯</span> Target Audience & Market
+                  </label>
                   <input
                     id="targetMarket"
                     type="text"
@@ -141,10 +198,15 @@ function App() {
                 </div>
               </div>
 
-              {error && <div className="error-banner">{error}</div>}
+              {error && (
+                <div className="error-banner">
+                  <span>⚠️</span>
+                  <span>{error}</span>
+                </div>
+              )}
 
               <button type="submit" className="btn btn-primary">
-                Search Web & Validate
+                <span>⚡</span> Run Market Analysis & Validate
               </button>
             </form>
           </div>
@@ -153,8 +215,10 @@ function App() {
         {/* State 2: Loading State */}
         {loading && (
           <div className="glass-card loading-card animate-fade-in">
-            <div className="spinner"></div>
-            <h2 className="loading-title">Analyzing Startup Parameters</h2>
+            <div className="spinner-wrapper">
+              <div className="spinner"></div>
+            </div>
+            <h2 className="loading-title">Synthesizing Market Intelligence</h2>
             <div className="progress-bar-container">
               <div 
                 className="progress-bar-fill" 
@@ -183,16 +247,19 @@ function App() {
             {/* Top Indicator */}
             <div className="results-meta">
               <div className="meta-badge">
-                Data Feed: {searchResult.mode === 'live' ? '⚡ Real-time Search Index' : searchResult.mode === 'mock' ? '📋 Local Simulation Index' : '⚠️ Fallback Report'}
+                <span className="live-indicator-dot"></span>
+                Feed: {searchResult.mode === 'live' ? '⚡ Real-time Search Index' : searchResult.mode === 'mock' ? '📋 Local Simulation Index' : '⚠️ Fallback Report'}
               </div>
               <button onClick={resetForm} className="btn btn-secondary">
-                ← Analyze Another Idea
+                ← Validate Another Idea
               </button>
             </div>
 
             {/* Idea Context Panel */}
             <div className="glass-card summary-card">
-              <h2 className="section-title">Submitted Details</h2>
+              <h2 className="section-title">
+                <span>📋</span> Analyzed Concept
+              </h2>
               <div className="details-grid">
                 <div className="details-item">
                   <strong>Startup Idea:</strong> {searchResult.startup_idea}
@@ -207,21 +274,23 @@ function App() {
             {/* AI Synthesized Answer Card */}
             {searchResult.answer && (
               <div className="glass-card answer-card">
-                <div className="report-badge">Market Analysis Report</div>
-                <h3 className="card-title">Executive Summary</h3>
+                <div className="report-badge">Executive Summary</div>
+                <h3 className="card-title">Market Analysis & Feasibility Insights</h3>
                 <p className="synthesized-answer">{searchResult.answer}</p>
               </div>
             )}
 
             {/* Web Search Results Section */}
             <div className="web-results-section">
-              <h2 className="section-title">Retrieved Web Data & Competitors</h2>
+              <h2 className="section-title">
+                <span>🌐</span> Live Competitor Landscape & Intelligence
+              </h2>
               {searchResult.results && searchResult.results.length > 0 ? (
                 <div className="results-grid">
                   {searchResult.results.map((result, index) => (
                     <div key={index} className="glass-card result-item-card">
                       <div className="result-header">
-                        <span className="result-number">#{index + 1}</span>
+                        <span className="result-number">Competitor #{index + 1}</span>
                         {result.score > 0 && (
                           <span className="result-score">Relevance: {Math.round(result.score * 100)}%</span>
                         )}
@@ -235,7 +304,7 @@ function App() {
                           rel="noopener noreferrer" 
                           className="result-link-btn"
                         >
-                          Visit Website →
+                          Explore Website →
                         </a>
                       )}
                     </div>
@@ -243,7 +312,7 @@ function App() {
                 </div>
               ) : (
                 <div className="glass-card empty-card">
-                  <p>No web results found for this query.</p>
+                  <p>No competitor listings found for this specific query.</p>
                 </div>
               )}
             </div>
@@ -253,7 +322,7 @@ function App() {
 
       {/* Footer Section */}
       <footer className="app-footer">
-        <p>Team Pulse - Infosys Springboard 7.0 Batch 3</p>
+        <p>Team Pulse — Infosys Springboard 7.0 (Batch 3) • AI Startup Validator</p>
       </footer>
     </div>
   )
