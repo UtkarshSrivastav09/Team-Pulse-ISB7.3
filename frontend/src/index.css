@@ -1,73 +1,143 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* Colors */
-  --bg: #f8fafc;
-  --text: #475569;
-  --text-light: #334155;
+  /* Premium Light Theme Color Palette */
+  --bg-dark: #f8fafc;
+  --bg-surface: rgba(255, 255, 255, 0.7);
+  --bg-surface-elevated: rgba(255, 255, 255, 0.85);
+  --bg-surface-hover: rgba(255, 255, 255, 0.95);
+
+  --text-main: #334155;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
   --text-highlight: #0f172a;
-  --border: #e2e8f0;
-  --accent: #4f46e5;
-  --accent-light: #6366f1;
-  --accent-bg: rgba(79, 70, 229, 0.08);
-  --accent-border: rgba(79, 70, 229, 0.2);
-  --card-bg: #ffffff;
-  --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
-  --error-bg: #fef2f2;
-  --error-border: #fca5a5;
+
+  /* Radiant Accent & Glow Colors */
+  --accent-primary: #4f46e5;
+  --accent-secondary: #7c3aed;
+  --accent-cyan: #0891b2;
+  --accent-pink: #db2777;
+  --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+  --accent-gradient-hover: linear-gradient(135deg, #3730a3 0%, #6d28d9 50%, #be185d 100%);
+  --accent-glow: rgba(79, 70, 229, 0.15);
+  --cyan-glow: rgba(8, 145, 178, 0.1);
+
+  /* Glassmorphism & Borders */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-border-hover: rgba(79, 70, 229, 0.25);
+  --glass-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+  --glow-shadow: 0 0 30px -10px rgba(79, 70, 229, 0.12);
+
+  /* Status Colors */
   --success-color: #059669;
+  --success-bg: rgba(5, 150, 105, 0.08);
+  --success-border: rgba(5, 150, 105, 0.15);
+  --error-color: #e11d48;
+  --error-bg: rgba(225, 29, 72, 0.06);
+  --error-border: rgba(225, 29, 72, 0.15);
+  --warning-color: #d97706;
 
   /* Typography */
-  --sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --heading: 'Outfit', 'Inter', system-ui, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
-  font: 16px/1.6 var(--sans);
-  letter-spacing: 0.1px;
+  font: 16px/1.6 var(--font-sans);
+  letter-spacing: -0.01em;
   color-scheme: light;
-  color: var(--text);
-  background: var(--bg);
-  
+  color: var(--text-main);
+  background-color: var(--bg-dark);
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Background Aurora Ambient Effects (Premium Light Theme) */
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg);
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.04) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(13, 148, 136, 0.03) 0px, transparent 50%);
   min-height: 100vh;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  position: relative;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(79, 70, 229, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(219, 39, 119, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 50% 60%, rgba(8, 145, 178, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 20% 90%, rgba(124, 58, 237, 0.04) 0%, transparent 45%);
+  background-attachment: fixed;
+}
+
+/* Subtle Animated Grid Overlay for Cybernetic Depth */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(15, 23, 42, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.015) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.15) 80%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.15) 80%);
 }
 
 #root {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1050px;
   margin: 0 auto;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--heading);
+  font-family: var(--font-heading);
   color: var(--text-highlight);
   font-weight: 700;
   margin: 0;
+  letter-spacing: -0.025em;
 }
 
 a {
-  color: var(--accent);
+  color: var(--accent-primary);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 a:hover {
-  color: var(--accent-light);
+  color: var(--accent-secondary);
+  text-shadow: 0 0 12px rgba(124, 58, 237, 0.2);
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.15);
+  border-radius: 99px;
+  border: 2px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.3);
 }
