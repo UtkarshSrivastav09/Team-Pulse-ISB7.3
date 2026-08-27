@@ -42,6 +42,12 @@ function App() {
       idea: "An on-demand veterinary telehealth platform with instant AI triage and symptom detection from smartphone photos.",
       industry: "Pet Care & HealthTech",
       market: "Pet owners, veterinary clinics"
+    },
+    {
+      label: "AI Adaptive Study Tutor",
+      idea: "An intelligent learning copilot that converts college lectures and PDF textbooks into interactive flashcards, quizzes, and mock tests.",
+      industry: "EdTech & Higher Education",
+      market: "University students, certification exam candidates"
     }
   ]
 
@@ -131,7 +137,6 @@ function App() {
       {/* Header Section */}
       <header className="app-header">
         <div className="brand-badge">
-          <span className="live-indicator-dot"></span>
           <span>Infosys Springboard 7.0 • Team Pulse</span>
         </div>
         <h1>AI-Based Startup Idea Validator & Market Intelligence</h1>
@@ -262,7 +267,7 @@ function App() {
                   className={`loading-step ${idx === currentStep ? 'active' : ''} ${idx < currentStep ? 'completed' : ''}`}
                 >
                   <span className="step-indicator">
-                    {idx < currentStep ? '✓' : idx === currentStep ? '●' : '○'}
+                    {idx < currentStep ? '✓' : idx + 1}
                   </span>
                   {step}
                 </div>
@@ -277,7 +282,6 @@ function App() {
             {/* Top Indicator */}
             <div className="results-meta">
               <div className="meta-badge">
-                <span className="live-indicator-dot"></span>
                 Feed: {searchResult.mode === 'live' ? 'Real-time Search Index' : searchResult.mode === 'mock' ? 'Local Simulation Index' : 'Fallback Report'}
               </div>
               <button onClick={resetForm} className="btn btn-secondary">
