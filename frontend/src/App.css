@@ -290,6 +290,48 @@ input:focus, textarea:focus {
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
 }
 
+.form-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn-secondary-outline {
+  background: rgba(15, 23, 42, 0.05);
+  border: 1px solid transparent;
+  color: var(--text-main);
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+}
+
+.btn-secondary-outline:hover {
+  background: rgba(225, 29, 72, 0.06);
+  border-color: rgba(225, 29, 72, 0.12);
+  color: var(--error-color);
+  transform: translateY(-1px);
+}
+
+.btn-secondary-outline:active {
+  transform: translateY(0);
+}
+
+.demo-chip.active-chip {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+  font-weight: 600;
+}
+
 /* ==========================================================================
    Loading Simulation State
    ========================================================================== */
@@ -620,6 +662,11 @@ input:focus, textarea:focus {
   color: var(--text-main);
   line-height: 1.6;
   margin-bottom: 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .result-link-btn {
