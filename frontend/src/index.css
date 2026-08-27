@@ -1,71 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  /* Premium Light Theme Color Palette */
-  --bg-dark: #f8fafc;
-  --bg-surface: rgba(255, 255, 255, 0.7);
-  --bg-surface-elevated: rgba(255, 255, 255, 0.85);
-  --bg-surface-hover: rgba(255, 255, 255, 0.95);
+  /* Light Theme Canvas with Rich Colored Box Tokens */
+  --bg-canvas: #f1f5f9;
+  
+  --surface-card: #ffffff;
+  --surface-tinted-blue: #eff6ff;
+  --surface-tinted-slate: #f8fafc;
+  --surface-tinted-cyan: #f0fdfa;
+  
+  --border-card: #cbd5e1;
+  --border-blue: #bfdbfe;
+  --border-cyan: #99f6e4;
+  --border-focus: #2563eb;
 
-  --text-main: #334155;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
   --text-muted: #64748b;
   --text-subtle: #94a3b8;
-  --text-highlight: #0f172a;
 
-  /* Radiant Accent & Glow Colors */
-  --accent-primary: #4f46e5;
-  --accent-secondary: #7c3aed;
-  --accent-cyan: #0891b2;
-  --accent-pink: #db2777;
-  --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
-  --accent-gradient-hover: linear-gradient(135deg, #3730a3 0%, #6d28d9 50%, #be185d 100%);
-  --accent-glow: rgba(79, 70, 229, 0.15);
-  --cyan-glow: rgba(8, 145, 178, 0.1);
-
-  /* Glassmorphism & Borders */
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-border: rgba(15, 23, 42, 0.08);
-  --glass-border-hover: rgba(79, 70, 229, 0.25);
-  --glass-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
-  --glow-shadow: 0 0 30px -10px rgba(79, 70, 229, 0.12);
+  /* Button & Interactive Accents */
+  --brand-primary: #2563eb;
+  --brand-primary-hover: #1d4ed8;
+  --brand-accent: #0284c7;
+  --brand-accent-hover: #0369a1;
 
   /* Status Colors */
-  --success-color: #059669;
-  --success-bg: rgba(5, 150, 105, 0.08);
-  --success-border: rgba(5, 150, 105, 0.15);
-  --error-color: #e11d48;
-  --error-bg: rgba(225, 29, 72, 0.06);
-  --error-border: rgba(225, 29, 72, 0.15);
-  --warning-color: #d97706;
+  --success-text: #047857;
+  --success-bg: #ecfdf5;
+  --success-border: #a7f3d0;
+
+  --error-text: #b91c1c;
+  --error-bg: #fef2f2;
+  --error-border: #fecaca;
 
   /* Typography */
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  font: 16px/1.6 var(--font-sans);
-  letter-spacing: -0.01em;
+  font: 15px/1.6 var(--font-sans);
+  letter-spacing: -0.011em;
   color-scheme: light;
-  color: var(--text-main);
-  background-color: var(--bg-dark);
+  color: var(--text-secondary);
+  background-color: var(--bg-canvas);
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Clean, Premium Organic Neutral Mesh Gradient Theme */
+/* Clean Smooth Light Canvas */
 body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #f8fafc;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(241, 245, 249, 0.95) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(239, 246, 255, 0.85) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(245, 243, 255, 0.8) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(254, 253, 237, 0.75) 0px, transparent 50%);
-  color: var(--text-main);
+  background-color: #f1f5f9;
+  background-image: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  color: var(--text-secondary);
   position: relative;
   overflow-x: hidden;
   background-attachment: fixed;
@@ -75,36 +66,35 @@ body {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1050px;
+  max-width: 1000px;
   margin: 0 auto;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  color: var(--text-highlight);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
   font-weight: 700;
   margin: 0;
   letter-spacing: -0.025em;
 }
 
 a {
-  color: var(--accent-primary);
+  color: var(--brand-primary);
   text-decoration: none;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.15s ease;
 }
 
 a:hover {
-  color: var(--accent-secondary);
-  text-shadow: 0 0 12px rgba(124, 58, 237, 0.2);
+  color: var(--brand-primary-hover);
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* Custom Sleek Scrollbar */
+/* Clean Slate Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -115,11 +105,11 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(15, 23, 42, 0.15);
-  border-radius: 99px;
+  background: #cbd5e1;
+  border-radius: 9999px;
   border: 2px solid #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(79, 70, 229, 0.3);
+  background: #94a3b8;
 }
