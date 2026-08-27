@@ -6,6 +6,7 @@ function App() {
   const [startupIdea, setStartupIdea] = useState('')
   const [industry, setIndustry] = useState('')
   const [targetMarket, setTargetMarket] = useState('')
+  const [activePreset, setActivePreset] = useState(null)
   
   // App status state
   const [loading, setLoading] = useState(false)
@@ -25,29 +26,38 @@ function App() {
   // Sample prompt presets for quick testing
   const samplePrompts = [
     {
-      label: "⚡ Electric Urban Logistics",
+      label: "Electric Urban Logistics",
       idea: "An AI-powered route planning app for electric cargo bike deliveries in dense urban areas.",
       industry: "Green Logistics & Mobility",
       market: "Local e-commerce shops, urban couriers"
     },
     {
-      label: "🥗 Smart Meal Prep",
+      label: "Smart Meal Prep",
       idea: "A personalized AI meal planner that scans household groceries to minimize food waste and optimize nutrition.",
       industry: "FoodTech & Health",
       market: "Busy professionals, fitness enthusiasts"
     },
     {
-      label: "🩺 Telehealth for Pets",
+      label: "Telehealth for Pets",
       idea: "An on-demand veterinary telehealth platform with instant AI triage and symptom detection from smartphone photos.",
       industry: "Pet Care & HealthTech",
       market: "Pet owners, veterinary clinics"
     }
   ]
 
-  const handleApplyPreset = (preset) => {
+  const handleApplyPreset = (preset, idx) => {
     setStartupIdea(preset.idea)
     setIndustry(preset.industry)
     setTargetMarket(preset.market)
+    setActivePreset(idx)
+    setError(null)
+  }
+
+  const handleClearForm = () => {
+    setStartupIdea('')
+    setIndustry('')
+    setTargetMarket('')
+    setActivePreset(null)
     setError(null)
   }
 
@@ -113,6 +123,7 @@ function App() {
   const resetForm = () => {
     setSearchResult(null)
     setError(null)
+    setActivePreset(null)
   }
 
   return (
@@ -135,7 +146,7 @@ function App() {
         {!searchResult && !loading && (
           <div className="glass-card form-card animate-fade-in">
             <h2 className="section-title">
-              <span>🚀</span> Startup Concept Parameters
+              Startup Concept Parameters
             </h2>
 
             {/* Quick Demo Idea Prompts */}
@@ -145,8 +156,8 @@ function App() {
                 <button
                   key={idx}
                   type="button"
-                  className="demo-chip"
-                  onClick={() => handleApplyPreset(preset)}
+                  className={`demo-chip ${activePreset === idx ? 'active-chip' : ''}`}
+                  onClick={() => handleApplyPreset(preset, idx)}
                 >
                   {preset.label}
                 </button>
@@ -156,13 +167,16 @@ function App() {
             <form onSubmit={handleSearch} className="startup-form">
               <div className="form-group">
                 <label htmlFor="startupIdea">
-                  <span>💡</span> Startup Idea & Description
+                  Startup Idea & Description
                 </label>
                 <textarea
                   id="startupIdea"
                   placeholder="e.g., An AI-powered route planning app for electric cargo bike deliveries in dense urban areas..."
                   value={startupIdea}
-                  onChange={(e) => setStartupIdea(e.target.value)}
+                  onChange={(e) => {
+                    setStartupIdea(e.target.value)
+                    setActivePreset(null)
+                  }}
                   rows={4}
                   required
                 />
@@ -171,28 +185,34 @@ function App() {
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="industry">
-                    <span>🏢</span> Industry / Domain
+                    Industry / Domain
                   </label>
                   <input
                     id="industry"
                     type="text"
                     placeholder="e.g., Green Logistics / Food Tech"
                     value={industry}
-                    onChange={(e) => setIndustry(e.target.value)}
+                    onChange={(e) => {
+                      setIndustry(e.target.value)
+                      setActivePreset(null)
+                    }}
                     required
                   />
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="targetMarket">
-                    <span>🎯</span> Target Audience & Market
+                    Target Audience & Market
                   </label>
                   <input
                     id="targetMarket"
                     type="text"
                     placeholder="e.g., Local e-commerce shops, urban couriers"
                     value={targetMarket}
-                    onChange={(e) => setTargetMarket(e.target.value)}
+                    onChange={(e) => {
+                      setTargetMarket(e.target.value)
+                      setActivePreset(null)
+                    }}
                     required
                   />
                 </div>
@@ -200,14 +220,24 @@ function App() {
 
               {error && (
                 <div className="error-banner">
-                  <span>⚠️</span>
                   <span>{error}</span>
                 </div>
               )}
 
-              <button type="submit" className="btn btn-primary">
-                <span>⚡</span> Run Market Analysis & Validate
-              </button>
+              <div className="form-actions">
+                <button type="submit" className="btn btn-primary">
+                  Run Market Analysis & Validate
+                </button>
+                {(startupIdea || industry || targetMarket) && (
+                  <button
+                    type="button"
+                    onClick={handleClearForm}
+                    className="btn btn-secondary-outline"
+                  >
+                    Clear Form
+                  </button>
+                )}
+              </div>
             </form>
           </div>
         )}
@@ -248,7 +278,7 @@ function App() {
             <div className="results-meta">
               <div className="meta-badge">
                 <span className="live-indicator-dot"></span>
-                Feed: {searchResult.mode === 'live' ? '⚡ Real-time Search Index' : searchResult.mode === 'mock' ? '📋 Local Simulation Index' : '⚠️ Fallback Report'}
+                Feed: {searchResult.mode === 'live' ? 'Real-time Search Index' : searchResult.mode === 'mock' ? 'Local Simulation Index' : 'Fallback Report'}
               </div>
               <button onClick={resetForm} className="btn btn-secondary">
                 ← Validate Another Idea
@@ -258,7 +288,7 @@ function App() {
             {/* Idea Context Panel */}
             <div className="glass-card summary-card">
               <h2 className="section-title">
-                <span>📋</span> Analyzed Concept
+                Analyzed Concept
               </h2>
               <div className="details-grid">
                 <div className="details-item">
@@ -283,7 +313,7 @@ function App() {
             {/* Web Search Results Section */}
             <div className="web-results-section">
               <h2 className="section-title">
-                <span>🌐</span> Live Competitor Landscape & Intelligence
+                Live Competitor Landscape & Intelligence
               </h2>
               {searchResult.results && searchResult.results.length > 0 ? (
                 <div className="results-grid">
