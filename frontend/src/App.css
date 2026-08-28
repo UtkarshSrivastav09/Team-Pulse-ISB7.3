@@ -7,6 +7,9 @@
   flex-direction: column;
   min-height: 100vh;
   position: relative;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* ==========================================================================
@@ -24,32 +27,82 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px;
+  padding: 6px 18px;
   border-radius: 9999px;
   background: #ffffff;
   border: 1px solid #bfdbfe;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   color: #1e40af;
-  margin-bottom: 18px;
-  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.08);
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  letter-spacing: 0.02em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.brand-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.14);
+}
 
-.app-header h1 {
-  font-size: 34px;
+.hero-title {
+  font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif;
+  font-size: 42px;
   font-weight: 800;
-  margin-bottom: 12px;
-  line-height: 1.25;
-  letter-spacing: -0.03em;
+  line-height: 1.18;
+  letter-spacing: -0.04em;
   color: #0f172a;
-  max-width: 760px;
+  max-width: 860px;
+  margin: 0 auto 18px auto;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.hero-title:hover {
+  transform: scale(1.015);
+  text-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
+}
+
+.gradient-ai-badge {
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: 800;
+  position: relative;
+  padding-right: 4px;
+}
+
+.gradient-ai-badge::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 90%;
+  height: 4px;
+  background: linear-gradient(90deg, #2563eb, #06b6d4);
+  border-radius: 9999px;
+  opacity: 0.55;
+  transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+.hero-title:hover .gradient-ai-badge::after {
+  opacity: 0.85;
+  width: 100%;
+}
+
+.gradient-title-accent {
+  background: linear-gradient(135deg, #4f46e5 0%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 
 @media (max-width: 768px) {
-  .app-header h1 {
-    font-size: 26px;
-    letter-spacing: -0.02em;
+  .hero-title {
+    font-size: 28px;
+    letter-spacing: -0.025em;
   }
 }
 
@@ -645,6 +698,413 @@ input:focus, textarea:focus {
 }
 
 /* ==========================================================================
+   Insights Dashboard (Score Gauge & Pitch Copilot)
+   ========================================================================== */
+.insights-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1.85fr;
+  gap: 24px;
+  margin-bottom: 24px;
+  text-align: left;
+  width: 100%;
+}
+
+.insights-dashboard-grid > div {
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .insights-dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.widget-title {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+/* Score Radial Gauge */
+.gauge-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  min-width: 0;
+  width: 100%;
+}
+
+.gauge-container {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  margin-bottom: 12px;
+}
+
+.radial-gauge {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.gauge-track {
+  stroke: #f1f5f9;
+}
+
+.gauge-fill {
+  stroke: #2563eb;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gauge-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+}
+
+.gauge-number {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.gauge-percent {
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  margin-left: 1px;
+}
+
+.score-label {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #2563eb;
+  margin-bottom: 20px;
+}
+
+/* Sub metrics inside gauge card */
+.sub-metrics-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13.5px;
+}
+
+.metric-row span:first-child {
+  font-weight: 500;
+  color: #475569;
+  width: 120px;
+}
+
+.mini-progress {
+  flex-grow: 1;
+  height: 6px;
+  background: #f1f5f9;
+  border-radius: 9999px;
+  margin: 0 12px;
+  overflow: hidden;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #06b6d4);
+  border-radius: 9999px;
+}
+
+.mini-progress-fill.risk-fill {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.mini-progress-fill.growth-fill {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.metric-val {
+  font-weight: 600;
+  color: #0f172a;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* Pitch Copilot Styling */
+.copilot-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+}
+
+.copilot-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.copilot-tab-btn {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  transition: all 0.2s ease;
+}
+
+.copilot-tab-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.copilot-tab-btn.active {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+.copilot-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.copilot-pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  gap: 12px;
+}
+
+.pitch-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #334155;
+  font-style: italic;
+  font-weight: 500;
+  margin: 0;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid #2563eb;
+}
+
+.pitch-tip {
+  font-size: 12.5px;
+  color: #64748b;
+  background: #eff6ff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px dashed #bfdbfe;
+  text-align: left;
+}
+
+.icp-item {
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.icp-item strong {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #4f46e5;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.icp-item p {
+  font-size: 14px;
+  color: #334155;
+  margin: 0;
+}
+
+.gtm-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gtm-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f8fafc;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.gtm-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #059669;
+  background: #d1fae5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.gtm-desc {
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.45;
+  text-align: left;
+}
+
+/* ==========================================================================
+   AI SWOT Analysis Matrix
+   ========================================================================== */
+.swot-container-card {
+  padding: 28px 24px;
+  margin-bottom: 24px;
+}
+
+.swot-matrix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .swot-matrix-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.swot-quadrant {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+}
+
+.swot-quadrant:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+.swot-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  padding-bottom: 8px;
+}
+
+.swot-icon {
+  font-size: 20px;
+}
+
+.swot-header h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.swot-quadrant ul {
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.swot-quadrant li {
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+/* SWOT Themes */
+.swot-strengths {
+  border-left: 4px solid #10b981;
+  background: rgba(16, 185, 129, 0.03);
+}
+.swot-strengths:hover {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: #10b981;
+}
+.swot-strengths li::marker {
+  color: #10b981;
+}
+
+.swot-weaknesses {
+  border-left: 4px solid #ef4444;
+  background: rgba(239, 68, 68, 0.03);
+}
+.swot-weaknesses:hover {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: #ef4444;
+}
+.swot-weaknesses li::marker {
+  color: #ef4444;
+}
+
+.swot-opportunities {
+  border-left: 4px solid #2563eb;
+  background: rgba(37, 99, 235, 0.03);
+}
+.swot-opportunities:hover {
+  background: rgba(37, 99, 235, 0.05);
+  border-color: #2563eb;
+}
+.swot-opportunities li::marker {
+  color: #2563eb;
+}
+
+.swot-threats {
+  border-left: 4px solid #f59e0b;
+  background: rgba(245, 158, 11, 0.03);
+}
+.swot-threats:hover {
+  background: rgba(245, 158, 11, 0.05);
+  border-color: #f59e0b;
+}
+.swot-threats li::marker {
+  color: #f59e0b;
+}
+
+/* ==========================================================================
    Animations
    ========================================================================== */
 .animate-fade-in {
@@ -659,5 +1119,181 @@ input:focus, textarea:focus {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Mobile Responsiveness Overrides
+   ========================================================================== */
+@media (max-width: 768px) {
+  .insights-dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-container {
+    padding: 24px 12px 48px;
+  }
+  
+  .glass-card {
+    padding: 22px 18px;
+  }
+  
+  .brand-badge {
+    padding: 5px 14px;
+    font-size: 11.5px;
+    margin-bottom: 16px;
+  }
+  
+  .hero-title {
+    font-size: 26px;
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+  }
+  
+  .subtitle {
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  
+  /* Form Actions responsive behavior */
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  /* Executive Summary Card Overlap Fix */
+  .answer-card {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .report-badge {
+    position: static;
+    align-self: flex-start;
+    margin-bottom: 2px;
+    font-size: 10.5px;
+  }
+
+  .card-title {
+    font-size: 17px;
+    margin-top: 0;
+    margin-bottom: 6px;
+  }
+
+  .synthesized-answer {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Details Grid */
+  .details-item {
+    padding: 10px 12px;
+    font-size: 13.5px;
+  }
+
+  .details-item-row > div {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  
+  /* Gauge Card responsiveness */
+  .gauge-card {
+    padding: 22px 16px;
+  }
+  
+  .gauge-container {
+    width: 120px;
+    height: 120px;
+  }
+
+  .gauge-number {
+    font-size: 28px;
+  }
+
+  .metric-row {
+    font-size: 13px;
+  }
+
+  .metric-row span:first-child {
+    font-size: 13px;
+    width: 110px;
+  }
+  
+  .mini-progress {
+    margin: 0 8px;
+  }
+
+  .metric-val {
+    font-size: 13px;
+    min-width: 28px;
+  }
+
+  /* Copilot Card responsiveness */
+  .copilot-card {
+    padding: 22px 16px;
+  }
+  
+  .copilot-tabs {
+    gap: 4px;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .copilot-tab-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .pitch-text {
+    font-size: 14px;
+    padding: 12px;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 22px;
+  }
+  
+  .demo-prompts-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .demo-prompts-label {
+    text-align: center;
+  }
+
+  /* Competitor Card Header overlap fix */
+  .result-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .result-item-card {
+    padding: 16px;
+  }
+
+  .result-title {
+    font-size: 15px;
+  }
+
+  .result-snippet {
+    font-size: 13px;
+    line-height: 1.5;
   }
 }

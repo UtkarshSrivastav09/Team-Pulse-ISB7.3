@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Unbounded:wght@700;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
   /* Light Theme Canvas with Rich Colored Box Tokens */
@@ -49,10 +49,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
 /* Clean Smooth Light Canvas */
 body {
   margin: 0;
   padding: 0;
+  width: 100%;
   min-height: 100vh;
   background-color: #f1f5f9;
   background-image: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
@@ -94,22 +102,23 @@ a:hover {
   box-sizing: border-box;
 }
 
-/* Clean Slate Scrollbar */
+/* Premium Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
+  border-left: 1px solid #e2e8f0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: linear-gradient(180deg, #3b82f6 0%, #6366f1 100%);
   border-radius: 9999px;
   border: 2px solid #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: linear-gradient(180deg, #2563eb 0%, #4f46e5 100%);
 }
