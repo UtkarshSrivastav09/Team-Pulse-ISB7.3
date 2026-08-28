@@ -139,7 +139,9 @@ function App() {
         <div className="brand-badge">
           <span>Infosys Springboard 7.0 • Team Pulse</span>
         </div>
-        <h1>AI-Based Startup Idea Validator & Market Intelligence</h1>
+        <h1 className="hero-title">
+          <span className="gradient-ai-badge">AI-Based</span> Startup Idea Validator <span className="gradient-title-accent">& Market Intelligence</span>
+        </h1>
         <p className="subtitle">
           Submit your concept to evaluate market feasibility, map competitors in real-time, and extract actionable executive intelligence.
         </p>
