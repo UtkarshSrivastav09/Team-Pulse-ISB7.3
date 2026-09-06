@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import StartupAnalysisDashboard from './components/dashboard/StartupAnalysisDashboard'
 
 function App() {
   // Input fields state
@@ -11,15 +12,17 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [error, setError] = useState(null)
-  const [searchResult, setSearchResult] = useState(null)
+  const [report, setReport] = useState(null)
 
   // Simulation steps for loading feedback
+  // Milestone 2: updated to reflect the actual pipeline stages (web search ->
+  // market analysis -> competitor analysis -> quality check -> report).
   const loadingSteps = [
     "Analyzing target industry & indexing market parameters...",
-    "Formulating AI search queries and intelligence filters...",
-    "Querying real-time market indices & scraping live competitor data...",
-    "Synthesizing market feasibility and opportunity metrics...",
-    "Generating executive validation report..."
+    "Running targeted web research across market, customer & competitor queries...",
+    "Running AI market opportunity & customer segmentation analysis...",
+    "Running AI competitor discovery & comparison analysis...",
+    "Validating outputs and generating executive report..."
   ]
 
   // Sample prompt presets for quick testing
@@ -51,12 +54,12 @@ function App() {
     setError(null)
   }
 
-  const handleSearch = async (e) => {
+  const handleValidate = async (e) => {
     e.preventDefault()
-    
+
     // Reset previous states
     setError(null)
-    setSearchResult(null)
+    setReport(null)
     setLoading(true)
     setCurrentStep(0)
 
@@ -80,8 +83,9 @@ function App() {
 
     try {
       // Send request to FastAPI backend (uses environment variable VITE_API_URL if present, otherwise defaults to localhost)
+      // Milestone 2: calls /validate (full LangGraph pipeline) instead of /search.
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-      const response = await fetch(`${apiUrl}/search`, {
+      const response = await fetch(`${apiUrl}/validate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,9 +103,9 @@ function App() {
       }
 
       const data = await response.json()
-      setSearchResult(data)
+      setReport(data)
     } catch (err) {
-      console.error("Search failed:", err)
+      console.error("Validation failed:", err)
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
       setError(err.message || `An unexpected error occurred while communicating with the backend. Make sure your API server is running and accessible at ${apiUrl}.`)
     } finally {
@@ -111,7 +115,7 @@ function App() {
   }
 
   const resetForm = () => {
-    setSearchResult(null)
+    setReport(null)
     setError(null)
   }
 
@@ -132,7 +136,7 @@ function App() {
       {/* Main Content Area */}
       <main className="app-main">
         {/* State 1: Input Form */}
-        {!searchResult && !loading && (
+        {!report && !loading && (
           <div className="glass-card form-card animate-fade-in">
             <h2 className="section-title">
               <span>🚀</span> Startup Concept Parameters
@@ -153,7 +157,7 @@ function App() {
               ))}
             </div>
 
-            <form onSubmit={handleSearch} className="startup-form">
+            <form onSubmit={handleValidate} className="startup-form">
               <div className="form-group">
                 <label htmlFor="startupIdea">
                   <span>💡</span> Startup Idea & Description
@@ -241,14 +245,14 @@ function App() {
           </div>
         )}
 
-        {/* State 3: Results Display */}
-        {searchResult && !loading && (
+        {/* State 3: Results Display -- Milestone 2 structured dashboard */}
+        {report && !loading && (
           <div className="results-container animate-fade-in">
             {/* Top Indicator */}
             <div className="results-meta">
               <div className="meta-badge">
                 <span className="live-indicator-dot"></span>
-                Feed: {searchResult.mode === 'live' ? '⚡ Real-time Search Index' : searchResult.mode === 'mock' ? '📋 Local Simulation Index' : '⚠️ Fallback Report'}
+                Feed: {report.used_sandbox_mode ? '📋 Local Simulation Index' : '⚡ Real-time Search Index'}
               </div>
               <button onClick={resetForm} className="btn btn-secondary">
                 ← Validate Another Idea
@@ -262,60 +266,19 @@ function App() {
               </h2>
               <div className="details-grid">
                 <div className="details-item">
-                  <strong>Startup Idea:</strong> {searchResult.startup_idea}
+                  <strong>Startup Idea:</strong> {report.startup_idea}
                 </div>
                 <div className="details-item-row">
-                  <div><strong>Industry:</strong> {searchResult.industry}</div>
-                  <div><strong>Target Market:</strong> {searchResult.target_market}</div>
+                  <div><strong>Industry:</strong> {report.industry}</div>
+                  <div><strong>Target Market:</strong> {report.target_market}</div>
                 </div>
               </div>
             </div>
 
-            {/* AI Synthesized Answer Card */}
-            {searchResult.answer && (
-              <div className="glass-card answer-card">
-                <div className="report-badge">Executive Summary</div>
-                <h3 className="card-title">Market Analysis & Feasibility Insights</h3>
-                <p className="synthesized-answer">{searchResult.answer}</p>
-              </div>
-            )}
-
-            {/* Web Search Results Section */}
-            <div className="web-results-section">
-              <h2 className="section-title">
-                <span>🌐</span> Live Competitor Landscape & Intelligence
-              </h2>
-              {searchResult.results && searchResult.results.length > 0 ? (
-                <div className="results-grid">
-                  {searchResult.results.map((result, index) => (
-                    <div key={index} className="glass-card result-item-card">
-                      <div className="result-header">
-                        <span className="result-number">Competitor #{index + 1}</span>
-                        {result.score > 0 && (
-                          <span className="result-score">Relevance: {Math.round(result.score * 100)}%</span>
-                        )}
-                      </div>
-                      <h4 className="result-title">{result.title}</h4>
-                      <p className="result-snippet">{result.content}</p>
-                      {result.url && result.url !== '#' && (
-                        <a 
-                          href={result.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="result-link-btn"
-                        >
-                          Explore Website →
-                        </a>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="glass-card empty-card">
-                  <p>No competitor listings found for this specific query.</p>
-                </div>
-              )}
-            </div>
+            {/* Milestone 2: full structured analysis -- executive summary,
+                market opportunity, customer segments, competitor landscape,
+                and sources, in place of the Milestone 1 raw result grid. */}
+            <StartupAnalysisDashboard report={report} />
           </div>
         )}
       </main>

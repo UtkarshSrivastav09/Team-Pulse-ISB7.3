@@ -7,13 +7,17 @@ from dotenv import load_dotenv
 # Import the SearchService
 from services.search_service import SearchService
 
+# Milestone 2: the LangGraph pipeline (web search -> market analysis ->
+# competitor analysis -> quality check -> final report)
+from graph.startup_validation_graph import run_validation
+
 # Load environment variables
 load_dotenv(override=True)
 
 app = FastAPI(
     title="Startup Idea Validator API",
     description="Backend API supporting the AI-Based Startup Idea Validator with Market Analysis Assistance.",
-    version="1.0.0"
+    version="2.0.0"
 )
 
 # Enable CORS (Cross-Origin Resource Sharing)
@@ -34,6 +38,14 @@ class SearchRequest(BaseModel):
     startup_idea: str = Field(..., min_length=3, description="Core startup idea or description")
     industry: str = Field(..., min_length=2, description="The market industry or domain")
     target_market: str = Field(..., min_length=2, description="The target audience or customer base")
+
+
+# Milestone 2: request model for the full validation pipeline.
+class ValidateRequest(BaseModel):
+    startup_idea: str = Field(..., min_length=3, description="Core startup idea or description")
+    industry: str = Field("", description="The market industry or domain")
+    target_market: str = Field("", description="The target audience or customer base")
+
 
 @app.get("/")
 def home():
@@ -77,3 +89,31 @@ def search_startup(request: SearchRequest):
     except Exception as e:
         print(f"main.py: Error during search execution: {e}")
         raise HTTPException(status_code=500, detail=f"Web search execution failed: {str(e)}")
+
+
+@app.post("/validate")
+def validate_startup(request: ValidateRequest):
+    """
+    Milestone 2: run the full startup validation pipeline.
+
+    Web Search Agent -> Market Analysis Agent -> Competitor Analysis Agent
+    -> Python quality check -> structured final report.
+
+    Runs targeted multi-category Tavily research (via SearchService.run_targeted_research)
+    then exactly two Claude calls (market + competitor analysis). The final
+    report is assembled in plain Python -- no third LLM call.
+    """
+    if not request.startup_idea.strip():
+        raise HTTPException(status_code=400, detail="Startup idea cannot be empty or whitespace.")
+
+    try:
+        print(f"main.py: Received /validate request for startup idea '{request.startup_idea}'")
+        report = run_validation(
+            startup_idea=request.startup_idea,
+            target_market=request.target_market,
+            industry=request.industry,
+        )
+        return report
+    except Exception as e:
+        print(f"main.py: Error during validation pipeline execution: {e}")
+        raise HTTPException(status_code=500, detail=f"Validation pipeline failed: {str(e)}")
