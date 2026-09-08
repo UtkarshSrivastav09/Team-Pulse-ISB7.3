@@ -4,6 +4,18 @@ An interactive web platform designed to validate startup concepts, map competito
 
 ---
 
+## 🚀 Live Deployments
+
+Explore the production environments of the **Startup Idea Validator** below:
+
+| Deployment Component | Platform | URL Link | Status |
+| :--- | :--- | :--- | :--- |
+| **Frontend Dashboard Client** | [![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://team-pulse-isb-7-3.vercel.app/) | [https://team-pulse-isb-7-3.vercel.app](https://team-pulse-isb-7-3.vercel.app/) | ![Active](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square) |
+| **FastAPI Backend Web Service** | [![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=white)](https://team-pulse-isb7-3.onrender.com/) | [https://team-pulse-isb7-3.onrender.com](https://team-pulse-isb7-3.onrender.com/) | ![Active](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square) |
+| **Interactive API Documentation** | [![Swagger API Docs](https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black)](https://team-pulse-isb7-3.onrender.com/docs) | [https://team-pulse-isb7-3.onrender.com/docs](https://team-pulse-isb7-3.onrender.com/docs) | ![Active](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square) |
+
+---
+
 ## Project Overview
 
 Starting a business requires exhaustive market research, competitor mapping, and analysis. This platform automates that process:
