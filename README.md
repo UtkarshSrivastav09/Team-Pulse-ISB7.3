@@ -1,12 +1,16 @@
-# AI-Based Startup Idea Validator with Market Analysis Assistance
+# VenturePulse — AI Startup Idea Validator & Market Intelligence Platform
 
-An interactive web platform designed to validate startup concepts, map competitor landscapes, and generate market analysis reports in real-time. Built as part of **Infosys Springboard 7.0 (Batch 3) by Team Pulse**.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Frontend](https://img.shields.io/badge/Frontend-React_19_+_Vite-61DAFB?logo=react&logoColor=black)](https://team-pulse-isb-7-3.vercel.app/)
+[![Backend](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi&logoColor=white)](https://team-pulse-isb7-3.onrender.com/)
+
+**VenturePulse** is an autonomous multi-agent web platform designed to validate startup concepts, analyze market feasibility, compute TAM/SAM/SOM sizing bounds, benchmark competitor landscapes, and generate actionable market intelligence in real-time. Built as part of **Infosys Springboard 7.0 (Batch 3) by Team Pulse**.
 
 ---
 
 ## 🚀 Live Deployments
 
-Explore the production environments of the **Startup Idea Validator** below:
+Explore the live production environments of **VenturePulse** below:
 
 | Deployment Component | Platform | URL Link | Status |
 | :--- | :--- | :--- | :--- |
@@ -18,83 +22,94 @@ Explore the production environments of the **Startup Idea Validator** below:
 
 ## Project Overview
 
-Starting a business requires exhaustive market research, competitor mapping, and analysis. This platform automates that process:
-1. Users input their startup idea, target market, and industry sector.
-2. The platform formulates targeted searches and queries real-time web search indices.
-3. Raw data is parsed, relevance scores are calculated, and an executive synthesis summary is compiled.
-4. Results are presented on a high-contrast slate-and-indigo dashboard detailing competitor matrices and market insights.
+Starting a business requires exhaustive market research, competitor benchmarking, and segmentation. This platform automates that process using a connected **Autonomous Multi-Agent Pipeline**:
+1. **Founder inputs** startup concept, targeted industry vertical, and customer segment.
+2. **Agent 1 (Web Search Agent)** queries real-time web search indices for competitor records and industry data.
+3. **Agent 2 (Market Opportunity & Segmentation Agent)** extracts TAM/SAM/SOM market sizing, CAGR growth rates, buyer vs end-user personas, core pain points, and willingness to pay.
+4. **Agent 3 (Competitor Discovery & Comparison Agent)** maps direct and indirect players, builds an interactive Feature & Positioning Comparison Matrix, and surfaces unserved market white-spaces.
+5. **Agent Orchestrator** sequences all agents, audits runtime performance, and delivers an executive validation report.
 
 ---
 
-## Core Features
+## 🌟 Milestone 2 Core Features
 
-* **Interactive Parameters Form**: Capture startup ideas, targeted industries, and customer segments with inputs validation.
-* **Targeted Search Service**: Formulates optimized queries to extract clean competitor snippets, relevance rankings, and URLs.
-* **Executive Summary Synthesis**: Generates an analysis summarizing entry barriers, opportunities, and competitive trends.
-* **Sandbox Simulation Mode**: Seamless fallback to simulated local records if API keys are missing, allowing offline demonstrations.
-* **Sleek Light Dashboard**: A modern CSS dashboard utilizing glassmorphism styles, clear loaders, and transition effects.
+* **Connected Multi-Agent Pipeline**: Autonomous sequential execution (`WebSearchAgent` $\rightarrow$ `MarketOpportunityAgent` $\rightarrow$ `CompetitorDiscoveryAgent`).
+* **Market Sizing & Growth Metrics**: Computes Total Addressable Market (TAM), Serviceable Addressable Market (SAM), Serviceable Obtainable Market (SOM), and CAGR projection rates.
+* **Customer Segmentation & Persona Breakdown**: Maps distinct customer archetypes with Decision-Maker vs End-User dynamics, critical pain points, motivations, and procurement behaviors.
+* **Direct vs Indirect Competitor Discovery**: In-depth competitor profiles with core offerings, moats, customer complaints, and pricing tiers.
+* **Competitor Comparison Matrix**: Multi-dimensional benchmarking matrix across AI Automation, Setup Speed, Domain Focus, Pricing, and Real-Time Capabilities.
+* **Market Gaps & White-Space Identification**: Surfaces overlooked customer frustrations and tactical differentiation playbooks for founders.
+* **Resilient Multi-LLM Layer**: Seamless interoperability with Google Gemini, Groq, OpenAI REST APIs, and smart offline heuristic domain synthesis fallback.
+* **Interactive React Dashboard**: Sleek tabbed interface with real-time agent execution visualizers, viability gauges, and pitch copilots.
 
 ---
 
-## System Architecture
-
-The project is structured as a decoupled client-server architecture:
+## 🏗️ Multi-Agent Architecture
 
 ```mermaid
 graph TD
-    User([User])
-    UI["Web Interface - React and Vite"]
-    API["Backend API - FastAPI"]
-    WSA["Web Search Service"]
-    Tavily["Search Index API"]
-
-    User -->|Enters startup details| UI
-    UI -->|Sends JSON POST /search| API
-    API -->|Invokes with query parameters| WSA
-    WSA -->|Formulates and Executes query| Tavily
-    Tavily -->|Returns raw search web data| WSA
-    WSA -->|Formats and Filters results| API
-    API -->|Returns HTTP 200 JSON payload| UI
-    UI -->|Displays results list and insights| User
+    User([Founder / User]) --> UI["React 18 + Vite Dashboard"]
+    UI -->|POST /validate| API["FastAPI Server (v2.0.0)"]
+    API --> Orchestrator["Agent Pipeline Orchestrator"]
+    
+    subgraph MultiAgentPipeline [Multi-Agent Execution Pipeline]
+        Orchestrator -->|Step 1: Scrape Records| WSA["Agent 1: Web Search Agent"]
+        WSA -->|Live Market Intelligence| Orchestrator
+        
+        Orchestrator -->|Step 2: Sizing & Segmentation| MOA["Agent 2: Market Opportunity Agent"]
+        MOA -->|TAM/SAM/SOM, Personas, Pain Points| Orchestrator
+        
+        Orchestrator -->|Step 3: Benchmarking & Gaps| CCA["Agent 3: Competitor Discovery Agent"]
+        CCA -->|Direct/Indirect Matrix, White Spaces| Orchestrator
+    end
+    
+    Orchestrator -->|Unified Structured JSON Payload| API
+    API -->|HTTP 200| UI
 ```
 
-For more details on components and data schemas, view the [System Architecture Document](docs/system-architecture.md).
+For complete technical specifications, see the [System Architecture Document](docs/system-architecture.md).
 
 ---
 
-## Repository Structure
+## 📁 Repository Structure
 
 ```
 Team-Pulse-ISB7.3/
-├── Backend/                    # Python FastAPI API Server
-│   ├── services/               # Core logic services
-│   │   └── search_service.py   # Search queries & simulation fallback
-│   ├── .env.example            # Environment variables template
-│   ├── .gitignore              # Backend-specific ignore file
-│   ├── main.py                 # FastAPI routing, validations & CORS
-│   └── requirements.txt        # Python backend dependencies
-├── frontend/                   # React Client Application (Vite)
-│   ├── src/                    # Source files
-│   │   ├── App.css             # Light-theme dashboard styles
-│   │   ├── App.jsx             # State controls & views
-│   │   ├── index.css           # Global typography & colors
-│   │   └── main.jsx            # React root mount
-│   ├── index.html              # Entry HTML template
-│   └── package.json            # Node dependencies and build scripts
-├── docs/                       # Project documentation
-│   └── system-architecture.md   # Architectural blueprint
-└── README.md                   # Project documentation index
+├── Backend/                       # Python FastAPI API Server (v2.0.0)
+│   ├── services/                  # Multi-Agent Architecture
+│   │   ├── search_service.py      # Agent 1: Web Search Agent (Tavily Index)
+│   │   ├── market_agent.py        # Agent 2: Market Opportunity & Segmentation Agent
+│   │   ├── competitor_agent.py    # Agent 3: Competitor Discovery & Comparison Agent
+│   │   ├── llm_service.py         # Universal Multi-LLM Adapter (Gemini/Groq/OpenAI/Fallback)
+│   │   └── orchestrator.py        # Pipeline Orchestrator with Step Logging & Audit Trail
+│   ├── test_pipeline.py           # Automated Test Suite for 3 Diverse Industry Concepts
+│   ├── .env.example               # Environment variables template
+│   ├── .gitignore                 # Backend-specific ignore file
+│   ├── main.py                    # FastAPI routing, validations & CORS
+│   └── requirements.txt           # Python backend dependencies
+├── frontend/                      # React Client Application (Vite)
+│   ├── src/                       # Source files
+│   │   ├── App.css                # Milestone 2 Multi-Agent Dashboard Styles
+│   │   ├── App.jsx                # Multi-Tab Analytics, Personas & Matrix Views
+│   │   ├── index.css              # Global typography & color tokens
+│   │   └── main.jsx               # React root mount
+│   ├── index.html                 # Entry HTML template
+│   └── package.json               # Node dependencies and build scripts
+├── docs/                          # Project documentation
+│   └── system-architecture.md      # Architectural blueprint & Data Schemas
+├── LICENSE                        # MIT Open-Source License
+└── README.md                      # Project documentation index
 ```
 
 ---
 
-## Getting Started
+## ⚡ Getting Started
 
 ### Prerequisites
 * Python 3.8 or higher
 * Node.js (v18 or higher) and npm
 
-### 1. Setup the Backend
+### 1. Setup & Run the Backend
 Navigate to the `Backend` directory:
 ```bash
 cd Backend
@@ -105,19 +120,25 @@ Install Python dependencies:
 python -m pip install -r requirements.txt
 ```
 
-*(Optional)* Configure your credentials inside a `.env` file (copied from `.env.example`):
+*(Optional)* Configure API credentials in a `.env` file:
 ```env
-TAVILY_API_KEY=tvly-yourActualKeyHere
+TAVILY_API_KEY=tvly-your_tavily_key_here
+GEMINI_API_KEY=your_gemini_key_here
 ```
-*Note: If no API key is specified, the application automatically runs in simulated sandbox mode.*
+*Note: If no API keys are specified, the application automatically runs in intelligent simulation fallback mode with 0 crashes.*
+
+Run the automated test suite across 3 distinct industries:
+```bash
+python test_pipeline.py
+```
 
 Start the FastAPI server:
 ```bash
 python -m uvicorn main:app --reload
 ```
-The API documentation will be available at `http://127.0.0.1:8000/docs`.
+API Swagger documentation is accessible at `http://127.0.0.1:8000/docs`.
 
-### 2. Setup the Frontend
+### 2. Setup & Run the Frontend
 Navigate to the `frontend` directory in a new terminal:
 ```bash
 cd frontend
@@ -132,29 +153,32 @@ Start the Vite development server:
 ```bash
 npm run dev
 ```
-Open **`http://localhost:5173`** in your browser to view the validator interface.
+Open **`http://localhost:5173`** in your browser.
 
 ---
 
-## Future Roadmap
+## 🧪 Validated Startup Concepts (Milestone 2 Test Cases)
 
-Moving forward, the project will expand to incorporate deeper intelligence and database persistence:
-
-* **Phase 2: Data Persistence & Idea History**
-  * Integrate a SQLite/PostgreSQL database to store user ideas, validation histories, and report snapshots.
-  * Enable user authentication so users can log in and manage their validated concepts.
-* **Phase 3: Financial & Sizing Assist**
-  * Add computational agents to estimate Total Addressable Market (TAM), Serviceable Addressable Market (SAM), and Serviceable Obtainable Market (SOM) based on demographic inputs.
-  * Add automatic financial forecasting calculators.
-* **Phase 4: Exportable Reports**
-  * Implement PDF export capabilities to download beautiful, structured startup validation booklets.
-  * Provide shareable report links for pitch decks.
+The multi-agent pipeline has been verified on 3 diverse industry concepts:
+1. **Pet Care & HealthTech**: *"An on-demand veterinary telehealth platform with instant AI triage and symptom detection from smartphone photos."*
+2. **Green Logistics & Mobility**: *"An AI-powered route planning app for electric cargo bike deliveries in dense urban areas."*
+3. **EdTech & Higher Education**: *"An intelligent learning copilot that converts college lectures and PDF textbooks into interactive flashcards, quizzes, and mock tests."*
 
 ---
 
-## Team & Leadership
+## 👥 Team & Leadership
 
 * **[Utkarsh Srivastav](https://github.com/UtkarshSrivastav09)** — **Team Lead & Full Stack Developer**
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+```
+Copyright (c) 2026 Utkarsh Srivastav (Team Pulse) — VenturePulse
+```
 
 ---
 
