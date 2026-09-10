@@ -2,6 +2,11 @@
 env_local/
 .env_local/
 
+# Presentation Scripts & PDFs (Local only - do not push to GitHub)
+*.pdf
+*meeting_update*
+*Presentation_Script*
+
 # Environment Variables / Secrets
 **/.env
 **/.env.local
