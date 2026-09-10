@@ -1,170 +1,386 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* =========================================================
+   TEAM PULSE — GLOBAL STYLES
+   New Colour Palette
 
-* {
-  box-sizing: border-box;
-}
+   #9A7787  → Muted Dusty Mauve
+   #E4AFB0  → Soft Dusty Rose / Pink
+   #FED7BF  → Pale Peach
+========================================================= */
 
-:root {
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
-  --accent: #4f46e5;
-  --accent-light: #6366f1;
-  --accent-bg: rgba(79, 70, 229, 0.08);
-  --accent-border: rgba(79, 70, 229, 0.25);
 
-  --text-highlight: #0f172a;
-  --text: #475569;
-  --text-light: #64748b;
-
-  --card-bg: rgba(255, 255, 255, 0.85);
-  --border: #e2e8f0;
-  --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-
-  --success-color: #059669;
-  --error-bg: #fef2f2;
-  --error-border: #fecaca;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--sans);
-  color: var(--text);
-}
-
-body {
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Unbounded:wght@700;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+/* =========================================================
+   ROOT
+========================================================= */
 
 :root {
-  /* Light Theme Canvas with Rich Colored Box Tokens */
-  --bg-canvas: #f1f5f9;
-  
-  --surface-card: #ffffff;
-  --surface-tinted-blue: #eff6ff;
-  --surface-tinted-slate: #f8fafc;
-  --surface-tinted-cyan: #f0fdfa;
-  
-  --border-card: #cbd5e1;
-  --border-blue: #bfdbfe;
-  --border-cyan: #99f6e4;
-  --border-focus: #2563eb;
 
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --text-subtle: #94a3b8;
+  /* -----------------------------------------
+     PRIMARY BRAND COLOURS
+  ----------------------------------------- */
 
-  /* Button & Interactive Accents */
-  --brand-primary: #2563eb;
-  --brand-primary-hover: #1d4ed8;
-  --brand-accent: #0284c7;
-  --brand-accent-hover: #0369a1;
+  --mauve: #9A7787;
+  --dusty-rose: #E4AFB0;
+  --peach: #FED7BF;
 
-  /* Status Colors */
-  --success-text: #047857;
-  --success-bg: #ecfdf5;
-  --success-border: #a7f3d0;
 
-  --error-text: #b91c1c;
-  --error-bg: #fef2f2;
-  --error-border: #fecaca;
+  /* -----------------------------------------
+     LIGHT VARIATIONS
+  ----------------------------------------- */
 
-  /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --mauve-light: #B99BA8;
+  --rose-light: #F0C7C8;
+  --peach-light: #FFE8D8;
 
-  font: 15px/1.6 var(--font-sans);
-  letter-spacing: -0.011em;
-  color-scheme: light;
-  color: var(--text-secondary);
-  background-color: var(--bg-canvas);
+
+  /* -----------------------------------------
+     NEUTRAL COLOURS
+  ----------------------------------------- */
+
+  --white: #FFFFFF;
+  --cream: #FFFAF7;
+
+  --text-dark: #3F3439;
+  --text-medium: #665860;
+  --text-light: #8C7D84;
+
+  --border: #EADBDD;
+
+
+  /* -----------------------------------------
+     GLOBAL APPLICATION
+  ----------------------------------------- */
+
+  --background: #FFF9F6;
+
+  --primary: var(--mauve);
+  --secondary: var(--dusty-rose);
+  --accent: var(--peach);
+
+  --text-primary: var(--text-dark);
+  --text-secondary: var(--text-medium);
+
+
+  /* -----------------------------------------
+     SHADOWS
+  ----------------------------------------- */
+
+  --shadow-soft:
+    0 8px 30px rgba(154, 119, 135, 0.08);
+
+  --shadow-medium:
+    0 18px 45px rgba(154, 119, 135, 0.12);
+
+  --shadow-large:
+    0 30px 70px rgba(154, 119, 135, 0.16);
+
+
+  /* -----------------------------------------
+     FONT
+  ----------------------------------------- */
+
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  font-synthesis: none;
 
   text-rendering: optimizeLegibility;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  scroll-behavior: smooth;
-  width: 100%;
-  overflow-x: hidden;
-  -webkit-text-size-adjust: 100%;
-}
 
-/* Clean Smooth Light Canvas */
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-  background-color: #f1f5f9;
-  background-image: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-  color: var(--text-secondary);
-  position: relative;
-  overflow-x: hidden;
-  background-attachment: fixed;
-}
-
-#root {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.15), transparent 40%),
-    radial-gradient(circle at 85% 20%, rgba(168, 85, 247, 0.12), transparent 40%),
-    radial-gradient(circle at 50% 90%, rgba(59, 130, 246, 0.10), transparent 40%),
-    #f8fafc;
-  background-attachment: fixed;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-a {
-  color: inherit;
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
-  color: var(--text-primary);
-  font-weight: 700;
-  margin: 0;
-  letter-spacing: -0.025em;
-}
-
-a {
-  color: var(--brand-primary);
-  text-decoration: none;
-  transition: all 0.15s ease;
-}
-
-a:hover {
-  color: var(--brand-primary-hover);
-}
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
 
 * {
   box-sizing: border-box;
 }
 
-/* Premium Custom Scrollbar */
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HTML
+========================================================= */
+
+html {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-width: 320px;
+
+  scroll-behavior: smooth;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      135deg,
+      #FFF9F6 0%,
+      #FFF5F1 45%,
+      #FFF9F7 100%
+    );
+
+  color: var(--text-primary);
+
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  line-height: 1.5;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   REACT ROOT
+========================================================= */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--mauve);
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  font-family: inherit;
+
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--mauve);
+  outline-offset: 3px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+input,
+textarea,
+select {
+  font-family: inherit;
+
+  font-size: inherit;
+
+  color: var(--text-dark);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #A9979E;
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   TEXT SELECTION
+========================================================= */
+
+::selection {
+  background: var(--dusty-rose);
+
+  color: var(--text-dark);
+}
+
+
+/* =========================================================
+   IMAGES
+========================================================= */
+
+img {
+  display: block;
+
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* =========================================================
+   HEADINGS
+========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+
+  color: var(--text-dark);
+
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+
+/* =========================================================
+   PARAGRAPHS
+========================================================= */
+
+p {
+  margin-top: 0;
+
+  color: var(--text-medium);
+}
+
+
+/* =========================================================
+   LISTS
+========================================================= */
+
+ul,
+ol {
+  margin-top: 0;
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+
+input,
+textarea,
+select {
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--mauve);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+
+  height: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-left: 1px solid #e2e8f0;
+  background: #FFF3EF;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #3b82f6 0%, #6366f1 100%);
-  border-radius: 9999px;
-  border: 2px solid #f1f5f9;
+  background: var(--dusty-rose);
+
+  border-radius: 20px;
+
+  border: 2px solid #FFF3EF;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #2563eb 0%, #4f46e5 100%);
+  background: var(--mauve);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  html {
+    font-size: 15px;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  html {
+    font-size: 14px;
+  }
+
 }

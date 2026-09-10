@@ -1,570 +1,1087 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
-// Helper generator to synthesize SWOT analysis and pitch details based on user's concept parameters
-function generateStartupInsights(idea, industry, targetMarket) {
+const demoIdeas = [
+  {
+    icon: "⚡",
+    title: "Green Logistics",
+    idea: "An AI-powered route optimization platform for electric cargo bike deliveries in crowded cities.",
+    industry: "Green Logistics & Mobility",
+    market: "Local businesses, delivery companies and urban couriers",
+  },
+  {
+    icon: "🎓",
+    title: "AI Education",
+    idea: "An AI learning assistant that converts lectures and study materials into personalised notes, quizzes and mock examinations.",
+    industry: "EdTech & Artificial Intelligence",
+    market: "College students and competitive exam aspirants",
+  },
+  {
+    icon: "🥗",
+    title: "Smart Nutrition",
+    idea: "A smart meal planning platform that recommends healthy meals based on available groceries, nutrition goals and lifestyle.",
+    industry: "HealthTech & FoodTech",
+    market: "Busy professionals, families and fitness enthusiasts",
+  },
+];
+
+function createStartupInsights(idea, industry, market) {
   let hash = 0;
-  const combinedStr = (idea + industry + targetMarket).toLowerCase();
-  for (let i = 0; i < combinedStr.length; i++) {
-    hash = combinedStr.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const score = 76 + (Math.abs(hash) % 18); // 76 to 93
-  
-  const demandScore = 74 + (Math.abs(hash >> 1) % 20);
-  const competitionScore = 70 + (Math.abs(hash >> 2) % 24);
-  const viabilityScore = 75 + (Math.abs(hash >> 3) % 19);
-  
-  const lowerIdea = idea.toLowerCase();
-  
-  let strengths = [
-    `Highly customized approach directly targeting ${targetMarket} pains.`,
-    `Scalable operational leverage inside the ${industry} domain.`,
-    `Strong core utility that directly solves daily workflow blocks.`
-  ];
-  
-  let weaknesses = [
-    `Initial learning curve and training required for ${targetMarket} adopters.`,
-    `Higher initial client acquisition cost (CAC) typical for the ${industry} space.`,
-    `High dependency on constant updates to align with market trends.`
-  ];
-  
-  let opportunities = [
-    `Possibility to cross-sell to adjacent segments within ${targetMarket}.`,
-    `Synergy integrations with mainstream SaaS tools in ${industry}.`,
-    `First-mover advantage in niche sub-sectors.`
-  ];
-  
-  let threats = [
-    `Fast-follower products duplicating core feature sets.`,
-    `Potential shifts in privacy, licensing, or compliance rules in ${industry}.`,
-    `Legacy habits; convincing ${targetMarket} to abandon existing manual routines.`
-  ];
 
-  if (lowerIdea.includes('ai') || lowerIdea.includes('intelligence') || lowerIdea.includes('smart') || lowerIdea.includes('automated')) {
-    strengths[2] = `AI models create a continuous data flywheel; the product improves with usage.`;
-    weaknesses[1] = `High operational overhead linked to AI model API fees or GPU usage.`;
-    opportunities[1] = `Exclusive licensing of custom fine-tuned models for specific niches.`;
-    threats[0] = `Aggressive feature launches by core LLM providers (e.g. OpenAI, Google).`;
-  }
-  
-  if (lowerIdea.includes('app') || lowerIdea.includes('platform') || lowerIdea.includes('software') || lowerIdea.includes('web')) {
-    strengths[1] = `High gross margins associated with cloud software deployment.`;
-    opportunities[2] = `API marketplace expansion enabling developers to build additions.`;
+  const text = `${idea}${industry}${market}`;
+
+  for (let i = 0; i < text.length; i++) {
+    hash = text.charCodeAt(i) + ((hash << 5) - hash);
   }
 
-  if (lowerIdea.includes('green') || lowerIdea.includes('eco') || lowerIdea.includes('electric') || lowerIdea.includes('sustain') || lowerIdea.includes('cargo')) {
-    strengths[0] = `Aligns with carbon neutrality targets and ESG regulatory requirements.`;
-    opportunities[0] = `Access to carbon credit offsets and federal green project subsidies.`;
-    threats[2] = `Hardware integration scaling limits and grid/charging deployment lag.`;
-  }
-
-  const elevatorPitch = `For ${targetMarket} who are frustrated by current inefficiencies, our proposed system in the ${industry} domain is a modern solution that solves this by implementing ${idea.replace(/\.$/, '')}. Unlike traditional alternatives, it offers a direct, automated, and highly responsive approach.`;
-  
-  const idealCustomerProfile = {
-    buyerPersona: `Tech-receptive operators, managers, or consumers in the ${targetMarket} vertical.`,
-    primaryPainPoint: `Manual effort, lack of analytical transparency, and scaling bottlenecks.`,
-    keyTriggers: `Hitting scaling ceilings, high cost-per-action, or pressure from competing tech.`
-  };
-  
-  const goToMarket = [
-    `Phase 1 (Validation): Start a high-touch private beta with 8-12 design partners in ${targetMarket} to refine metrics.`,
-    `Phase 2 (Velocity): Launch search-optimized, high-intent landing pages focused on direct answers to ${industry} problems.`,
-    `Phase 3 (Scale): Form partnerships with major players inside ${industry} to distribute natively.`,
-  ];
+  const value = Math.abs(hash);
 
   return {
-    score,
-    subScores: {
-      demand: demandScore,
-      competition: competitionScore,
-      viability: viabilityScore
-    },
-    swot: { strengths, weaknesses, opportunities, threats },
-    pitch: { elevatorPitch, idealCustomerProfile, goToMarket }
+    score: 78 + (value % 16),
+    demand: 75 + (value % 18),
+    opportunity: 76 + ((value >> 2) % 17),
+    execution: 70 + ((value >> 3) % 20),
+
+    strengths: [
+      `Clear solution targeted towards problems faced by ${market}.`,
+      `Potential to build a scalable product within the ${industry} industry.`,
+      "Technology can help automate repetitive activities and improve customer experience.",
+    ],
+
+    weaknesses: [
+      "Early customer acquisition may require significant awareness and education.",
+      `Building trust among users in the ${industry} market may take time.`,
+      "The initial version will require strong product-market validation.",
+    ],
+
+    opportunities: [
+      `Growing digital adoption creates opportunities within ${industry}.`,
+      `Potential partnerships with organisations serving ${market}.`,
+      "The product can expand into additional customer segments after validation.",
+    ],
+
+    threats: [
+      "Existing competitors could quickly introduce similar functionality.",
+      "Customer expectations may change rapidly.",
+      "Large technology companies could enter the same market.",
+    ],
+
+    pitch: `${idea} The solution is designed specifically for ${market}, creating a simpler, faster and more intelligent experience in the ${industry} ecosystem.`,
+
+    gtm: [
+      `Interview 15–20 potential customers from ${market}.`,
+      "Build a focused MVP around the single most important customer problem.",
+      "Run a small pilot programme and measure user engagement.",
+      "Use customer feedback to improve pricing and positioning.",
+      `Build partnerships with companies operating within ${industry}.`,
+    ],
   };
 }
 
 function App() {
-  // Input fields state
-  const [startupIdea, setStartupIdea] = useState('')
-  const [industry, setIndustry] = useState('')
-  const [targetMarket, setTargetMarket] = useState('')
-  const [activePreset, setActivePreset] = useState(null)
-  
-  // App status state
-  const [loading, setLoading] = useState(false)
-  const [currentStep, setCurrentStep] = useState(0)
-  const [error, setError] = useState(null)
-  const [searchResult, setSearchResult] = useState(null)
-  const [pitchTab, setPitchTab] = useState('pitch')
+  const [startupIdea, setStartupIdea] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [targetMarket, setTargetMarket] = useState("");
 
-  // Simulation steps for loading feedback
-  const loadingSteps = [
-    "Analyzing target industry & indexing market parameters...",
-    "Formulating AI search queries and intelligence filters...",
-    "Querying real-time market indices & scraping live competitor data...",
-    "Synthesizing market feasibility and opportunity metrics...",
-    "Generating executive validation report..."
-  ]
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState("overview");
 
-  // Sample prompt presets for quick testing
-  const samplePrompts = [
-    {
-      label: "Electric Urban Logistics",
-      idea: "An AI-powered route planning app for electric cargo bike deliveries in dense urban areas.",
-      industry: "Green Logistics & Mobility",
-      market: "Local e-commerce shops, urban couriers"
-    },
-    {
-      label: "Smart Meal Prep",
-      idea: "A personalized AI meal planner that scans household groceries to minimize food waste and optimize nutrition.",
-      industry: "FoodTech & Health",
-      market: "Busy professionals, fitness enthusiasts"
-    },
-    {
-      label: "Telehealth for Pets",
-      idea: "An on-demand veterinary telehealth platform with instant AI triage and symptom detection from smartphone photos.",
-      industry: "Pet Care & HealthTech",
-      market: "Pet owners, veterinary clinics"
-    },
-    {
-      label: "AI Adaptive Study Tutor",
-      idea: "An intelligent learning copilot that converts college lectures and PDF textbooks into interactive flashcards, quizzes, and mock tests.",
-      industry: "EdTech & Higher Education",
-      market: "University students, certification exam candidates"
-    }
-  ]
+  const API_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-  const handleApplyPreset = (preset, idx) => {
-    setStartupIdea(preset.idea)
-    setIndustry(preset.industry)
-    setTargetMarket(preset.market)
-    setActivePreset(idx)
-    setError(null)
-  }
+  const loadDemo = (demo) => {
+    setStartupIdea(demo.idea);
+    setIndustry(demo.industry);
+    setTargetMarket(demo.market);
+    setError("");
 
-  const handleClearForm = () => {
-    setStartupIdea('')
-    setIndustry('')
-    setTargetMarket('')
-    setActivePreset(null)
-    setError(null)
-  }
+    document
+      .getElementById("validator")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
 
-  const handleSearch = async (e) => {
-    e.preventDefault()
-    
-    // Reset previous states
-    setError(null)
-    setSearchResult(null)
-    setLoading(true)
-    setCurrentStep(0)
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    // Basic Validation
-    if (!startupIdea.trim() || !industry.trim() || !targetMarket.trim()) {
-      setError("Please fill out all required fields.")
-      setLoading(false)
-      return
+    if (
+      !startupIdea.trim() ||
+      !industry.trim() ||
+      !targetMarket.trim()
+    ) {
+      setError("Please complete all three fields before validating.");
+      return;
     }
 
-    // Step cycle interval for user feedback
-    const stepInterval = setInterval(() => {
-      setCurrentStep((prev) => {
-        if (prev < loadingSteps.length - 1) {
-          return prev + 1
-        }
-        clearInterval(stepInterval)
-        return prev
-      })
-    }, 1200)
+    setLoading(true);
+    setResult(null);
+    setError("");
 
     try {
-      // Send request to FastAPI backend (uses environment variable VITE_API_URL if present, otherwise defaults to localhost)
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-      const response = await fetch(`${apiUrl}/search`, {
-        method: 'POST',
+      const response = await fetch(`${API_URL}/search`, {
+        method: "POST",
+
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
+
         body: JSON.stringify({
           startup_idea: startupIdea,
           industry: industry,
           target_market: targetMarket,
         }),
-      })
+      });
+
+      const data = await response.json();
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.detail || `Server returned status ${response.status}`)
+        throw new Error(
+          data?.detail || "Unable to complete startup analysis."
+        );
       }
 
-      const data = await response.json()
-      setSearchResult(data)
+      setResult(data);
+      setActiveTab("overview");
+
+      setTimeout(() => {
+        document
+          .getElementById("results")
+          ?.scrollIntoView({ behavior: "smooth" });
+      }, 200);
     } catch (err) {
-      console.error("Search failed:", err)
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-      setError(err.message || `An unexpected error occurred while communicating with the backend. Make sure your API server is running and accessible at ${apiUrl}.`)
+      console.error(err);
+
+      setError(
+        err.message ||
+          "Unable to connect to the backend. Make sure FastAPI is running on port 8000."
+      );
     } finally {
-      clearInterval(stepInterval)
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const resetForm = () => {
-    setSearchResult(null)
-    setError(null)
-    setActivePreset(null)
-  }
+  const clearForm = () => {
+    setStartupIdea("");
+    setIndustry("");
+    setTargetMarket("");
+    setResult(null);
+    setError("");
+  };
 
-  const insights = searchResult
-    ? generateStartupInsights(searchResult.startup_idea, searchResult.industry, searchResult.target_market)
+  const scrollToValidator = () => {
+    document
+      .getElementById("validator")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const insights = result
+    ? createStartupInsights(
+        result.startup_idea,
+        result.industry,
+        result.target_market
+      )
     : null;
 
   return (
-    <div className="app-container">
-      {/* Header Section */}
-      <header className="app-header">
-        <div className="brand-badge">
-          <span>Infosys Springboard 7.0 • Team Pulse</span>
-        </div>
-        <h1 className="hero-title">
-          <span className="gradient-ai-badge">AI-Based</span> Startup Idea Validator <span className="gradient-title-accent">& Market Intelligence</span>
-        </h1>
-        <p className="subtitle">
-          Submit your concept to evaluate market feasibility, map competitors in real-time, and extract actionable executive intelligence.
-        </p>
-      </header>
+    <div className="app">
+      <nav className="navbar">
+        <div className="nav-container">
+          <div className="brand">
+            <div className="brand-logo">
+              <span>TP</span>
+            </div>
 
-      {/* Main Content Area */}
-      <main className="app-main">
-        {/* State 1: Input Form */}
-        {!searchResult && !loading && (
-          <div className="glass-card form-card animate-fade-in">
-            <h2 className="section-title">
-              Startup Concept Parameters
+            <div className="brand-text">
+              <strong>TeamPulse</strong>
+              <span>Startup Intelligence</span>
+            </div>
+          </div>
+
+          <div className="nav-links">
+            <a href="#home">Home</a>
+            <a href="#validator">Validator</a>
+            <a href="#how-it-works">How it works</a>
+          </div>
+
+          <button className="nav-button" onClick={scrollToValidator}>
+            Validate idea
+          </button>
+        </div>
+      </nav>
+
+      <main>
+        <section className="hero" id="home">
+          <div className="background-orb orb-one"></div>
+          <div className="background-orb orb-two"></div>
+          <div className="grid-pattern"></div>
+
+          <div className="hero-container">
+            <div className="hero-content">
+              <div className="hero-badge">
+                <span className="badge-dot"></span>
+                AI powered startup intelligence
+              </div>
+
+              <h1>
+                Turn your startup
+                <span> idea into insight.</span>
+              </h1>
+
+              <p className="hero-description">
+                Validate your business concept using real-time market
+                intelligence. Discover competitors, understand your
+                customers and make smarter decisions before you build.
+              </p>
+
+              <div className="hero-actions">
+                <button
+                  className="primary-button"
+                  onClick={scrollToValidator}
+                >
+                  Validate my startup
+                  <span>→</span>
+                </button>
+
+                <a
+                  href="#how-it-works"
+                  className="secondary-button"
+                >
+                  See how it works
+                </a>
+              </div>
+
+              <div className="hero-trust">
+                <div className="trust-item">
+                  <strong>Real-time</strong>
+                  <span>Market research</span>
+                </div>
+
+                <div className="trust-divider"></div>
+
+                <div className="trust-item">
+                  <strong>AI-powered</strong>
+                  <span>Business insights</span>
+                </div>
+
+                <div className="trust-divider"></div>
+
+                <div className="trust-item">
+                  <strong>Actionable</strong>
+                  <span>Growth strategy</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="hero-visual">
+              <div className="dashboard-preview">
+                <div className="preview-header">
+                  <div>
+                    <span className="preview-small">
+                      Startup intelligence
+                    </span>
+                    <h3>Idea Analysis</h3>
+                  </div>
+
+                  <div className="status-pill">
+                    <span></span>
+                    Analysis ready
+                  </div>
+                </div>
+
+                <div className="preview-score-area">
+                  <div className="score-circle">
+                    <div>
+                      <strong>87</strong>
+                      <span>/100</span>
+                    </div>
+                  </div>
+
+                  <div className="score-info">
+                    <span>Opportunity score</span>
+                    <strong>Strong potential</strong>
+
+                    <div className="mini-line">
+                      <div style={{ width: "87%" }}></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="preview-stat-grid">
+                  <div className="preview-stat">
+                    <div className="stat-icon">↗</div>
+                    <span>Market demand</span>
+                    <strong>High</strong>
+                  </div>
+
+                  <div className="preview-stat">
+                    <div className="stat-icon">◎</div>
+                    <span>Competition</span>
+                    <strong>Medium</strong>
+                  </div>
+
+                  <div className="preview-stat">
+                    <div className="stat-icon">✓</div>
+                    <span>Feasibility</span>
+                    <strong>Strong</strong>
+                  </div>
+                </div>
+
+                <div className="preview-insight">
+                  <div className="insight-icon">✦</div>
+
+                  <div>
+                    <span>AI Insight</span>
+                    <p>
+                      Strong demand signals found with opportunities for
+                      differentiated positioning.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="floating-card floating-one">
+                  <span>Competitors</span>
+                  <strong>12 identified</strong>
+                </div>
+
+                <div className="floating-card floating-two">
+                  <span>Market trend</span>
+                  <strong>↗ Growing</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="logo-strip">
+          <p>
+            Built for founders who want clarity before committing
+            resources
+          </p>
+
+          <div className="business-tags">
+            <span>Idea Validation</span>
+            <span>Market Research</span>
+            <span>Competitor Analysis</span>
+            <span>Go-to-Market</span>
+            <span>Business Strategy</span>
+          </div>
+        </section>
+
+        <section className="features-section" id="how-it-works">
+          <div className="section-heading">
+            <div className="section-label">HOW IT WORKS</div>
+
+            <h2>
+              From an idea to a clearer
+              <span> business decision.</span>
             </h2>
 
-            {/* Quick Demo Idea Prompts */}
-            <div className="demo-prompts-bar">
-              <span className="demo-prompts-label">Try an example:</span>
-              {samplePrompts.map((preset, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  className={`demo-chip ${activePreset === idx ? 'active-chip' : ''}`}
-                  onClick={() => handleApplyPreset(preset, idx)}
-                >
-                  {preset.label}
-                </button>
-              ))}
-            </div>
-
-            <form onSubmit={handleSearch} className="startup-form">
-              <div className="form-group">
-                <label htmlFor="startupIdea">
-                  Startup Idea & Description
-                </label>
-                <textarea
-                  id="startupIdea"
-                  placeholder="e.g., An AI-powered route planning app for electric cargo bike deliveries in dense urban areas..."
-                  value={startupIdea}
-                  onChange={(e) => {
-                    setStartupIdea(e.target.value)
-                    setActivePreset(null)
-                  }}
-                  rows={4}
-                  required
-                />
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="industry">
-                    Industry / Domain
-                  </label>
-                  <input
-                    id="industry"
-                    type="text"
-                    placeholder="e.g., Green Logistics / Food Tech"
-                    value={industry}
-                    onChange={(e) => {
-                      setIndustry(e.target.value)
-                      setActivePreset(null)
-                    }}
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="targetMarket">
-                    Target Audience & Market
-                  </label>
-                  <input
-                    id="targetMarket"
-                    type="text"
-                    placeholder="e.g., Local e-commerce shops, urban couriers"
-                    value={targetMarket}
-                    onChange={(e) => {
-                      setTargetMarket(e.target.value)
-                      setActivePreset(null)
-                    }}
-                    required
-                  />
-                </div>
-              </div>
-
-              {error && (
-                <div className="error-banner">
-                  <span>{error}</span>
-                </div>
-              )}
-
-              <div className="form-actions">
-                <button type="submit" className="btn btn-primary">
-                  Run Market Analysis & Validate
-                </button>
-                {(startupIdea || industry || targetMarket) && (
-                  <button
-                    type="button"
-                    onClick={handleClearForm}
-                    className="btn btn-secondary-outline"
-                  >
-                    Clear Form
-                  </button>
-                )}
-              </div>
-            </form>
+            <p>
+              Our validation workflow converts a basic startup concept
+              into useful market intelligence in a few simple steps.
+            </p>
           </div>
-        )}
 
-        {/* State 2: Loading State */}
-        {loading && (
-          <div className="glass-card loading-card animate-fade-in">
-            <div className="spinner-wrapper">
-              <div className="spinner"></div>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-number">01</div>
+              <div className="feature-icon">✎</div>
+
+              <h3>Describe your idea</h3>
+
+              <p>
+                Tell us what you want to build, your industry and the
+                people you want to serve.
+              </p>
             </div>
-            <h2 className="loading-title">Synthesizing Market Intelligence</h2>
-            <div className="progress-bar-container">
-              <div 
-                className="progress-bar-fill" 
-                style={{ width: `${((currentStep + 1) / loadingSteps.length) * 100}%` }}
-              ></div>
+
+            <div className="feature-card featured">
+              <div className="feature-number">02</div>
+              <div className="feature-icon">⌕</div>
+
+              <h3>Analyse the market</h3>
+
+              <p>
+                The system searches for competitors, market signals and
+                relevant business information.
+              </p>
             </div>
-            <div className="loading-steps-container">
-              {loadingSteps.map((step, idx) => (
-                <div 
-                  key={idx} 
-                  className={`loading-step ${idx === currentStep ? 'active' : ''} ${idx < currentStep ? 'completed' : ''}`}
-                >
-                  <span className="step-indicator">
-                    {idx < currentStep ? '✓' : idx + 1}
+
+            <div className="feature-card">
+              <div className="feature-number">03</div>
+              <div className="feature-icon">⌁</div>
+
+              <h3>Receive your strategy</h3>
+
+              <p>
+                Review market opportunities, startup strengths, risks and
+                suggested next steps.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="demo-section">
+          <div className="section-heading">
+            <div className="section-label">EXAMPLE IDEAS</div>
+            <h2>
+              Need inspiration?
+              <span> Try an example.</span>
+            </h2>
+          </div>
+
+          <div className="demo-grid">
+            {demoIdeas.map((demo, index) => (
+              <button
+                className="demo-card"
+                key={index}
+                onClick={() => loadDemo(demo)}
+              >
+                <div className="demo-icon">{demo.icon}</div>
+
+                <div className="demo-info">
+                  <h3>{demo.title}</h3>
+                  <p>{demo.idea}</p>
+
+                  <span>
+                    Use this idea <strong>→</strong>
                   </span>
-                  {step}
                 </div>
-              ))}
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="validator-section" id="validator">
+          <div className="validator-wrapper">
+            <div className="validator-intro">
+              <div className="section-label">
+                STARTUP VALIDATOR
+              </div>
+
+              <h2>
+                Is your idea worth
+                <span> building?</span>
+              </h2>
+
+              <p>
+                Give us some basic information about your startup. Our
+                system will analyse the market and provide relevant
+                competitor intelligence.
+              </p>
+
+              <div className="benefit-list">
+                <div className="benefit">
+                  <div className="benefit-check">✓</div>
+
+                  <div>
+                    <strong>Market validation</strong>
+                    <span>
+                      Understand whether your idea has real market
+                      opportunity.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="benefit">
+                  <div className="benefit-check">✓</div>
+
+                  <div>
+                    <strong>Competitor intelligence</strong>
+                    <span>
+                      Discover companies already solving similar
+                      problems.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="benefit">
+                  <div className="benefit-check">✓</div>
+
+                  <div>
+                    <strong>Strategic next steps</strong>
+                    <span>
+                      Get actionable recommendations for validation and
+                      launch.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="validator-card">
+              <div className="form-header">
+                <div>
+                  <span className="form-step">
+                    START YOUR ANALYSIS
+                  </span>
+                  <h3>Tell us about your startup</h3>
+                </div>
+
+                <div className="form-icon">✦</div>
+              </div>
+
+              <form onSubmit={handleSubmit}>
+                <div className="form-field">
+                  <div className="field-label-row">
+                    <label htmlFor="startupIdea">
+                      Startup idea
+                    </label>
+
+                    <span>{startupIdea.length}/600</span>
+                  </div>
+
+                  <textarea
+                    id="startupIdea"
+                    maxLength="600"
+                    rows="5"
+                    value={startupIdea}
+                    onChange={(e) =>
+                      setStartupIdea(e.target.value)
+                    }
+                    placeholder="Example: An AI platform that helps small retailers predict inventory demand and reduce food waste..."
+                  ></textarea>
+
+                  <small>
+                    Explain the problem and how your startup solves it.
+                  </small>
+                </div>
+
+                <div className="two-columns">
+                  <div className="form-field">
+                    <label htmlFor="industry">
+                      Industry / sector
+                    </label>
+
+                    <input
+                      id="industry"
+                      value={industry}
+                      onChange={(e) =>
+                        setIndustry(e.target.value)
+                      }
+                      placeholder="e.g. FinTech"
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label htmlFor="market">
+                      Target customers
+                    </label>
+
+                    <input
+                      id="market"
+                      value={targetMarket}
+                      onChange={(e) =>
+                        setTargetMarket(e.target.value)
+                      }
+                      placeholder="e.g. Small retailers"
+                    />
+                  </div>
+                </div>
+
+                {error && (
+                  <div className="error-message">
+                    <div>!</div>
+                    <span>{error}</span>
+                  </div>
+                )}
+
+                <button
+                  className="submit-button"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <span className="button-loader"></span>
+                      Analysing your market...
+                    </>
+                  ) : (
+                    <>
+                      <span>✦</span>
+                      Validate startup idea
+                      <strong>→</strong>
+                    </>
+                  )}
+                </button>
+
+                <p className="form-security">
+                  <span>✓</span>
+                  Your information is used only for this analysis.
+                </p>
+              </form>
             </div>
           </div>
+        </section>
+
+        {loading && (
+          <section className="loading-section">
+            <div className="analysis-loader">
+              <div className="loader-animation">
+                <div className="pulse-circle"></div>
+                <div className="loader-logo">TP</div>
+              </div>
+
+              <div className="loading-copy">
+                <span className="section-label">
+                  AI MARKET RESEARCH
+                </span>
+
+                <h2>Analysing your startup...</h2>
+
+                <p>
+                  Searching competitors and evaluating market
+                  opportunities for your concept.
+                </p>
+
+                <div className="loading-progress">
+                  <div></div>
+                </div>
+
+                <div className="loading-items">
+                  <span>✓ Understanding startup concept</span>
+                  <span>✓ Identifying industry signals</span>
+                  <span className="active-loading">
+                    ● Analysing competitors
+                  </span>
+                  <span>○ Preparing strategic insights</span>
+                </div>
+              </div>
+            </div>
+          </section>
         )}
 
-        {/* State 3: Results Display */}
-        {searchResult && !loading && (
-          <div className="results-container animate-fade-in">
-            {/* Top Indicator */}
-            <div className="results-meta">
-              <div className="meta-badge">
-                Feed: {searchResult.mode === 'live' ? 'Real-time Search Index' : searchResult.mode === 'mock' ? 'Local Simulation Index' : 'Fallback Report'}
+        {result && insights && (
+          <section className="results-section" id="results">
+            <div className="results-heading">
+              <div>
+                <div className="section-label">
+                  VALIDATION REPORT
+                </div>
+
+                <h2>Your startup analysis</h2>
+
+                <p>
+                  Generated for{" "}
+                  <strong>{result.startup_idea}</strong>
+                </p>
               </div>
-              <button onClick={resetForm} className="btn btn-secondary">
-                ← Validate Another Idea
+
+              <button
+                className="new-analysis-button"
+                onClick={() => {
+                  setResult(null);
+                  scrollToValidator();
+                }}
+              >
+                + New analysis
               </button>
             </div>
 
-            {/* Idea Context Panel */}
-            <div className="glass-card summary-card">
-              <h2 className="section-title">
-                Analyzed Concept
-              </h2>
-              <div className="details-grid">
-                <div className="details-item">
-                  <strong>Startup Idea:</strong> {searchResult.startup_idea}
+            <div className="score-dashboard">
+              <div className="main-score-card">
+                <div className="score-card-header">
+                  <span>Overall Opportunity Score</span>
+
+                  <span className="positive-chip">
+                    Strong potential
+                  </span>
                 </div>
-                <div className="details-item-row">
-                  <div><strong>Industry:</strong> {searchResult.industry}</div>
-                  <div><strong>Target Market:</strong> {searchResult.target_market}</div>
+
+                <div className="main-score-content">
+                  <div className="large-score">
+                    <strong>{insights.score}</strong>
+                    <span>/100</span>
+                  </div>
+
+                  <div className="score-description">
+                    <h3>A promising opportunity</h3>
+
+                    <p>
+                      Your idea shows strong potential. Focus on customer
+                      validation and differentiation before scaling.
+                    </p>
+                  </div>
                 </div>
+              </div>
+
+              <div className="metric-card">
+                <span>Market demand</span>
+                <strong>{insights.demand}%</strong>
+
+                <div className="metric-track">
+                  <div
+                    style={{
+                      width: `${insights.demand}%`,
+                    }}
+                  ></div>
+                </div>
+
+                <small>Positive demand signals</small>
+              </div>
+
+              <div className="metric-card">
+                <span>Opportunity</span>
+                <strong>{insights.opportunity}%</strong>
+
+                <div className="metric-track">
+                  <div
+                    style={{
+                      width: `${insights.opportunity}%`,
+                    }}
+                  ></div>
+                </div>
+
+                <small>Good expansion potential</small>
+              </div>
+
+              <div className="metric-card">
+                <span>Execution viability</span>
+                <strong>{insights.execution}%</strong>
+
+                <div className="metric-track">
+                  <div
+                    style={{
+                      width: `${insights.execution}%`,
+                    }}
+                  ></div>
+                </div>
+
+                <small>Manageable execution risk</small>
               </div>
             </div>
 
-            {/* AI Synthesized Answer Card */}
-            {searchResult.answer && (
-              <div className="glass-card answer-card">
-                <div className="report-badge">Executive Summary</div>
-                <h3 className="card-title">Market Analysis & Feasibility Insights</h3>
-                <p className="synthesized-answer">{searchResult.answer}</p>
-              </div>
-            )}
+            <div className="report-navigation">
+              <button
+                onClick={() => setActiveTab("overview")}
+                className={
+                  activeTab === "overview" ? "active" : ""
+                }
+              >
+                Overview
+              </button>
 
-            {/* Dynamic Dashboard: Viability Score + Pitch Copilot */}
-            {insights && (
-              <div className="insights-dashboard-grid">
-                {/* Feasibility score ring */}
-                <div className="glass-card gauge-card">
-                  <h3 className="widget-title">Market Viability Score</h3>
-                  <div className="gauge-container">
-                    <svg className="radial-gauge" viewBox="0 0 120 120">
-                      <circle className="gauge-track" cx="60" cy="60" r="50" fill="none" strokeWidth="10" />
-                      <circle className="gauge-fill" cx="60" cy="60" r="50" fill="none" strokeWidth="10" 
-                        strokeDasharray="314"
-                        strokeDashoffset={314 - (314 * insights.score) / 100}
-                      />
-                    </svg>
-                    <div className="gauge-value">
-                      <span className="gauge-number">{insights.score}</span>
-                      <span className="gauge-percent">%</span>
-                    </div>
-                  </div>
-                  <div className="score-label">Excellent Potential</div>
-                  
-                  {/* Sub-metrics */}
-                  <div className="sub-metrics-list">
-                    <div className="metric-row">
-                      <span>Market Demand:</span>
-                      <div className="mini-progress">
-                        <div className="mini-progress-fill" style={{ width: `${insights.subScores.demand}%` }}></div>
-                      </div>
-                      <span className="metric-val">{insights.subScores.demand}%</span>
-                    </div>
-                    <div className="metric-row">
-                      <span>Execution Risk:</span>
-                      <div className="mini-progress">
-                        <div className="mini-progress-fill risk-fill" style={{ width: `${100 - insights.subScores.viability}%` }}></div>
-                      </div>
-                      <span className="metric-val">{100 - insights.subScores.viability}%</span>
-                    </div>
-                    <div className="metric-row">
-                      <span>Growth Velocity:</span>
-                      <div className="mini-progress">
-                        <div className="mini-progress-fill growth-fill" style={{ width: `${insights.subScores.competition}%` }}></div>
-                      </div>
-                      <span className="metric-val">{insights.subScores.competition}%</span>
-                    </div>
-                  </div>
-                </div>
+              <button
+                onClick={() => setActiveTab("swot")}
+                className={
+                  activeTab === "swot" ? "active" : ""
+                }
+              >
+                SWOT Analysis
+              </button>
 
-                {/* Pitch Copilot Generator Widget */}
-                <div className="glass-card copilot-card">
-                  <h3 className="widget-title">Interactive Pitch Copilot</h3>
-                  <div className="copilot-tabs">
-                    <button 
-                      type="button"
-                      onClick={() => setPitchTab('pitch')} 
-                      className={`copilot-tab-btn ${pitchTab === 'pitch' ? 'active' : ''}`}
-                    >
-                      🚀 Elevator Pitch
-                    </button>
-                    <button 
-                      type="button"
-                      onClick={() => setPitchTab('icp')} 
-                      className={`copilot-tab-btn ${pitchTab === 'icp' ? 'active' : ''}`}
-                    >
-                      🎯 Target Customer
-                    </button>
-                    <button 
-                      type="button"
-                      onClick={() => setPitchTab('gtm')} 
-                      className={`copilot-tab-btn ${pitchTab === 'gtm' ? 'active' : ''}`}
-                    >
-                      📈 Launch Strategy
-                    </button>
-                  </div>
-                  
-                  <div className="copilot-content">
-                    {pitchTab === 'pitch' && (
-                      <div className="copilot-pane animate-fade-in">
-                        <p className="pitch-text">"{insights.pitch.elevatorPitch}"</p>
-                        <div className="pitch-tip">💡 <strong>Mentor Tip:</strong> Use this quick pitch for landing pages and pitches.</div>
-                      </div>
-                    )}
-                    {pitchTab === 'icp' && (
-                      <div className="copilot-pane animate-fade-in">
-                        <div className="icp-item">
-                          <strong>Ideal Buyer Persona:</strong>
-                          <p>{insights.pitch.idealCustomerProfile.buyerPersona}</p>
-                        </div>
-                        <div className="icp-item">
-                          <strong>Primary Pain Point:</strong>
-                          <p>{insights.pitch.idealCustomerProfile.primaryPainPoint}</p>
-                        </div>
-                        <div className="icp-item">
-                          <strong>Purchase Trigger:</strong>
-                          <p>{insights.pitch.idealCustomerProfile.keyTriggers}</p>
-                        </div>
-                      </div>
-                    )}
-                    {pitchTab === 'gtm' && (
-                      <div className="copilot-pane animate-fade-in">
-                        <ul className="gtm-list">
-                          {insights.pitch.goToMarket.map((step, idx) => (
-                            <li key={idx}>
-                              <span className="gtm-badge">Step {idx + 1}</span>
-                              <span className="gtm-desc">{step}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
+              <button
+                onClick={() => setActiveTab("competitors")}
+                className={
+                  activeTab === "competitors" ? "active" : ""
+                }
+              >
+                Competitors
+              </button>
 
-
-            {/* Web Search Results Section */}
-            <div className="web-results-section">
-              <h2 className="section-title">
-                Live Competitor Landscape & Intelligence
-              </h2>
-              {searchResult.results && searchResult.results.length > 0 ? (
-                <div className="results-grid">
-                  {searchResult.results.map((result, index) => (
-                    <div key={index} className="glass-card result-item-card">
-                      <div className="result-header">
-                        <span className="result-number">Competitor #{index + 1}</span>
-                        {result.score > 0 && (
-                          <span className="result-score">Relevance: {Math.round(result.score * 100)}%</span>
-                        )}
-                      </div>
-                      <h4 className="result-title">{result.title}</h4>
-                      <p className="result-snippet">{result.content}</p>
-                      {result.url && result.url !== '#' && (
-                        <a 
-                          href={result.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="result-link-btn"
-                        >
-                          Explore Website →
-                        </a>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="glass-card empty-card">
-                  <p>No competitor listings found for this specific query.</p>
-                </div>
-              )}
+              <button
+                onClick={() => setActiveTab("strategy")}
+                className={
+                  activeTab === "strategy" ? "active" : ""
+                }
+              >
+                Launch Strategy
+              </button>
             </div>
-          </div>
+
+            {activeTab === "overview" && (
+              <div className="report-content">
+                <div className="report-card executive-card">
+                  <div className="report-card-title">
+                    <div className="report-icon">✦</div>
+
+                    <div>
+                      <span>AI ANALYSIS</span>
+                      <h3>Executive market summary</h3>
+                    </div>
+                  </div>
+
+                  <p className="executive-text">
+                    {result.answer ||
+                      "Your startup idea demonstrates an identifiable customer problem and potential market opportunity. Validate customer willingness to pay and define a differentiated value proposition before investing heavily in development."}
+                  </p>
+
+                  <div className="concept-summary">
+                    <div>
+                      <span>Industry</span>
+                      <strong>{result.industry}</strong>
+                    </div>
+
+                    <div>
+                      <span>Target market</span>
+                      <strong>{result.target_market}</strong>
+                    </div>
+
+                    <div>
+                      <span>Analysis mode</span>
+                      <strong>
+                        {result.mode === "live"
+                          ? "Live market data"
+                          : "Simulation mode"}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="report-card pitch-card">
+                  <div className="report-card-title">
+                    <div className="report-icon">🚀</div>
+
+                    <div>
+                      <span>POSITIONING</span>
+                      <h3>Suggested elevator pitch</h3>
+                    </div>
+                  </div>
+
+                  <blockquote>
+                    “{insights.pitch}”
+                  </blockquote>
+
+                  <div className="mentor-tip">
+                    <strong>Founder tip</strong>
+
+                    <p>
+                      Keep your initial pitch focused on one customer
+                      segment and one painful problem.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === "swot" && (
+              <div className="swot-grid">
+                <SWOTCard
+                  icon="↗"
+                  title="Strengths"
+                  subtitle="Internal advantages"
+                  items={insights.strengths}
+                  type="strength"
+                />
+
+                <SWOTCard
+                  icon="!"
+                  title="Weaknesses"
+                  subtitle="Internal challenges"
+                  items={insights.weaknesses}
+                  type="weakness"
+                />
+
+                <SWOTCard
+                  icon="✦"
+                  title="Opportunities"
+                  subtitle="External possibilities"
+                  items={insights.opportunities}
+                  type="opportunity"
+                />
+
+                <SWOTCard
+                  icon="⚠"
+                  title="Threats"
+                  subtitle="External risks"
+                  items={insights.threats}
+                  type="threat"
+                />
+              </div>
+            )}
+
+            {activeTab === "competitors" && (
+              <div className="competitor-section">
+                <div className="competitor-intro">
+                  <div>
+                    <span className="section-label">
+                      COMPETITIVE LANDSCAPE
+                    </span>
+
+                    <h3>
+                      Companies and resources discovered during
+                      research
+                    </h3>
+                  </div>
+
+                  <span className="competitor-count">
+                    {result.results?.length || 0} results
+                  </span>
+                </div>
+
+                {result.results &&
+                result.results.length > 0 ? (
+                  <div className="competitor-grid">
+                    {result.results.map((competitor, index) => (
+                      <article
+                        className="competitor-card"
+                        key={`${competitor.title}-${index}`}
+                      >
+                        <div className="competitor-top">
+                          <div className="company-logo">
+                            {competitor.title
+                              ?.charAt(0)
+                              ?.toUpperCase() || "C"}
+                          </div>
+
+                          {competitor.score && (
+                            <span className="relevance">
+                              {Math.round(
+                                competitor.score * 100
+                              )}
+                              % match
+                            </span>
+                          )}
+                        </div>
+
+                        <h3>
+                          {competitor.title ||
+                            `Market result ${index + 1}`}
+                        </h3>
+
+                        <p>
+                          {competitor.content ||
+                            "Relevant market intelligence discovered during the analysis."}
+                        </p>
+
+                        {competitor.url &&
+                          competitor.url !== "#" && (
+                            <a
+                              href={competitor.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Visit source
+                              <span>↗</span>
+                            </a>
+                          )}
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="empty-results">
+                    <div>⌕</div>
+                    <h3>No competitor results found</h3>
+                    <p>
+                      Try providing a more specific industry or customer
+                      segment.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === "strategy" && (
+              <div className="strategy-layout">
+                <div className="strategy-main">
+                  <span className="section-label">
+                    GO-TO-MARKET PLAN
+                  </span>
+
+                  <h3>
+                    Recommended steps before you scale
+                  </h3>
+
+                  <div className="timeline">
+                    {insights.gtm.map((step, index) => (
+                      <div
+                        className="timeline-item"
+                        key={index}
+                      >
+                        <div className="timeline-number">
+                          {index + 1}
+                        </div>
+
+                        <div className="timeline-copy">
+                          <span>
+                            PHASE {index + 1}
+                          </span>
+                          <p>{step}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <aside className="strategy-side">
+                  <span className="section-label">
+                    VALIDATION PRINCIPLE
+                  </span>
+
+                  <h3>Talk to customers before writing code.</h3>
+
+                  <p>
+                    Strong startup validation comes from real customer
+                    behaviour, not only market reports.
+                  </p>
+
+                  <div className="strategy-stat">
+                    <strong>15–20</strong>
+                    <span>
+                      Customer interviews recommended
+                    </span>
+                  </div>
+                </aside>
+              </div>
+            )}
+          </section>
         )}
       </main>
 
-      {/* Footer Section */}
-      <footer className="app-footer">
-        <p>Team Pulse — Infosys Springboard 7.0 Batch 3</p>
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-brand">
+            <div className="brand-logo small">
+              TP
+            </div>
+
+            <div>
+              <strong>TeamPulse</strong>
+              <p>
+                AI-Based Startup Idea Validator & Market Intelligence.
+              </p>
+            </div>
+          </div>
+
+          <div className="footer-right">
+            <span>Infosys Springboard 7.0</span>
+            <span>Team Pulse</span>
+          </div>
+        </div>
       </footer>
     </div>
-  )
+  );
 }
 
-export default App
+function SWOTCard({
+  icon,
+  title,
+  subtitle,
+  items,
+  type,
+}) {
+  return (
+    <div className={`swot-card ${type}`}>
+      <div className="swot-heading">
+        <div className="swot-icon">{icon}</div>
+
+        <div>
+          <h3>{title}</h3>
+          <span>{subtitle}</span>
+        </div>
+      </div>
+
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>
+            <span>✓</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
