@@ -169,3 +169,79 @@ class LLMService:
             return res
 
         return None
+
+    def generate_text_response(self, messages: list, system_instruction: str = "") -> Optional[str]:
+        """
+        Generates a natural conversational response given a list of messages: [{'role': 'user'|'assistant', 'content': '...'}]
+        Supports Gemini, Groq, and OpenAI REST APIs.
+        """
+        # 1. Try Gemini
+        gemini_keys = self._get_api_keys("GEMINI_API_KEY") or self._get_api_keys("GOOGLE_API_KEY")
+        if gemini_keys:
+            contents = []
+            for msg in messages:
+                role = "user" if msg.get("role") == "user" else "model"
+                contents.append({"role": role, "parts": [{"text": msg.get("content", "")}]})
+
+            for key in gemini_keys:
+                for model in ["gemini-1.5-flash", "gemini-2.0-flash"]:
+                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+                    payload = {
+                        "contents": contents,
+                        "systemInstruction": {"parts": [{"text": system_instruction}]} if system_instruction else None,
+                        "generationConfig": {"temperature": 0.4}
+                    }
+                    if not system_instruction:
+                        payload.pop("systemInstruction", None)
+                    try:
+                        resp = requests.post(url, json=payload, timeout=20)
+                        if resp.status_code == 200:
+                            candidates = resp.json().get("candidates", [])
+                            if candidates and "content" in candidates[0]:
+                                parts = candidates[0]["content"].get("parts", [])
+                                if parts and "text" in parts[0]:
+                                    return parts[0]["text"].strip()
+                    except Exception:
+                        pass
+
+        # 2. Try Groq
+        groq_keys = self._get_api_keys("GROQ_API_KEY")
+        if groq_keys:
+            payload_messages = []
+            if system_instruction:
+                payload_messages.append({"role": "system", "content": system_instruction})
+            for msg in messages:
+                payload_messages.append({"role": msg.get("role", "user"), "content": msg.get("content", "")})
+
+            for key in groq_keys:
+                for model in ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]:
+                    headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+                    payload = {"model": model, "messages": payload_messages, "temperature": 0.4}
+                    try:
+                        resp = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=15)
+                        if resp.status_code == 200:
+                            return resp.json()["choices"][0]["message"]["content"].strip()
+                    except Exception:
+                        pass
+
+        # 3. Try OpenAI
+        openai_keys = self._get_api_keys("OPENAI_API_KEY")
+        if openai_keys:
+            payload_messages = []
+            if system_instruction:
+                payload_messages.append({"role": "system", "content": system_instruction})
+            for msg in messages:
+                payload_messages.append({"role": msg.get("role", "user"), "content": msg.get("content", "")})
+
+            for key in openai_keys:
+                headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+                payload = {"model": "gpt-4o-mini", "messages": payload_messages, "temperature": 0.4}
+                try:
+                    resp = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload, timeout=20)
+                    if resp.status_code == 200:
+                        return resp.json()["choices"][0]["message"]["content"].strip()
+                except Exception:
+                    pass
+
+        return None
+

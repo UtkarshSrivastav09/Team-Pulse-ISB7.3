@@ -6,6 +6,7 @@ env_local/
 *.pdf
 *meeting_update*
 *Presentation_Script*
+frontend/src/assets/venturepulse*.jpg
 
 # Environment Variables / Secrets
 **/.env

@@ -97,6 +97,7 @@ html {
   width: 100%;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -109,6 +110,8 @@ body {
   position: relative;
   overflow-x: hidden;
   background-attachment: fixed;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   transition: background-color 0.35s ease, color 0.35s ease;
 }
 
