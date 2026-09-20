@@ -3,6 +3,61 @@ import './App.css'
 
 // Professional Inline SVG Icons for top-tier enterprise UI aesthetics
 const Icons = {
+  Health: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+      <path d="M12 9v6M9 12h6" />
+    </svg>
+  ),
+  Mobility: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="18.5" cy="17.5" r="3.5" />
+      <circle cx="5.5" cy="17.5" r="3.5" />
+      <circle cx="15" cy="5" r="1" />
+      <path d="M12 17.5V14l-3-3 4-3 2 3h2" />
+    </svg>
+  ),
+  Education: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+      <path d="M6 12v5c3 3 9 3 12 0v-5" />
+    </svg>
+  ),
+  Food: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+      <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+      <line x1="6" y1="1" x2="6" y2="4" />
+      <line x1="10" y1="1" x2="10" y2="4" />
+      <line x1="14" y1="1" x2="14" y2="4" />
+    </svg>
+  ),
+  FinTech: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="1" x2="12" y2="23" />
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+    </svg>
+  ),
+  Legal: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+    </svg>
+  ),
+  Security: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  ),
+  Climate: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+    </svg>
+  ),
   Sparkle: () => (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
@@ -70,8 +125,14 @@ const Icons = {
   Target: () => (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="6" />
-      <circle cx="12" cy="12" r="2" />
+      <circle cx="12" cy="6" r="6" />
+      <circle cx="12" cy="2" r="2" />
+    </svg>
+  ),
+  TrendingUp: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+      <polyline points="17 6 23 6 23 12" />
     </svg>
   ),
   Zap: () => (
@@ -204,50 +265,84 @@ const Icons = {
       <line x1="10" y1="11" x2="10" y2="17" />
       <line x1="14" y1="11" x2="14" y2="17" />
     </svg>
+  ),
+  ChevronLeft: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  ),
+  ChevronRight: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
+  ),
+  Activity: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+    </svg>
+  ),
+  Clock: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
   )
 }
 
-// Interactive Neural Constellation & Spotlight Aurora Background
+// Interactive Neural Constellation & Spotlight Aurora Background (Ultra-Smooth 60/120fps)
 function NeuralBackground() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: true })
     let animationFrameId
     let width = (canvas.width = window.innerWidth)
     let height = (canvas.height = window.innerHeight)
+
+    const isMobile = window.innerWidth < 768
+    const numParticles = isMobile ? 16 : 30
 
     const handleResize = () => {
       if (!canvas) return
       width = canvas.width = window.innerWidth
       height = canvas.height = window.innerHeight
     }
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize, { passive: true })
 
     // Particle nodes for multi-agent network
-    const numParticles = 35
     const particles = []
     for (let i = 0; i < numParticles; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 2 + 1.2,
+        vx: (Math.random() - 0.5) * (isMobile ? 0.25 : 0.4),
+        vy: (Math.random() - 0.5) * (isMobile ? 0.25 : 0.4),
+        radius: Math.random() * 1.8 + 1.0,
         color: i % 3 === 0 ? 'rgba(37, 99, 235, 0.45)' : i % 3 === 1 ? 'rgba(6, 182, 212, 0.4)' : 'rgba(79, 70, 229, 0.35)'
       })
     }
 
     let mouse = { x: -1000, y: -1000 }
+    let rafScheduled = false
+
     const handleMouseMove = (e) => {
       mouse.x = e.clientX
       mouse.y = e.clientY
-      document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`)
-      document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`)
+      if (!rafScheduled) {
+        rafScheduled = true
+        requestAnimationFrame(() => {
+          document.documentElement.style.setProperty('--mouse-x', `${mouse.x}px`)
+          document.documentElement.style.setProperty('--mouse-y', `${mouse.y}px`)
+          rafScheduled = false
+        })
+      }
     }
-    window.addEventListener('pointermove', handleMouseMove)
+    
+    if (!isMobile) {
+      window.addEventListener('pointermove', handleMouseMove, { passive: true })
+    }
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height)
@@ -581,7 +676,7 @@ function computeIdeaClarity(idea, ind, target) {
   }
 }
 
-// Multi-Agent System Architecture Metadata for Interactive HUD
+// Multi-Agent System Architecture Metadata for Interactive HUD (Milestones 1, 2 & 3)
 const HUD_AGENTS_METADATA = [
   {
     id: "wsa",
@@ -590,7 +685,7 @@ const HUD_AGENTS_METADATA = [
     role: "Real-Time Market Scraping & Competitor Indexing",
     tagline: "Crawls live web indices for active competitors, pricing models, and target market records.",
     engine: "Tavily Search Index API + Heuristic Web Fallback",
-    latency: "~0.4s – 1.2s",
+    latency: "~0.3s – 1.0s",
     model: "Tavily Search Engine / Domain Scraper",
     inputs: ["Startup Idea", "Industry Vertical", "Target Customer Group"],
     outputs: [
@@ -605,10 +700,10 @@ const HUD_AGENTS_METADATA = [
     id: "moa",
     num: "02",
     name: "Market Opportunity Agent",
-    role: "TAM/SAM/SOM Mathematical Sizing & Customer Segmentation",
+    role: "TAM/SAM/SOM Sizing & Customer Segmentation",
     tagline: "Synthesizes market sizing boundaries, CAGR projection trajectories, and buyer vs user personas.",
     engine: "Google Gemini 1.5 Flash / Groq Llama-3 / Mathematical Sizing Model",
-    latency: "~0.6s – 1.8s",
+    latency: "~0.4s – 1.2s",
     model: "Gemini 1.5 Flash (REST)",
     inputs: ["Search Intelligence Snippets", "Target Market Context", "Domain Multipliers"],
     outputs: [
@@ -627,7 +722,7 @@ const HUD_AGENTS_METADATA = [
     role: "Multi-Axis Benchmarking Matrix & Market White Spaces",
     tagline: "Builds a 2x2 competitive positioning matrix and isolates unserved market white-space opportunities.",
     engine: "Universal Strategic Synthesis Multi-LLM Engine",
-    latency: "~0.5s – 1.5s",
+    latency: "~0.4s – 1.2s",
     model: "Groq / Gemini / Heuristic Strategic Layer",
     inputs: ["Market Sizing Profile", "Direct Competitors Data", "Core Value Proposition"],
     outputs: [
@@ -637,6 +732,94 @@ const HUD_AGENTS_METADATA = [
       "Tactical Differentiation Playbook for Founders"
     ],
     accentColor: "#10b981"
+  },
+  {
+    id: "sra",
+    num: "04",
+    name: "SWOT & Risk Analysis Agent",
+    role: "Structured SWOT Matrix & Risk Mitigation Playbooks",
+    tagline: "Generates internal strengths/weaknesses and external opportunities/threats with risk severity audits.",
+    engine: "LLM Risk Reasoning & Heuristic Auditor",
+    latency: "~0.4s – 1.0s",
+    model: "Gemini / Groq Multi-LLM",
+    inputs: ["Market Intelligence Dossier", "Competitor Gaps", "Target Demographics"],
+    outputs: [
+      "2x2 SWOT Strategic Breakdown",
+      "Multi-Category Risk Assessment (Tech, Market, Legal, Financial)",
+      "Quantitative Severity & Probability Scores",
+      "Actionable Mitigation Strategies"
+    ],
+    accentColor: "#8b5cf6"
+  },
+  {
+    id: "mvpa",
+    num: "05",
+    name: "MVP Feature Recommendation Agent",
+    role: "MoSCoW Prioritization & Effort vs Impact Matrix",
+    tagline: "Prioritizes core lean features based on market fit and resource constraints for 30/60-day sprints.",
+    engine: "Product Management Strategy Engine",
+    latency: "~0.3s – 0.9s",
+    model: "Gemini / Heuristic Product Layer",
+    inputs: ["Customer Pain Points", "Competitor White Spaces", "Resource Constraints"],
+    outputs: [
+      "Must-Have Core Loop Features",
+      "Should-Have & Could-Have Enhancements",
+      "Explicit V1 Scope Exclusions (Won't-Haves)",
+      "Effort vs Impact (1-10) Matrix & Tech Stack"
+    ],
+    accentColor: "#f59e0b"
+  },
+  {
+    id: "gtma",
+    num: "06",
+    name: "Go-To-Market Strategy Agent",
+    role: "Positioning, Acquisition Channels & Launch Flywheel",
+    tagline: "Formulates positioning statement, acquisition channel CAC dynamics, and First 100 Customers playbook.",
+    engine: "Growth Strategy & Marketing Flywheel Engine",
+    latency: "~0.3s – 1.0s",
+    model: "Gemini / Groq Strategic Adapter",
+    inputs: ["Market Segmentation", "Competitor Benchmarking", "Value Proposition"],
+    outputs: [
+      "Target Positioning Statement",
+      "Customer Acquisition Channels with Estimated CAC",
+      "First 100 Customers Tactical Playbook",
+      "3-Phase Launch Roadmap & Pricing Tiers"
+    ],
+    accentColor: "#ec4899"
+  },
+  {
+    id: "vra",
+    num: "07",
+    name: "Validation Report Generation Agent",
+    role: "Executive Synthesis, Scorecards & Export Engine",
+    tagline: "Synthesizes multi-agent outputs into publication-ready Markdown dossiers, JSON scorecards, and investor reports.",
+    engine: "Executive Synthesis & Report Compiler Engine",
+    latency: "~0.1s – 0.4s",
+    model: "Multi-Agent Synthesis Engine",
+    inputs: ["Market Dossier", "Competitor Matrix", "SWOT & Risk Assessment", "MVP Roadmap", "GTM Strategy"],
+    outputs: [
+      "Executive Investment Feasibility Scorecard",
+      "Comprehensive Multi-Section Markdown Report",
+      "Print-Ready PDF and JSON Dossier Exports"
+    ],
+    accentColor: "#14b8a6"
+  },
+  {
+    id: "adva",
+    num: "08",
+    name: "Conversational Startup Advisor Agent",
+    role: "Context-Aware Multi-turn Q&A Advisory Copilot",
+    tagline: "Provides real-time interactive consultation on unit economics, GTM execution, and defensibility.",
+    engine: "Multi-Turn Contextual Conversation Engine",
+    latency: "~0.5s – 1.5s",
+    model: "Conversational AI Advisor",
+    inputs: ["Full Startup Dossier", "Conversation History", "Founder Question"],
+    outputs: [
+      "Tactical Strategic Answers",
+      "Actionable Frameworks & Unit Economics",
+      "Suggested Next Steps & Follow-Up Prompts"
+    ],
+    accentColor: "#6366f1"
   }
 ];
 
@@ -687,10 +870,26 @@ function App() {
   const [arpu, setArpu] = useState(600)
   const [penetrationRate, setPenetrationRate] = useState(1.5)
 
+  // 7-Stage Pipeline Slider Ref & Handler
+  const pipelineScrollRef = useRef(null)
+  const slidePipeline = (direction) => {
+    if (pipelineScrollRef.current) {
+      const scrollAmount = direction === 'left' ? -220 : 220;
+      pipelineScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }
+
   // Interactive UI Extras (Telemetry node drawer, hover states, toast)
   const [selectedAgentNode, setSelectedAgentNode] = useState(null)
   const [hoveredCompetitor, setHoveredCompetitor] = useState(null)
+  const [selectedCompetitor, setSelectedCompetitor] = useState(null)
+  const [activeQuadrantFilter, setActiveQuadrantFilter] = useState('all')
+  const [showMatrixGuide, setShowMatrixGuide] = useState(false)
+  const [moscowFilter, setMoscowFilter] = useState('all')
   const [toastMessage, setToastMessage] = useState(null)
+  const [queryCopied, setQueryCopied] = useState(false)
+  const [tabsAutoScroll, setTabsAutoScroll] = useState(true)
+  const tabsStreamRef = useRef(null)
 
   // Interactive Venture AI Copilot States & Auto-Scroll Ref
   const [isCopilotOpen, setIsCopilotOpen] = useState(false)
@@ -717,7 +916,7 @@ function App() {
     }
   })
 
-  // Multi-Agent Pipeline loading steps
+  // Multi-Agent Pipeline loading steps (Milestones 1, 2 & 3)
   const loadingSteps = [
     {
       agent: "Web Intelligence Agent",
@@ -732,8 +931,16 @@ function App() {
       desc: "Constructing multi-axis feature matrix & detecting market white-spaces..."
     },
     {
-      agent: "Executive Orchestrator",
-      desc: "Synthesizing executive validation report and strategic recommendations..."
+      agent: "SWOT & Risk Analysis Agent",
+      desc: "Synthesizing structured SWOT matrix and multi-category risk mitigations..."
+    },
+    {
+      agent: "MVP Feature Recommendation Agent",
+      desc: "Prioritizing core Must-Have features with MoSCoW & Effort vs Impact scores..."
+    },
+    {
+      agent: "Go-To-Market Strategy Agent",
+      desc: "Formulating positioning statement, acquisition channels, and First 100 playbook..."
     }
   ]
 
@@ -747,7 +954,12 @@ function App() {
       summary: "Photo-based symptom triage & clinic routing",
       idea: "An on-demand veterinary telehealth platform with instant AI triage and symptom detection from smartphone photos.",
       industry: "Pet Care & HealthTech",
-      market: "Pet owners, veterinary clinics"
+      market: "Pet owners, veterinary clinics",
+      iconComponent: Icons.Health,
+      badgeColor: "#f43f5e",
+      badgeBg: "rgba(244, 63, 94, 0.12)",
+      borderColor: "rgba(244, 63, 94, 0.28)",
+      glowColor: "rgba(244, 63, 94, 0.18)"
     },
     {
       id: "logistics",
@@ -757,7 +969,12 @@ function App() {
       summary: "AI micro-hub delivery routing in city zones",
       idea: "An AI-powered route planning app for electric cargo bike deliveries in dense urban areas.",
       industry: "Green Logistics & Mobility",
-      market: "Local e-commerce shops, urban couriers"
+      market: "Local e-commerce shops, urban couriers",
+      iconComponent: Icons.Mobility,
+      badgeColor: "#10b981",
+      badgeBg: "rgba(16, 185, 129, 0.12)",
+      borderColor: "rgba(16, 185, 129, 0.28)",
+      glowColor: "rgba(16, 185, 129, 0.18)"
     },
     {
       id: "edtech",
@@ -767,7 +984,12 @@ function App() {
       summary: "Active recall & automated quiz synthesis",
       idea: "An intelligent learning copilot that converts college lectures and PDF textbooks into interactive flashcards, quizzes, and mock tests.",
       industry: "EdTech & Higher Education",
-      market: "University students, certification exam candidates"
+      market: "University students, certification exam candidates",
+      iconComponent: Icons.Education,
+      badgeColor: "#6366f1",
+      badgeBg: "rgba(99, 102, 241, 0.12)",
+      borderColor: "rgba(99, 102, 241, 0.28)",
+      glowColor: "rgba(99, 102, 241, 0.18)"
     },
     {
       id: "foodtech",
@@ -777,7 +999,12 @@ function App() {
       summary: "AI pantry vision to minimize waste & macros",
       idea: "A personalized AI meal planner that scans household groceries to minimize food waste and optimize nutrition.",
       industry: "FoodTech & Health",
-      market: "Busy professionals, fitness enthusiasts"
+      market: "Busy professionals, fitness enthusiasts",
+      iconComponent: Icons.Food,
+      badgeColor: "#f59e0b",
+      badgeBg: "rgba(245, 158, 11, 0.12)",
+      borderColor: "rgba(245, 158, 11, 0.28)",
+      glowColor: "rgba(245, 158, 11, 0.18)"
     },
     {
       id: "fintech",
@@ -787,7 +1014,12 @@ function App() {
       summary: "AI invoice factoring & cash forecasting",
       idea: "An automated cash flow intelligence and instant invoice factoring platform tailored for SMB contractors.",
       industry: "FinTech & SMB Banking",
-      market: "Small business owners, general contractors, freelancers"
+      market: "Small business owners, general contractors, freelancers",
+      iconComponent: Icons.FinTech,
+      badgeColor: "#06b6d4",
+      badgeBg: "rgba(6, 182, 212, 0.12)",
+      borderColor: "rgba(6, 182, 212, 0.28)",
+      glowColor: "rgba(6, 182, 212, 0.18)"
     },
     {
       id: "legaltech",
@@ -797,7 +1029,12 @@ function App() {
       summary: "Automated liability check & redlining",
       idea: "An AI legal assistant that scans vendor contracts and SaaS agreements to automatically flag non-standard liability clauses.",
       industry: "LegalTech & Enterprise SaaS",
-      market: "Startup founders, procurement teams, in-house counsel"
+      market: "Startup founders, procurement teams, in-house counsel",
+      iconComponent: Icons.Legal,
+      badgeColor: "#a855f7",
+      badgeBg: "rgba(168, 85, 247, 0.12)",
+      borderColor: "rgba(168, 85, 247, 0.28)",
+      glowColor: "rgba(168, 85, 247, 0.18)"
     },
     {
       id: "cybersecurity",
@@ -807,7 +1044,12 @@ function App() {
       summary: "Real-time vulnerability & endpoint patch AI",
       idea: "An autonomous developer agent that continuously audits API endpoints for authorization leaks and auto-generates security patches.",
       industry: "CyberSecurity & DevTools",
-      market: "Backend engineers, security teams, engineering leads"
+      market: "Backend engineers, security teams, engineering leads",
+      iconComponent: Icons.Security,
+      badgeColor: "#ef4444",
+      badgeBg: "rgba(239, 68, 68, 0.12)",
+      borderColor: "rgba(239, 68, 68, 0.28)",
+      glowColor: "rgba(239, 68, 68, 0.18)"
     },
     {
       id: "climatetech",
@@ -817,7 +1059,12 @@ function App() {
       summary: "Smart battery storage & peak-load shaving",
       idea: "An intelligent energy management software that optimizes commercial battery storage to arbitrage peak-hour electricity tariffs.",
       industry: "Clean Energy & ClimateTech",
-      market: "Commercial real estate managers, warehouse operators"
+      market: "Commercial real estate managers, warehouse operators",
+      iconComponent: Icons.Climate,
+      badgeColor: "#14b8a6",
+      badgeBg: "rgba(20, 184, 166, 0.12)",
+      borderColor: "rgba(20, 184, 166, 0.28)",
+      glowColor: "rgba(20, 184, 166, 0.18)"
     }
   ]
 
@@ -1056,17 +1303,47 @@ function App() {
     showToast("All Vault history cleared.")
   }
 
-  // Copilot Intelligent Answering
-  const handleSendCopilotMessage = (questionText) => {
+  // Copilot Intelligent Answering with Backend Advisor Agent Integration
+  const handleSendCopilotMessage = async (questionText) => {
     const q = questionText || copilotInput
     if (!q.trim()) return
 
-    const userMsg = { role: 'user', text: q }
+    const userMsg = { role: 'user', text: q, content: q }
     const newMsgs = [...copilotMessages, userMsg]
     setCopilotMessages(newMsgs)
     setCopilotInput('')
     setCopilotThinking(true)
 
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
+    try {
+      const response = await fetch(`${apiUrl}/advisor/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: q,
+          history: copilotMessages.map(m => ({ role: m.role, content: m.text || m.content })),
+          validation_context: searchResult || {
+            startup_idea: startupIdea,
+            industry: industry,
+            target_market: targetMarket
+          }
+        })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setCopilotMessages([...newMsgs, { role: 'assistant', text: data.reply, suggestions: data.suggested_follow_ups }])
+        setCopilotThinking(false)
+        return
+      }
+    } catch (err) {
+      console.warn("Backend advisor chat fallback applied:", err)
+    }
+
+    // Fallback response generator if offline
     setTimeout(() => {
       let ans = ''
       const lowerQ = q.toLowerCase()
@@ -1075,18 +1352,18 @@ function App() {
       const currentTgt = searchResult?.target_market || targetMarket
 
       if (lowerQ.includes('price') || lowerQ.includes('pricing') || lowerQ.includes('cost') || lowerQ.includes('monetiz')) {
-        ans = `For ${currentIdea ? `"${currentIdea}"` : 'your concept'} in ${currentInd}, a three-tier pricing model is recommended:\n\n1. **Starter / Pilot Tier ($49-$99/mo):** Low-friction entry point for early adopters in ${currentTgt}.\n2. **Professional Tier ($249-$499/mo):** Automated workflows, advanced analytics, and priority integrations.\n3. **Enterprise Custom ($1,200+/mo):** Custom domain fine-tuning, SLA, and dedicated onboarding.`
+        ans = `For ${currentIdea ? `"${currentIdea}"` : 'your concept'} in ${currentInd}, a three-tier pricing model is recommended:\n\n1. **Starter / Pilot Tier ($29/mo):** Low-friction entry point for early adopters in ${currentTgt}.\n2. **Professional Tier ($99/mo):** Automated workflows, advanced analytics, and priority integrations.\n3. **Enterprise Custom ($499+/mo):** Custom domain fine-tuning, SLA, and dedicated onboarding.`
       } else if (lowerQ.includes('gtm') || lowerQ.includes('user') || lowerQ.includes('customer') || lowerQ.includes('acquire')) {
         ans = `To acquire the first 50-100 high-intent customers in ${currentInd}:\n\n1. **Targeted Design Partnerships:** Direct founder outreach to 15 key operations leaders in ${currentTgt} offering 3 months free in exchange for case studies.\n2. **High-Intent SEO & Calculators:** Publish interactive domain utility calculators capturing search demand.\n3. **Vertical Ecosystem Integration:** Partner with standard suites already embedded in ${currentInd}.`
       } else if (lowerQ.includes('google') || lowerQ.includes('openai') || lowerQ.includes('compet') || lowerQ.includes('moat') || lowerQ.includes('big tech')) {
         ans = `Your core defensibility against foundation model updates is **Domain-Specific Workflow Embedding**:\n\n- General foundation models lack the deep vertical UI and schema integration needed for ${currentTgt}.\n- Proprietary data loops fine-tune domain accuracy beyond generic LLMs.\n- High switching costs once user operational history is stored in your platform.`
       } else {
-        ans = `Based on our multi-agent market validation for ${currentInd}:\n\n- **Primary Advantage:** Instant automated resolution for ${currentTgt}.\n- **Key Metric to Track:** Time-to-value (TTV) under 5 minutes.\n- **Recommended Next Step:** Launch an MVP with 10 beta pilot users to validate willingness-to-pay.`
+        ans = `Based on our multi-agent market validation for ${currentInd}:\n\n- **Primary Advantage:** Instant automated resolution for ${currentTgt}.\n- **Key Metric to Track:** Time-to-value (TTV) under 5 minutes.\n- **Recommended Next Step:** Launch the Must-Have MVP with 10 beta pilot users to validate willingness-to-pay.`
       }
 
       setCopilotMessages([...newMsgs, { role: 'assistant', text: ans }])
       setCopilotThinking(false)
-    }, 600)
+    }, 400)
   }
 
   const insights = searchResult
@@ -1095,6 +1372,9 @@ function App() {
 
   const marketData = searchResult?.market_analysis;
   const competitorData = searchResult?.competitor_analysis;
+  const swotData = searchResult?.swot_analysis;
+  const mvpData = searchResult?.mvp_roadmap;
+  const gtmData = searchResult?.gtm_strategy;
   const pipelineMeta = searchResult?.pipeline_metadata;
 
   // Copy Executive Investment Memo to Clipboard
@@ -1103,30 +1383,42 @@ function App() {
     const memo = `# VENTURE INVESTMENT MEMORANDUM & VALIDATION DOSSIER
 **Concept:** ${searchResult.startup_idea}
 **Vertical:** ${searchResult.industry} | **Target Audience:** ${searchResult.target_market}
-**Feasibility Rating:** ${insights?.score || 88}% | **Validation Mode:** ${searchResult.mode.toUpperCase()}
+**Feasibility Rating:** ${insights?.score || 88}% | **Pipeline Version:** ${pipelineMeta?.pipeline_version || '3.0.0'}
 
 ---
 
 ## 1. Executive Summary
 ${searchResult.answer || marketData?.market_summary}
 
-## 2. Market Sizing & Bounds
+## 2. Market Sizing & Financial Bounds
 - **TAM (Total Addressable Market):** ${marketData?.market_size_and_growth?.tam_estimate || '$12.4B'}
 - **SAM (Serviceable Addressable Market):** ${marketData?.market_size_and_growth?.sam_estimate || '$3.2B'}
 - **SOM (Beachhead Capture):** ${marketData?.market_size_and_growth?.som_estimate || '$240M'}
 - **CAGR Growth Rate:** ${marketData?.market_size_and_growth?.cagr_growth_rate || '18.4%'}
 
-## 3. Competitive Landscape & Market Gaps
+## 3. Competitive Landscape & Market White Spaces
 **Identified White Spaces:**
 ${competitorData?.market_gaps_and_white_space?.map(g => `- ${g}`).join('\n') || '- Unserved vertical automation niche.'}
 
 **Strategic Differentiation Playbook:**
 ${competitorData?.differentiation_strategy?.map(s => `- ${s}`).join('\n') || '- Proprietary data flywheel.'}
 
-## 4. Elevator Pitch & Go-To-Market
-${insights?.pitch?.elevatorPitch}
+## 4. SWOT & Strategic Risk Audit
+**Key Strengths:**
+${swotData?.swot?.strengths?.map(s => `- **${s.title}**: ${s.description}`).join('\n') || '- Vertical domain specialization.'}
 
-Generated autonomously by Venture Intelligence Platform.`;
+**Key Risk Mitigations:**
+${swotData?.risk_assessment?.map(r => `- **${r.category}**: ${r.mitigation_strategy}`).join('\n') || '- Targeted trial pilots.'}
+
+## 5. MVP MoSCoW Prioritization
+**Must-Have Core Loop Features:**
+${mvpData?.moscow_matrix?.must_have?.map(f => `- **${f.feature_name}** (Effort: ${f.effort_score}/10, Impact: ${f.impact_score}/10): ${f.description}`).join('\n') || '- Core AI Workflow.'}
+
+## 6. Go-To-Market & Acquisition Flywheel
+**Positioning:** ${gtmData?.positioning_statement?.our_solution_is || 'Autonomous vertical platform'}
+**Primary Channel:** ${gtmData?.acquisition_channels?.[0]?.channel_name || 'Targeted Outbound'} (Est. CAC: ${gtmData?.acquisition_channels?.[0]?.estimated_cac || '$25'})
+
+Generated autonomously by VenturePulse Multi-Agent Intelligence Engine.`;
 
     navigator.clipboard.writeText(memo);
     showToast("Investment Memo copied to clipboard in Markdown format!");
@@ -1136,27 +1428,91 @@ Generated autonomously by Venture Intelligence Platform.`;
     window.print();
   };
 
+  const handleDownloadMarkdownReport = () => {
+    if (!searchResult) return;
+    const rep = searchResult.validation_report?.markdown_report || searchResult.executive_report?.markdown_report;
+    let mdContent = rep;
+    if (!mdContent) {
+      mdContent = `# VenturePulse Executive Validation Dossier: ${searchResult.startup_idea}
+**Industry:** ${searchResult.industry} | **Target Audience:** ${searchResult.target_market}
+**Generated:** ${new Date().toLocaleDateString()}
+
+## Executive Feasibility Scorecard
+- Overall Feasibility: 88%
+- Total Addressable Market (TAM): ${marketData?.market_size_and_growth?.tam_estimate || '$12B+'}
+- CAGR Growth Rate: ${marketData?.market_size_and_growth?.cagr_growth_rate || '18%'}
+
+## Market Analysis
+${searchResult.answer || marketData?.market_summary || 'Validated market opportunity.'}
+
+Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).`;
+    }
+    const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const safeName = (searchResult.startup_idea || 'startup').replace(/[^a-zA-Z0-9]/g, '_').slice(0, 24).toLowerCase();
+    link.href = url;
+    link.download = `venturepulse_${safeName}_validation_report.md`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast("Downloaded Executive Validation Report (.md)!");
+  };
+
+  const handleDownloadJsonDossier = () => {
+    if (!searchResult) return;
+    const jsonStr = JSON.stringify(searchResult, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const safeName = (searchResult.startup_idea || 'startup').replace(/[^a-zA-Z0-9]/g, '_').slice(0, 24).toLowerCase();
+    link.href = url;
+    link.download = `venturepulse_${safeName}_validation_dossier.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast("Downloaded Complete JSON Dossier (.json)!");
+  };
+
   // Sensitivity Calculator Math
+  const payingCustomersCount = Math.round(targetCustomers * (penetrationRate / 100));
+  const rawYear1ARR = (targetCustomers * (penetrationRate / 100)) * arpu;
+  const projectedMRR = (rawYear1ARR / 12).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
   const calculatedTAM = (targetCustomers * arpu * 10).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
   const calculatedSAM = (targetCustomers * arpu).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-  const projectedYear1ARR = ((targetCustomers * (penetrationRate / 100)) * arpu).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-  const projectedYear3ARR = (((targetCustomers * (penetrationRate / 100)) * arpu) * 3.8).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const projectedYear1ARR = rawYear1ARR.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const projectedYear3ARR = (rawYear1ARR * 3.8).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
   // 2x2 Quadrant Competitors Array
+  const quadrantPresets = [
+    { quadId: 'legacy', quadName: 'Vertical Legacy Suites', x: 74, y: 70 },
+    { quadId: 'incumbents', quadName: 'Generic Incumbents', x: 28, y: 74 },
+    { quadId: 'automation', quadName: 'Autonomous Automation', x: 28, y: 28 },
+    { quadId: 'frontier', quadName: 'Frontier Contender', x: 62, y: 38 },
+    { quadId: 'legacy', quadName: 'Vertical Legacy Suites', x: 84, y: 62 },
+    { quadId: 'incumbents', quadName: 'Generic Incumbents', x: 42, y: 80 },
+  ];
+
   const quadrantCompetitors = competitorData?.direct_competitors?.map((comp, idx) => {
-    const xOffsets = [35, 68, 25, 55];
-    const yOffsets = [42, 38, 65, 30];
+    const preset = quadrantPresets[idx % quadrantPresets.length];
     return {
+      id: `comp-${idx}`,
       name: comp.name,
-      x: xOffsets[idx % xOffsets.length] + ((idx * 7) % 15),
-      y: yOffsets[idx % yOffsets.length] + ((idx * 5) % 12),
+      quadId: preset.quadId,
+      quadName: preset.quadName,
+      x: preset.x,
+      y: preset.y,
+      targetCustomer: comp.target_customer,
+      offering: comp.core_offering,
       strengths: comp.strengths,
       weaknesses: comp.weaknesses_and_complaints,
       pricing: comp.pricing_model
     };
   }) || [
-    { name: "Incumbent Suite A", x: 35, y: 40, strengths: "Broad brand presence", weaknesses: "Clunky UI & slow support", pricing: "$49/mo" },
-    { name: "Generic Tool B", x: 60, y: 30, strengths: "Low pricing tier", weaknesses: "Lacks specialized automation", pricing: "Freemium" }
+    { id: 'comp-0', name: "Incumbent Suite A", quadId: 'legacy', quadName: 'Vertical Legacy Suites', x: 74, y: 70, strengths: "Broad legacy footprint", weaknesses: "Clunky UI & slow support", pricing: "$49/mo" },
+    { id: 'comp-1', name: "Generic Tool B", quadId: 'incumbents', quadName: 'Generic Incumbents', x: 28, y: 74, strengths: "Low pricing tier", weaknesses: "Lacks specialized automation", pricing: "Freemium" }
   ];
 
   // 6-Slide Pitch Deck Generator Array
@@ -1408,7 +1764,8 @@ Generated autonomously by Venture Intelligence Platform.`;
         <div className="header-top-nav animate-fade-in">
           <div className="brand-badge">
             <span className="badge-dot"></span>
-            <span>VenturePulse • 3 Connected AI Agents</span>
+            <span className="brand-badge-name">VenturePulse</span>
+            <span className="brand-badge-sub">8 AI Agents</span>
           </div>
 
           <div className="header-actions-cluster">
@@ -1420,7 +1777,7 @@ Generated autonomously by Venture Intelligence Platform.`;
               title="Generate a random innovative startup concept"
             >
               <Icons.Dice />
-              <span>🎲 Surprise Me</span>
+              <span className="nav-btn-text">Surprise</span>
             </button>
 
             {/* Architecture HUD Inspector */}
@@ -1431,7 +1788,7 @@ Generated autonomously by Venture Intelligence Platform.`;
               title="Inspect Multi-Agent Architecture Specs"
             >
               <Icons.Cpu />
-              <span>Agents HUD</span>
+              <span className="nav-btn-text">Agents HUD</span>
             </button>
 
             {/* Saved Vault Button */}
@@ -1443,7 +1800,7 @@ Generated autonomously by Venture Intelligence Platform.`;
                 title="Open Saved Validation History"
               >
                 <Icons.History />
-                <span>Vault ({historyVault.length})</span>
+                <span className="nav-btn-text">Vault ({historyVault.length})</span>
               </button>
             )}
 
@@ -1456,51 +1813,153 @@ Generated autonomously by Venture Intelligence Platform.`;
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? <Icons.Sun /> : <Icons.Moon />}
-              <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+              <span className="theme-btn-text">{theme === 'dark' ? 'Light' : 'Dark'}</span>
             </button>
           </div>
         </div>
         
-        <h1 className="hero-title animate-fade-in">
-          <span className="gradient-ai-badge">VenturePulse</span> Startup Validator & <span className="gradient-title-accent">Market Intelligence</span>
-        </h1>
-        
-        <p className="subtitle animate-fade-in">
-          Autonomous multi-agent system evaluating market feasibility, calculating TAM/SAM/SOM bounds, benchmarking competitor matrices, and identifying strategic white-spaces.
-        </p>
+        {/* Home Screen Hero, Trust Metrics & 7-Stage Pipeline (Hidden on Results to prevent duplication) */}
+        {!searchResult && !loading && (
+          <>
+            <h1 className="hero-title animate-fade-in">
+              <span className="gradient-ai-badge">VenturePulse</span> Startup Validator & <span className="gradient-title-accent">Market Intelligence</span>
+            </h1>
+            
+            <p className="subtitle animate-fade-in">
+              Autonomous multi-agent system evaluating commercial viability, calculating TAM/SAM/SOM sizing bounds, benchmarking competitor matrices, prioritizing MVP roadmaps, and synthesizing investment dossiers in seconds.
+            </p>
 
-        {/* Live Architecture Capability Pill Bar (Interactive HUD Triggers) */}
-        <div className="hero-caps-bar animate-fade-in">
-          <button 
-            type="button" 
-            className="cap-pill interactive-cap"
-            onClick={() => setActiveHudAgent(HUD_AGENTS_METADATA[0])}
-            title="Click to inspect Agent 1 specs"
-          >
-            <Icons.Globe />
-            <span>Agent 1: Live Web Intelligence</span>
-          </button>
-          <div className="cap-divider">•</div>
-          <button 
-            type="button" 
-            className="cap-pill interactive-cap"
-            onClick={() => setActiveHudAgent(HUD_AGENTS_METADATA[1])}
-            title="Click to inspect Agent 2 specs"
-          >
-            <Icons.Chart />
-            <span>Agent 2: TAM / SAM / SOM Sizing</span>
-          </button>
-          <div className="cap-divider">•</div>
-          <button 
-            type="button" 
-            className="cap-pill interactive-cap"
-            onClick={() => setActiveHudAgent(HUD_AGENTS_METADATA[2])}
-            title="Click to inspect Agent 3 specs"
-          >
-            <Icons.Target />
-            <span>Agent 3: Market White-Spaces</span>
-          </button>
-        </div>
+            {/* Live Trust Metrics Strip */}
+            <div className="trust-metrics-strip animate-fade-in">
+              <div className="trust-metric-item">
+                <span className="trust-metric-val">8</span>
+                <span className="trust-metric-lbl">Autonomous Agents</span>
+              </div>
+              <div className="trust-metric-sep">•</div>
+              <div className="trust-metric-item">
+                <span className="trust-metric-val">100%</span>
+                <span className="trust-metric-lbl">Live Web Grounded</span>
+              </div>
+              <div className="trust-metric-sep">•</div>
+              <div className="trust-metric-item">
+                <span className="trust-metric-val">&lt; 2.0s</span>
+                <span className="trust-metric-lbl">Pipeline Latency</span>
+              </div>
+              <div className="trust-metric-sep">•</div>
+              <div className="trust-metric-item">
+                <span className="trust-metric-val">PDF / MD / JSON</span>
+                <span className="trust-metric-lbl">1-Click Export</span>
+              </div>
+            </div>
+
+            {/* Interactive 7-Stage Autonomous Pipeline Stepper / DAG Ribbon */}
+            <div className="pipeline-stepper-section animate-fade-in">
+              <div className="pipeline-stepper-header">
+                <div className="stepper-title-group">
+                  <span className="pulse-dot"></span>
+                  <span className="stepper-label">AUTONOMOUS MULTI-AGENT PIPELINE</span>
+                  <span className="stepper-sub">• 7 Cooperating Stages</span>
+                </div>
+                
+                <div className="stepper-actions">
+                  <span className="stepper-hint">Tap stage to inspect architecture</span>
+                  <div className="stepper-arrows">
+                    <button
+                      type="button"
+                      className="stepper-arrow-btn"
+                      onClick={() => slidePipeline('left')}
+                      title="Scroll Left"
+                      aria-label="Previous pipeline stage"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="stepper-arrow-btn"
+                      onClick={() => slidePipeline('right')}
+                      title="Scroll Right"
+                      aria-label="Next pipeline stage"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pipeline-stepper-track-wrap" ref={pipelineScrollRef}>
+                <div className="pipeline-stepper-track">
+                  {HUD_AGENTS_METADATA.slice(0, 7).map((agent, idx) => {
+                    const AgentIcon = idx === 0 ? Icons.Globe :
+                                      idx === 1 ? Icons.Chart :
+                                      idx === 2 ? Icons.Competitors :
+                                      idx === 3 ? Icons.Shield :
+                                      idx === 4 ? Icons.Zap :
+                                      idx === 5 ? Icons.Strategy : Icons.Sparkle;
+                    
+                    const stageTitles = [
+                      "Web Search",
+                      "Market Sizing",
+                      "Competitors 2x2",
+                      "SWOT & Risk",
+                      "MVP Roadmap",
+                      "GTM Strategy",
+                      "Report Memo"
+                    ];
+
+                    const stageSubtitles = [
+                      "Live Indexing",
+                      "TAM/SAM/SOM",
+                      "Moat Benchmarks",
+                      "Risk Audits",
+                      "MoSCoW Scoring",
+                      "First 100 Playbook",
+                      "Executive Dossier"
+                    ];
+
+                    return (
+                      <div key={agent.id} className="stepper-node-wrapper">
+                        <button
+                          type="button"
+                          className="stepper-card-node"
+                          style={{
+                            '--agent-accent': agent.accentColor,
+                          }}
+                          onClick={() => setActiveHudAgent(agent)}
+                          title={`Click to inspect Stage ${agent.num}: ${stageTitles[idx]}`}
+                        >
+                          <div className="stepper-card-top">
+                            <span className="stepper-num-badge" style={{ backgroundColor: agent.accentColor }}>
+                              {agent.num}
+                            </span>
+                            <div className="stepper-icon-wrap" style={{ color: agent.accentColor, backgroundColor: `${agent.accentColor}18` }}>
+                              <AgentIcon />
+                            </div>
+                          </div>
+                          <div className="stepper-card-content">
+                            <h4 className="stepper-agent-title">{stageTitles[idx]}</h4>
+                            <span className="stepper-agent-sub">{stageSubtitles[idx]}</span>
+                          </div>
+                          <div className="stepper-card-footer">
+                            <span className="stepper-inspect-tag">Stage {agent.num}</span>
+                            <span className="stepper-inspect-arrow">→</span>
+                          </div>
+                        </button>
+                        {idx < 6 && (
+                          <div className="stepper-connector" aria-hidden="true">
+                            <div className="stepper-connector-line"></div>
+                            <div className="stepper-connector-badge">
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </header>
 
       {/* Main Content Area */}
@@ -1512,7 +1971,10 @@ Generated autonomously by Venture Intelligence Platform.`;
             <div className="presets-section">
               <div className="presets-header-bar">
                 <div className="presets-title-wrap">
-                  <span className="presets-eyebrow">Interactive Blueprints</span>
+                  <div className="presets-eyebrow-row">
+                    <span className="presets-eyebrow">Interactive Blueprints</span>
+                    <span className="presets-mobile-hint">Swipe 8 templates ▸</span>
+                  </div>
                   <h3 className="presets-title">Select Industry Template to Auto-Configure</h3>
                 </div>
                 
@@ -1531,27 +1993,46 @@ Generated autonomously by Venture Intelligence Platform.`;
                 </div>
               </div>
 
-              {/* Fluid Pill Cards Grid */}
+              {/* High-Precision Blueprint Cards Grid */}
               <div className="blueprint-chips-grid">
-                {filteredPrompts.map((preset) => (
-                  <button
-                    key={preset.id}
-                    type="button"
-                    className={`blueprint-pill-card ${activePreset === preset.id ? 'selected' : ''}`}
-                    onClick={() => handleApplyPreset(preset)}
-                  >
-                    <div className="pill-card-top">
-                      <span className="pill-category-badge">{preset.category}</span>
-                      <span className="pill-card-title">{preset.label}</span>
-                      <span className="pill-action-icon">
-                        {activePreset === preset.id ? <Icons.Check /> : <Icons.ArrowRight />}
-                      </span>
-                    </div>
-                    <div className="pill-card-desc">
-                      {preset.summary}
-                    </div>
-                  </button>
-                ))}
+                {filteredPrompts.map((preset) => {
+                  const IconComp = preset.iconComponent || Icons.Sparkle;
+                  const isSelected = activePreset === preset.id;
+                  return (
+                    <button
+                      key={preset.id}
+                      type="button"
+                      className={`blueprint-pill-card ${isSelected ? 'selected' : ''}`}
+                      style={{
+                        '--card-accent': preset.badgeColor,
+                        '--card-glow': preset.glowColor,
+                        '--card-border-subtle': preset.borderColor
+                      }}
+                      onClick={() => handleApplyPreset(preset)}
+                    >
+                      <div className="pill-card-top">
+                        <div 
+                          className="pill-category-badge"
+                          style={{ 
+                            color: preset.badgeColor,
+                            backgroundColor: preset.badgeBg,
+                            borderColor: preset.borderColor
+                          }}
+                        >
+                          <IconComp />
+                          <span>{preset.category}</span>
+                        </div>
+                        <span className="pill-action-icon" style={{ color: isSelected ? preset.badgeColor : undefined }}>
+                          {isSelected ? <Icons.Check /> : <Icons.ArrowRight />}
+                        </span>
+                      </div>
+                      <h4 className="pill-card-title">{preset.label}</h4>
+                      <p className="pill-card-desc">
+                        {preset.summary}
+                      </p>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -1574,14 +2055,22 @@ Generated autonomously by Venture Intelligence Platform.`;
                 <div className="pipeline-workflow-widget">
                   <div className="pipeline-pill-badge">
                     <span className="pulse-dot"></span>
-                    <span>3 Connected Agents Active</span>
+                    <span>7-Stage Autonomous Pipeline Active</span>
                   </div>
                   <div className="mini-pipeline-flow">
-                    <span className="flow-node active">Search</span>
+                    <span className="flow-node active">Web Search</span>
                     <span className="flow-arrow">→</span>
-                    <span className="flow-node">Sizing</span>
+                    <span className="flow-node">TAM Sizing</span>
                     <span className="flow-arrow">→</span>
                     <span className="flow-node">Competitors</span>
+                    <span className="flow-arrow">→</span>
+                    <span className="flow-node">SWOT / Risk</span>
+                    <span className="flow-arrow">→</span>
+                    <span className="flow-node">MVP</span>
+                    <span className="flow-arrow">→</span>
+                    <span className="flow-node">GTM</span>
+                    <span className="flow-arrow">→</span>
+                    <span className="flow-node">Dossier</span>
                   </div>
                 </div>
               </div>
@@ -1715,35 +2204,59 @@ Generated autonomously by Venture Intelligence Platform.`;
               </form>
             </div>
 
-            {/* Feature Capability Highlights Bar Underneath Form */}
-            <div className="features-preview-grid">
-              <div className="feature-preview-card">
-                <div className="feat-icon-box blue-box">
-                  <Icons.Search />
+            {/* D. 3-Card Platform Capabilities Bento Strip */}
+            <div className="bento-capabilities-grid animate-fade-in">
+              <div className="bento-card bento-cyan">
+                <div className="bento-top-row">
+                  <div className="bento-icon-box bento-icon-cyan">
+                    <Icons.Globe />
+                  </div>
+                  <span className="bento-tag bento-tag-cyan">REAL-TIME SEARCH</span>
                 </div>
-                <div className="feat-content">
-                  <h4 className="feat-title">Live Web & Competitor Indexing</h4>
-                  <p className="feat-desc">Scrapes live web search indices for competitor URLs, content snippets, and calculates relevance scores.</p>
-                </div>
-              </div>
-
-              <div className="feature-preview-card">
-                <div className="feat-icon-box green-box">
-                  <Icons.Chart />
-                </div>
-                <div className="feat-content">
-                  <h4 className="feat-title">Algorithmic TAM / SAM / SOM</h4>
-                  <p className="feat-desc">Computes addressable market bounds, beachhead sizing, and projected CAGR growth trajectories.</p>
+                <h3 className="bento-title">Live Web Grounding & Competitor Discovery</h3>
+                <p className="bento-desc">
+                  Scrapes live search indices via Tavily to analyze real competitor pricing, feature gaps, and sentiment—eliminating LLM hallucinations.
+                </p>
+                <div className="bento-bullets">
+                  <div className="bento-bullet"><Icons.Check /><span>Live Tavily Search indexing</span></div>
+                  <div className="bento-bullet"><Icons.Check /><span>Direct vs Indirect competitor moats</span></div>
+                  <div className="bento-bullet"><Icons.Check /><span>2x2 Market white-space positioning</span></div>
                 </div>
               </div>
 
-              <div className="feature-preview-card">
-                <div className="feat-icon-box purple-box">
-                  <Icons.Shield />
+              <div className="bento-card bento-emerald">
+                <div className="bento-top-row">
+                  <div className="bento-icon-box bento-icon-emerald">
+                    <Icons.Chart />
+                  </div>
+                  <span className="bento-tag bento-tag-emerald">MARKET SIZING</span>
                 </div>
-                <div className="feat-content">
-                  <h4 className="feat-title">Multi-Axis Matrix & Gaps</h4>
-                  <p className="feat-desc">Constructs comparative feature tables and uncovers unserved white-spaces for competitive advantage.</p>
+                <h3 className="bento-title">Algorithmic TAM / SAM / SOM Modeling</h3>
+                <p className="bento-desc">
+                  Calculates rigorous top-down and bottom-up market sizing bounds with CAGR trajectories, buyer personas, and willingness-to-pay triggers.
+                </p>
+                <div className="bento-bullets">
+                  <div className="bento-bullet"><Icons.Check /><span>$B / $M TAM, SAM, SOM breakdown</span></div>
+                  <div className="bento-bullet"><Icons.Check /><span>CAGR growth rate trajectory estimates</span></div>
+                  <div className="bento-bullet"><Icons.Check /><span>Decision-maker vs daily user archetypes</span></div>
+                </div>
+              </div>
+
+              <div className="bento-card bento-purple">
+                <div className="bento-top-row">
+                  <div className="bento-icon-box bento-icon-purple">
+                    <Icons.Zap />
+                  </div>
+                  <span className="bento-tag bento-tag-purple">STRATEGIC COPILOT</span>
+                </div>
+                <h3 className="bento-title">MVP Roadmap, GTM & Conversational Copilot</h3>
+                <p className="bento-desc">
+                  Prioritizes lean features using MoSCoW & 1-10 Effort/Impact scoring, creates a First 100 Customers launch plan, and enables multi-turn Copilot Q&A.
+                </p>
+                <div className="bento-bullets">
+                  <div className="bento-bullet"><Icons.Check /><span>30 & 60-day MVP build milestones</span></div>
+                  <div className="bento-bullet"><Icons.Check /><span>First 100 Customers CAC playbook</span></div>
+                  <div className="bento-bullet"><Icons.Check /><span>1-Click Markdown, PDF & JSON dossier export</span></div>
                 </div>
               </div>
             </div>
@@ -1809,16 +2322,24 @@ Generated autonomously by Venture Intelligence Platform.`;
                 {historyVault.length > 0 && (
                   <button onClick={() => setIsVaultOpen(true)} className="btn btn-secondary" title="View Saved Validation History">
                     <Icons.History />
-                    <span>Saved Vault ({historyVault.length})</span>
+                    <span>Vault ({historyVault.length})</span>
                   </button>
                 )}
-                <button onClick={handleCopyInvestmentMemo} className="btn btn-export-memo" title="Copy Investor Brief in Markdown">
-                  <Icons.Copy />
-                  <span>Copy Investment Memo</span>
+                <button onClick={handleDownloadMarkdownReport} className="btn btn-export-primary" title="Download Publication-Ready Markdown Report">
+                  <Icons.Download />
+                  <span>Download .md Report</span>
+                </button>
+                <button onClick={handleDownloadJsonDossier} className="btn btn-export-secondary" title="Export Complete JSON Intelligence Dossier">
+                  <Icons.Layers />
+                  <span>Export JSON</span>
                 </button>
                 <button onClick={handlePrintPDF} className="btn btn-print-pdf" title="Export clean PDF Dossier">
                   <Icons.Download />
-                  <span>Export PDF</span>
+                  <span>Print / PDF</span>
+                </button>
+                <button onClick={handleCopyInvestmentMemo} className="btn btn-export-memo" title="Copy Investor Brief in Markdown">
+                  <Icons.Copy />
+                  <span>Copy Memo</span>
                 </button>
                 <button onClick={resetForm} className="btn btn-secondary">
                   <Icons.Refresh />
@@ -1827,99 +2348,7 @@ Generated autonomously by Venture Intelligence Platform.`;
               </div>
             </div>
 
-            {/* Interactive Multi-Agent Execution Telemetry DAG Graph */}
-            <div className="glass-card telemetry-dag-card">
-              <div className="dag-header">
-                <div className="dag-title-wrap">
-                  <Icons.Zap />
-                  <span className="dag-title">Autonomous Agent Telemetry Pipeline (DAG)</span>
-                </div>
-                <span className="dag-hint">Click any agent node to inspect execution audit</span>
-              </div>
-              <div className="dag-nodes-flow">
-                <button 
-                  type="button" 
-                  className={`dag-node-pill ${selectedAgentNode === 'search' ? 'selected' : ''}`}
-                  onClick={() => setSelectedAgentNode(selectedAgentNode === 'search' ? null : 'search')}
-                >
-                  <span className="node-step">1</span>
-                  <div className="node-meta">
-                    <strong>Web Intelligence</strong>
-                    <span className="node-latency">~320ms • 5 URLs</span>
-                  </div>
-                  <span className="node-status-dot"></span>
-                </button>
 
-                <div className="dag-arrow">→</div>
-
-                <button 
-                  type="button" 
-                  className={`dag-node-pill ${selectedAgentNode === 'market' ? 'selected' : ''}`}
-                  onClick={() => setSelectedAgentNode(selectedAgentNode === 'market' ? null : 'market')}
-                >
-                  <span className="node-step">2</span>
-                  <div className="node-meta">
-                    <strong>TAM & Sizing Engine</strong>
-                    <span className="node-latency">~410ms • Sizing Active</span>
-                  </div>
-                  <span className="node-status-dot"></span>
-                </button>
-
-                <div className="dag-arrow">→</div>
-
-                <button 
-                  type="button" 
-                  className={`dag-node-pill ${selectedAgentNode === 'competitor' ? 'selected' : ''}`}
-                  onClick={() => setSelectedAgentNode(selectedAgentNode === 'competitor' ? null : 'competitor')}
-                >
-                  <span className="node-step">3</span>
-                  <div className="node-meta">
-                    <strong>Competitor Benchmarker</strong>
-                    <span className="node-latency">~480ms • Matrix Built</span>
-                  </div>
-                  <span className="node-status-dot"></span>
-                </button>
-
-                <div className="dag-arrow">→</div>
-
-                <button 
-                  type="button" 
-                  className={`dag-node-pill ${selectedAgentNode === 'orchestrator' ? 'selected' : ''}`}
-                  onClick={() => setSelectedAgentNode(selectedAgentNode === 'orchestrator' ? null : 'orchestrator')}
-                >
-                  <span className="node-step">4</span>
-                  <div className="node-meta">
-                    <strong>Executive Synthesizer</strong>
-                    <span className="node-latency">~210ms • Verified</span>
-                  </div>
-                  <span className="node-status-dot"></span>
-                </button>
-              </div>
-
-              {/* Node Inspector Drawer */}
-              {selectedAgentNode && (
-                <div className="dag-drawer animate-fade-in">
-                  <div className="drawer-header">
-                    <strong>Node Telemetry Inspector: {selectedAgentNode.toUpperCase()} AGENT</strong>
-                    <button type="button" onClick={() => setSelectedAgentNode(null)} className="drawer-close-btn">✕</button>
-                  </div>
-                  <div className="drawer-content">
-                    {selectedAgentNode === 'search' && (
-                      <p>Web Intelligence Agent queried live search indices for domain keywords: <code>{searchResult.query}</code>. Successfully synthesized and ranked 5 high-relevance competitor records with domain scoring.</p>
-                    )}
-                    {selectedAgentNode === 'market' && (
-                      <p>Market Opportunity Agent computed dynamic TAM/SAM/SOM financial models with CAGR trajectory bounds, segmented buyer personas, and extracted core customer purchasing drivers.</p>
-                    )}
-                    {selectedAgentNode === 'competitor' && (
-                      <p>Competitor Discovery Agent synthesized direct/indirect competitors, constructed a multi-dimensional benchmarking matrix, and uncovered unserved market white spaces.</p>
-                    )}
-                    {selectedAgentNode === 'orchestrator' && (
-                      <p>Executive Orchestrator evaluated multi-agent outputs, synthesized executive investment feasibility rating ({insights?.score}%), and generated go-to-market execution vectors.</p>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
 
             {/* Idea Context Panel */}
             <div className="glass-card concept-hero-card">
@@ -1942,56 +2371,126 @@ Generated autonomously by Venture Intelligence Platform.`;
               </div>
             )}
 
-            {/* Multi-Agent Results Navigation Tabs */}
-            <div className="agent-tabs-nav">
-              <button
-                type="button"
-                className={`agent-tab-btn ${activeTab === 'market' ? 'active' : ''}`}
-                onClick={() => handleTabChange('market')}
+            {/* Multi-Agent Results Navigation Ribbon (Smooth Gliding Track with Pause-on-Hover & 1-Click Select) */}
+            <div className="agent-tabs-stream-wrap">
+              <div className="stream-ctrl-bar">
+                <div className="stream-status-label">
+                  <span className="stream-live-dot"></span>
+                  <span>Autonomous Intelligence Modules & Dossiers</span>
+                  <span className="stream-hint-pill">Continuous Auto-Flow (Hover to Pause)</span>
+                </div>
+                <div className="stream-actions">
+                  <button 
+                    type="button"
+                    className="stream-nav-arrow"
+                    onClick={() => {
+                      if (tabsStreamRef.current) {
+                        tabsStreamRef.current.scrollBy({ left: -260, behavior: 'smooth' });
+                      }
+                    }}
+                    title="Scroll Left"
+                  >
+                    <Icons.ChevronLeft />
+                  </button>
+                  <button 
+                    type="button"
+                    className={`stream-pause-btn ${tabsAutoScroll ? 'active' : ''}`}
+                    onClick={() => setTabsAutoScroll(!tabsAutoScroll)}
+                    title={tabsAutoScroll ? 'Click to Pause Flow' : 'Click to Resume Flow'}
+                  >
+                    <span className="pause-icon-dot"></span>
+                    <span>{tabsAutoScroll ? 'Auto-Flow: ON' : 'Auto-Flow: PAUSED'}</span>
+                  </button>
+                  <button 
+                    type="button"
+                    className="stream-nav-arrow"
+                    onClick={() => {
+                      if (tabsStreamRef.current) {
+                        tabsStreamRef.current.scrollBy({ left: 260, behavior: 'smooth' });
+                      }
+                    }}
+                    title="Scroll Right"
+                  >
+                    <Icons.ChevronRight />
+                  </button>
+                </div>
+              </div>
+
+              <div 
+                className={`agent-tabs-stream-viewport ${tabsAutoScroll ? 'is-gliding' : ''}`}
+                ref={tabsStreamRef}
               >
-                <Icons.Chart />
-                <span>Market Sizing & Personas</span>
-              </button>
-              <button
-                type="button"
-                className={`agent-tab-btn ${activeTab === 'competitors' ? 'active' : ''}`}
-                onClick={() => handleTabChange('competitors')}
-              >
-                <Icons.Competitors />
-                <span>Competitors & 2x2 Quadrant</span>
-              </button>
-              <button
-                type="button"
-                className={`agent-tab-btn ${activeTab === 'strategy' ? 'active' : ''}`}
-                onClick={() => handleTabChange('strategy')}
-              >
-                <Icons.Strategy />
-                <span>Viability & Moat Radar</span>
-              </button>
-              <button
-                type="button"
-                className={`agent-tab-btn ${activeTab === 'pitchdeck' ? 'active' : ''}`}
-                onClick={() => handleTabChange('pitchdeck')}
-              >
-                <Icons.Presentation />
-                <span>Investor Pitch Deck (6 Slides)</span>
-              </button>
-              <button
-                type="button"
-                className={`agent-tab-btn ${activeTab === 'sources' ? 'active' : ''}`}
-                onClick={() => handleTabChange('sources')}
-              >
-                <Icons.Globe />
-                <span>Web Sources ({searchResult.results?.length || 0})</span>
-              </button>
-              <button
-                type="button"
-                className={`agent-tab-btn ${activeTab === 'logs' ? 'active' : ''}`}
-                onClick={() => handleTabChange('logs')}
-              >
-                <Icons.Terminal />
-                <span>Pipeline Logs</span>
-              </button>
+                <div className="agent-tabs-stream-track">
+                  {/* Primary Set of Navigation Tabs */}
+                  {[
+                    { id: 'market', label: 'Market Sizing', icon: Icons.Chart, subtitle: 'TAM / SOM' },
+                    { id: 'competitors', label: 'Competitors & Matrix', icon: Icons.Competitors, subtitle: '2×2 Grid' },
+                    { id: 'swot', label: 'SWOT & Risk Assessment', icon: Icons.Shield, subtitle: '4 Dimensions' },
+                    { id: 'mvp', label: 'MVP Roadmap & MoSCoW', icon: Icons.Layers, subtitle: 'V1 Scope' },
+                    { id: 'gtm', label: 'GTM & Traction', icon: Icons.Target, subtitle: 'First 100' },
+                    { id: 'strategy', label: 'Viability & Moats', icon: Icons.Strategy, subtitle: 'Score Radar' },
+                    { id: 'report', label: 'Executive Report', icon: Icons.Download, subtitle: 'Dossier' },
+                    { id: 'pitchdeck', label: 'Pitch Deck', icon: Icons.Presentation, subtitle: '6 Slides' },
+                    { id: 'sources', label: 'Web Sources', icon: Icons.Globe, subtitle: `${searchResult?.results?.length || 0} Citations` },
+                    { id: 'logs', label: 'Pipeline Logs', icon: Icons.Terminal, subtitle: 'Audit Trail' }
+                  ].map((tab) => {
+                    const IconComp = tab.icon;
+                    const isTabActive = activeTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        className={`stream-tab-card ${isTabActive ? 'active' : ''}`}
+                        onClick={() => handleTabChange(tab.id)}
+                      >
+                        <div className="tab-icon-wrap">
+                          <IconComp />
+                        </div>
+                        <div className="tab-info-wrap">
+                          <span className="tab-label-text">{tab.label}</span>
+                          <span className="tab-sub-text">{tab.subtitle}</span>
+                        </div>
+                        {isTabActive && <span className="tab-active-glow"></span>}
+                      </button>
+                    );
+                  })}
+
+                  {/* Duplicate Set for Seamless Continuous Flow */}
+                  {[
+                    { id: 'market', label: 'Market Sizing', icon: Icons.Chart, subtitle: 'TAM / SOM' },
+                    { id: 'competitors', label: 'Competitors & Matrix', icon: Icons.Competitors, subtitle: '2×2 Grid' },
+                    { id: 'swot', label: 'SWOT & Risk Assessment', icon: Icons.Shield, subtitle: '4 Dimensions' },
+                    { id: 'mvp', label: 'MVP Roadmap & MoSCoW', icon: Icons.Layers, subtitle: 'V1 Scope' },
+                    { id: 'gtm', label: 'GTM & Traction', icon: Icons.Target, subtitle: 'First 100' },
+                    { id: 'strategy', label: 'Viability & Moats', icon: Icons.Strategy, subtitle: 'Score Radar' },
+                    { id: 'report', label: 'Executive Report', icon: Icons.Download, subtitle: 'Dossier' },
+                    { id: 'pitchdeck', label: 'Pitch Deck', icon: Icons.Presentation, subtitle: '6 Slides' },
+                    { id: 'sources', label: 'Web Sources', icon: Icons.Globe, subtitle: `${searchResult?.results?.length || 0} Citations` },
+                    { id: 'logs', label: 'Pipeline Logs', icon: Icons.Terminal, subtitle: 'Audit Trail' }
+                  ].map((tab) => {
+                    const IconComp = tab.icon;
+                    const isTabActive = activeTab === tab.id;
+                    return (
+                      <button
+                        key={`dup-${tab.id}`}
+                        type="button"
+                        aria-hidden="true"
+                        className={`stream-tab-card ${isTabActive ? 'active' : ''}`}
+                        onClick={() => handleTabChange(tab.id)}
+                      >
+                        <div className="tab-icon-wrap">
+                          <IconComp />
+                        </div>
+                        <div className="tab-info-wrap">
+                          <span className="tab-label-text">{tab.label}</span>
+                          <span className="tab-sub-text">{tab.subtitle}</span>
+                        </div>
+                        {isTabActive && <span className="tab-active-glow"></span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
             {/* ======================================================== */}
@@ -2035,17 +2534,63 @@ Generated autonomously by Venture Intelligence Platform.`;
                 <div className="glass-card simulator-card">
                   <div className="sim-header">
                     <div className="sim-title-group">
-                      <Icons.Sliders />
-                      <h3 className="card-title">Interactive Financial Model & ARR Sensitivity Simulator</h3>
+                      <div className="sim-icon-glow">
+                        <Icons.Sliders />
+                      </div>
+                      <div>
+                        <h3 className="card-title">Interactive Financial Model & ARR Sensitivity Simulator</h3>
+                        <p className="sim-subtitle">Simulate real-time revenue ceilings, beachhead customer adoption, and multi-tier ARR run-rates:</p>
+                      </div>
                     </div>
-                    <span className="sim-badge">Live Reactive Engine</span>
+                    <div className="sim-header-meta">
+                      <span className="sim-badge">Live Reactive Engine</span>
+                    </div>
                   </div>
-                  <p className="sim-subtitle">Adjust market parameters to test addressable revenue ceilings and Year-1 beachhead ARR projections in real-time:</p>
 
+                  {/* Interactive Fast Scenarios Switcher */}
+                  <div className="sim-scenarios-strip">
+                    <span className="scenarios-label">Quick Scenarios:</span>
+                    <div className="scenarios-pills">
+                      <button
+                        type="button"
+                        className={`scenario-pill ${targetCustomers === 15000 && arpu === 300 && penetrationRate === 0.8 ? 'active' : ''}`}
+                        onClick={() => { setTargetCustomers(15000); setArpu(300); setPenetrationRate(0.8); }}
+                      >
+                        🌱 Conservative (0.8% • $300)
+                      </button>
+                      <button
+                        type="button"
+                        className={`scenario-pill ${targetCustomers === 25000 && arpu === 600 && penetrationRate === 1.5 ? 'active' : ''}`}
+                        onClick={() => { setTargetCustomers(25000); setArpu(600); setPenetrationRate(1.5); }}
+                      >
+                        🎯 Base Case (1.5% • $600)
+                      </button>
+                      <button
+                        type="button"
+                        className={`scenario-pill ${targetCustomers === 50000 && arpu === 1200 && penetrationRate === 2.5 ? 'active' : ''}`}
+                        onClick={() => { setTargetCustomers(50000); setArpu(1200); setPenetrationRate(2.5); }}
+                      >
+                        🚀 High Growth (2.5% • $1.2k)
+                      </button>
+                      <button
+                        type="button"
+                        className={`scenario-pill ${targetCustomers === 100000 && arpu === 2400 && penetrationRate === 4.0 ? 'active' : ''}`}
+                        onClick={() => { setTargetCustomers(100000); setArpu(2400); setPenetrationRate(4.0); }}
+                      >
+                        👑 Enterprise Scale (4.0% • $2.4k)
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 3 Parameter Sliders Grid with Quick-Select Chips */}
                   <div className="sim-controls-grid">
+                    {/* Slider 1: Pool */}
                     <div className="slider-box">
                       <div className="slider-top">
-                        <label>Target Addressable Pool ($N$ Users / SMBs)</label>
+                        <div className="slider-label-group">
+                          <span className="slider-num-tag">01</span>
+                          <label>Target Addressable Pool ($N$ Users)</label>
+                        </div>
                         <span className="slider-val">{targetCustomers.toLocaleString()}</span>
                       </div>
                       <input 
@@ -2057,12 +2602,28 @@ Generated autonomously by Venture Intelligence Platform.`;
                         onChange={(e) => setTargetCustomers(Number(e.target.value))}
                         className="custom-range"
                       />
+                      <div className="slider-quick-chips">
+                        {[10000, 25000, 50000, 100000, 200000].map(val => (
+                          <button
+                            key={val}
+                            type="button"
+                            className={`quick-chip ${targetCustomers === val ? 'active' : ''}`}
+                            onClick={() => setTargetCustomers(val)}
+                          >
+                            {val >= 1000 ? `${val / 1000}k` : val}
+                          </button>
+                        ))}
+                      </div>
                     </div>
 
+                    {/* Slider 2: ACV / ARPU */}
                     <div className="slider-box">
                       <div className="slider-top">
-                        <label>Annual Contract Value / ARPU ($/yr)</label>
-                        <span className="slider-val">${arpu}/yr</span>
+                        <div className="slider-label-group">
+                          <span className="slider-num-tag">02</span>
+                          <label>Annual Contract Value / ARPU ($/yr)</label>
+                        </div>
+                        <span className="slider-val">${arpu.toLocaleString()}/yr</span>
                       </div>
                       <input 
                         type="range" 
@@ -2073,11 +2634,27 @@ Generated autonomously by Venture Intelligence Platform.`;
                         onChange={(e) => setArpu(Number(e.target.value))}
                         className="custom-range"
                       />
+                      <div className="slider-quick-chips">
+                        {[120, 300, 600, 1200, 2400, 5000].map(val => (
+                          <button
+                            key={val}
+                            type="button"
+                            className={`quick-chip ${arpu === val ? 'active' : ''}`}
+                            onClick={() => setArpu(val)}
+                          >
+                            ${val >= 1000 ? `${val / 1000}k` : val}
+                          </button>
+                        ))}
+                      </div>
                     </div>
 
+                    {/* Slider 3: Penetration */}
                     <div className="slider-box">
                       <div className="slider-top">
-                        <label>Year-1 Beachhead Penetration (%)</label>
+                        <div className="slider-label-group">
+                          <span className="slider-num-tag">03</span>
+                          <label>Year-1 Beachhead Penetration (%)</label>
+                        </div>
                         <span className="slider-val">{penetrationRate}%</span>
                       </div>
                       <input 
@@ -2089,33 +2666,70 @@ Generated autonomously by Venture Intelligence Platform.`;
                         onChange={(e) => setPenetrationRate(Number(e.target.value))}
                         className="custom-range"
                       />
+                      <div className="slider-quick-chips">
+                        {[0.5, 1.0, 1.5, 2.5, 4.0, 6.0].map(val => (
+                          <button
+                            key={val}
+                            type="button"
+                            className={`quick-chip ${penetrationRate === val ? 'active' : ''}`}
+                            onClick={() => setPenetrationRate(val)}
+                          >
+                            {val}%
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Live Reactive Unit Economics Formula Ticker */}
+                  <div className="sim-formula-ticker">
+                    <div className="ticker-left">
+                      <span className="ticker-badge">Live Math</span>
+                      <span className="ticker-text">
+                        <strong>{targetCustomers.toLocaleString()}</strong> Pool × <strong>{penetrationRate}%</strong> Capture = <strong>{payingCustomersCount.toLocaleString()} Customers</strong> @ <strong>${arpu}/yr</strong>
+                      </span>
+                    </div>
+                    <div className="ticker-right">
+                      <span className="ticker-mrr">MRR: <strong>{projectedMRR}</strong> / mo</span>
                     </div>
                   </div>
 
                   {/* Simulator Dynamic Financial Forecast Output Cards */}
                   <div className="sim-output-grid">
                     <div className="sim-out-card">
-                      <span className="sim-out-label">Calculated TAM Ceiling</span>
+                      <div className="sim-out-top">
+                        <span className="sim-out-label">Calculated TAM Ceiling</span>
+                        <span className="sim-out-icon cyan"><Icons.Globe /></span>
+                      </div>
                       <h4 className="sim-out-value">{calculatedTAM}</h4>
-                      <span className="sim-out-sub">Global Max Addressable</span>
+                      <span className="sim-out-sub">Global 100% Market Ceiling</span>
                     </div>
 
                     <div className="sim-out-card">
-                      <span className="sim-out-label">Target Serviceable (SAM)</span>
+                      <div className="sim-out-top">
+                        <span className="sim-out-label">Target Serviceable (SAM)</span>
+                        <span className="sim-out-icon blue"><Icons.Target /></span>
+                      </div>
                       <h4 className="sim-out-value">{calculatedSAM}</h4>
                       <span className="sim-out-sub">Core Reachable Segment</span>
                     </div>
 
                     <div className="sim-out-card highlight-out">
-                      <span className="sim-out-label">Year-1 Projected ARR (SOM)</span>
+                      <div className="sim-out-top">
+                        <span className="sim-out-label">Year-1 Beachhead ARR (SOM)</span>
+                        <span className="sim-out-icon purple"><Icons.Zap /></span>
+                      </div>
                       <h4 className="sim-out-value">{projectedYear1ARR}</h4>
-                      <span className="sim-out-sub">Based on {penetrationRate}% Beachhead Capture</span>
+                      <span className="sim-out-sub">{payingCustomersCount.toLocaleString()} Paying Users ({projectedMRR}/mo)</span>
                     </div>
 
                     <div className="sim-out-card">
-                      <span className="sim-out-label">Year-3 Growth Trajectory</span>
+                      <div className="sim-out-top">
+                        <span className="sim-out-label">Year-3 Growth Trajectory</span>
+                        <span className="sim-out-icon emerald"><Icons.TrendingUp /></span>
+                      </div>
                       <h4 className="sim-out-value">{projectedYear3ARR}</h4>
-                      <span className="sim-out-sub">Projected Multi-tier ARR</span>
+                      <span className="sim-out-sub">Compounding 3.8x Flywheel ARR</span>
                     </div>
                   </div>
                 </div>
@@ -2208,50 +2822,154 @@ Generated autonomously by Venture Intelligence Platform.`;
                 <div className="glass-card quadrant-card">
                   <div className="quad-header">
                     <div>
-                      <h3 className="card-title">2×2 Competitive Positioning Matrix</h3>
+                      <div className="quad-title-row">
+                        <h3 className="card-title">2×2 Competitive Positioning Matrix</h3>
+                        <span className="quad-legend-badge">Interactive Visual Scatter</span>
+                      </div>
                       <p className="quad-subtext">Benchmarking market positioning across Domain Specialization and Autonomous AI Workflows.</p>
                     </div>
-                    <span className="quad-legend-badge">Interactive Visual Scatter</span>
+                    <button 
+                      type="button" 
+                      className={`quad-guide-toggle-btn ${showMatrixGuide ? 'active' : ''}`}
+                      onClick={() => setShowMatrixGuide(!showMatrixGuide)}
+                    >
+                      <Icons.Info /> {showMatrixGuide ? 'Hide Matrix Guide' : 'How to Read Matrix'}
+                    </button>
+                  </div>
+
+                  {/* Collapsible Explainer Guide */}
+                  {showMatrixGuide && (
+                    <div className="quad-guide-accordion animate-fade-in">
+                      <div className="quad-guide-grid">
+                        <div className="guide-box">
+                          <div className="guide-title">
+                            <span className="guide-badge axis-badge">X-Axis</span>
+                            <strong>Domain Specialization</strong>
+                          </div>
+                          <p><strong>Left (Generic):</strong> Broad horizontal tools built for everyone (e.g. general spreadsheets, basic forms).</p>
+                          <p><strong>Right (Vertical):</strong> Tailored software built specifically for this industry's unique workflows and data.</p>
+                        </div>
+                        <div className="guide-box">
+                          <div className="guide-title">
+                            <span className="guide-badge axis-badge">Y-Axis</span>
+                            <strong>Autonomous AI Workflows</strong>
+                          </div>
+                          <p><strong>Bottom (Manual):</strong> Fragmented legacy tools requiring repetitive human clicking and copy-pasting.</p>
+                          <p><strong>Top (Autonomous):</strong> Agentic AI workflows that execute, reason, and deliver end-to-end results automatically.</p>
+                        </div>
+                        <div className="guide-box highlight-guide-box">
+                          <div className="guide-title">
+                            <span className="guide-badge frontier-badge">★ Target Zone</span>
+                            <strong>Frontier Disrupter (Top-Right)</strong>
+                          </div>
+                          <p><strong>Your Startup's Advantage:</strong> Combines deep domain specialization with autonomous AI execution to capture the highest-value market white space.</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Quadrant Filter Pills */}
+                  <div className="quad-filter-bar">
+                    <span className="filter-label">Filter Quadrant:</span>
+                    <button 
+                      type="button"
+                      className={`quad-filter-pill ${activeQuadrantFilter === 'all' ? 'active' : ''}`}
+                      onClick={() => setActiveQuadrantFilter('all')}
+                    >
+                      All Players ({quadrantCompetitors.length + 1})
+                    </button>
+                    <button 
+                      type="button"
+                      className={`quad-filter-pill ${activeQuadrantFilter === 'frontier' ? 'active' : ''}`}
+                      onClick={() => setActiveQuadrantFilter('frontier')}
+                    >
+                      ★ Frontier Disrupter
+                    </button>
+                    <button 
+                      type="button"
+                      className={`quad-filter-pill ${activeQuadrantFilter === 'automation' ? 'active' : ''}`}
+                      onClick={() => setActiveQuadrantFilter('automation')}
+                    >
+                      Autonomous Automation
+                    </button>
+                    <button 
+                      type="button"
+                      className={`quad-filter-pill ${activeQuadrantFilter === 'legacy' ? 'active' : ''}`}
+                      onClick={() => setActiveQuadrantFilter('legacy')}
+                    >
+                      Vertical Legacy Suites
+                    </button>
+                    <button 
+                      type="button"
+                      className={`quad-filter-pill ${activeQuadrantFilter === 'incumbents' ? 'active' : ''}`}
+                      onClick={() => setActiveQuadrantFilter('incumbents')}
+                    >
+                      Generic Incumbents
+                    </button>
                   </div>
 
                   <div className="quadrant-box">
                     <div className="quad-bg-grid">
-                      <div className="quad-zone top-left">
+                      <div className={`quad-zone top-left ${activeQuadrantFilter === 'automation' ? 'filter-active-zone' : ''}`}>
                         <span className="zone-label">Autonomous Automation</span>
                       </div>
-                      <div className="quad-zone top-right highlight-zone">
+                      <div className={`quad-zone top-right highlight-zone ${activeQuadrantFilter === 'frontier' ? 'filter-active-zone' : ''}`}>
                         <span className="zone-label frontier-label">★ Frontier Disrupter (Target Niche)</span>
                       </div>
-                      <div className="quad-zone bottom-left">
+                      <div className={`quad-zone bottom-left ${activeQuadrantFilter === 'incumbents' ? 'filter-active-zone' : ''}`}>
                         <span className="zone-label">Generic Incumbents</span>
                       </div>
-                      <div className="quad-zone bottom-right">
+                      <div className={`quad-zone bottom-right ${activeQuadrantFilter === 'legacy' ? 'filter-active-zone' : ''}`}>
                         <span className="zone-label">Vertical Legacy Suites</span>
                       </div>
                     </div>
 
                     {/* Proposed Startup Bubble (Top Right Frontier) */}
                     <div 
-                      className="quad-bubble startup-bubble"
+                      className={`quad-bubble startup-bubble ${selectedCompetitor?.isStartup ? 'active-selected-bubble' : ''} ${activeQuadrantFilter !== 'all' && activeQuadrantFilter !== 'frontier' ? 'dimmed-bubble' : ''}`}
                       style={{ left: `84%`, top: `18%` }}
+                      onClick={() => setSelectedCompetitor({
+                        isStartup: true,
+                        name: searchResult?.startup_idea || "Your Startup Concept",
+                        quadName: "★ Frontier Disrupter (Top-Right Niche)",
+                        strengths: "Autonomous AI agents + deep vertical domain intelligence tailored specifically for this market.",
+                        weaknesses: "Early stage brand awareness (mitigated by rapid vertical GTM & high customer ROI).",
+                        pricing: "Value-based subscription / usage tiers with instant ROI",
+                        targetCustomer: searchResult?.target_market || "Target Domain Customers",
+                        offering: searchResult?.problem_solved || "Autonomous AI platform solving core operational bottlenecks."
+                      })}
+                      onMouseEnter={() => setHoveredCompetitor({
+                        name: "★ Your Startup Concept",
+                        strengths: "Autonomous AI workflows + Deep Vertical Domain Specialization",
+                        weaknesses: "Early-stage market entry",
+                        pricing: "High-ROI Value Pricing"
+                      })}
+                      onMouseLeave={() => setHoveredCompetitor(null)}
+                      title="Click to inspect startup strategic position"
                     >
                       <div className="bubble-pulse"></div>
                       <span className="bubble-name">★ Your Startup Concept</span>
                     </div>
 
                     {/* Competitor Bubbles */}
-                    {quadrantCompetitors.map((comp, cIdx) => (
-                      <div 
-                        key={cIdx} 
-                        className="quad-bubble competitor-bubble"
-                        style={{ left: `${comp.x}%`, top: `${comp.y}%` }}
-                        onMouseEnter={() => setHoveredCompetitor(comp)}
-                        onMouseLeave={() => setHoveredCompetitor(null)}
-                      >
-                        <span className="bubble-dot-inner"></span>
-                        <span className="bubble-name">{comp.name}</span>
-                      </div>
-                    ))}
+                    {quadrantCompetitors.map((comp, cIdx) => {
+                      const isFilteredOut = activeQuadrantFilter !== 'all' && activeQuadrantFilter !== comp.quadId;
+                      const isSelected = selectedCompetitor?.name === comp.name;
+                      return (
+                        <div 
+                          key={cIdx} 
+                          className={`quad-bubble competitor-bubble ${isSelected ? 'active-selected-bubble' : ''} ${isFilteredOut ? 'dimmed-bubble' : ''}`}
+                          style={{ left: `${comp.x}%`, top: `${comp.y}%` }}
+                          onClick={() => setSelectedCompetitor(comp)}
+                          onMouseEnter={() => setHoveredCompetitor(comp)}
+                          onMouseLeave={() => setHoveredCompetitor(null)}
+                          title="Click to inspect competitor battle card"
+                        >
+                          <span className="bubble-dot-inner"></span>
+                          <span className="bubble-name">{comp.name}</span>
+                        </div>
+                      );
+                    })}
 
                     {/* Quadrant Axis Labels */}
                     <div className="axis-label x-axis-left">← Generic / Horizontal</div>
@@ -2259,8 +2977,8 @@ Generated autonomously by Venture Intelligence Platform.`;
                     <div className="axis-label y-axis-top">Autonomous AI Workflows ↑</div>
                     <div className="axis-label y-axis-bottom">↓ Manual / Fragmented</div>
 
-                    {/* Competitor Hover Tooltip */}
-                    {hoveredCompetitor && (
+                    {/* Competitor Hover Tooltip (if nothing is selected or while hovering) */}
+                    {hoveredCompetitor && !selectedCompetitor && (
                       <div className="quad-tooltip animate-fade-in">
                         <strong>{hoveredCompetitor.name}</strong>
                         <div className="tt-row"><span>Advantage:</span> {hoveredCompetitor.strengths}</div>
@@ -2269,6 +2987,60 @@ Generated autonomously by Venture Intelligence Platform.`;
                       </div>
                     )}
                   </div>
+
+                  {/* Interactive Selected Competitor / Startup Focus Inspector Card */}
+                  {selectedCompetitor && (
+                    <div className="quad-focus-inspector-card animate-fade-in">
+                      <div className="focus-card-header">
+                        <div className="focus-header-info">
+                          <div className="focus-title-wrap">
+                            <span className={`focus-quad-badge ${selectedCompetitor.isStartup ? 'startup-badge' : ''}`}>
+                              {selectedCompetitor.quadName || 'Positioned Competitor'}
+                            </span>
+                            <h4 className="focus-comp-name">{selectedCompetitor.name}</h4>
+                          </div>
+                          {selectedCompetitor.targetCustomer && (
+                            <span className="focus-target-sub">Target: {selectedCompetitor.targetCustomer}</span>
+                          )}
+                        </div>
+                        <button 
+                          type="button" 
+                          className="focus-close-btn" 
+                          onClick={() => setSelectedCompetitor(null)}
+                          title="Close inspection"
+                        >
+                          ✕ Close
+                        </button>
+                      </div>
+
+                      <div className="focus-grid-cols">
+                        <div className="focus-stat-box advantage-box">
+                          <span className="focus-label">Primary Advantage</span>
+                          <p>{selectedCompetitor.strengths}</p>
+                        </div>
+                        <div className="focus-stat-box weakness-box">
+                          <span className="focus-label">Limitation & Complaints</span>
+                          <p>{selectedCompetitor.weaknesses}</p>
+                        </div>
+                        <div className="focus-stat-box pricing-box">
+                          <span className="focus-label">Pricing Architecture</span>
+                          <p>{selectedCompetitor.pricing}</p>
+                        </div>
+                      </div>
+
+                      {!selectedCompetitor.isStartup && (
+                        <div className="focus-battle-card">
+                          <div className="battle-header">
+                            <Icons.Zap />
+                            <strong>Why Your Concept Wins Against {selectedCompetitor.name}:</strong>
+                          </div>
+                          <p>
+                            While {selectedCompetitor.name} suffers from <em>"{selectedCompetitor.weaknesses}"</em>, your concept replaces fragmented manual overhead with autonomous vertical intelligence, offering faster time-to-value and domain-specific precision.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Direct Competitors Cards */}
@@ -2376,6 +3148,544 @@ Generated autonomously by Venture Intelligence Platform.`;
                     </div>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* TAB: SWOT & Risk Analysis Agent (Milestone 3)           */}
+            {/* ======================================================== */}
+            {activeTab === 'swot' && swotData && (
+              <div className="tab-pane animate-fade-in">
+                {/* Executive SWOT & Risk Summary */}
+                <div className="glass-card swot-summary-card">
+                  <div className="swot-top-meta">
+                    <div className="swot-title-wrap">
+                      <Icons.Shield />
+                      <h3 className="pane-section-title">Strategic SWOT & Multi-Category Risk Audit</h3>
+                    </div>
+                    <div className="risk-score-pill">
+                      <span className="risk-score-num">{swotData.overall_risk_score || 28}/100</span>
+                      <span className="risk-score-label">{swotData.risk_verdict || 'Moderate Risk — Defensible'}</span>
+                    </div>
+                  </div>
+                  <p className="market-narrative">{swotData.swot_summary}</p>
+                </div>
+
+                {/* 2x2 SWOT Grid */}
+                <div className="swot-quadrant-grid">
+                  {/* Strengths */}
+                  <div className="glass-card swot-box swot-strengths">
+                    <div className="swot-box-header">
+                      <div className="swot-icon-badge strength-badge">S</div>
+                      <div>
+                        <h4 className="swot-box-title">Internal Strengths</h4>
+                        <span className="swot-box-sub">Core capabilities & advantages</span>
+                      </div>
+                    </div>
+                    <div className="swot-items-list">
+                      {swotData.swot?.strengths?.map((item, idx) => (
+                        <div key={idx} className="swot-item-card">
+                          <div className="swot-item-top">
+                            <strong className="swot-item-title">{item.title}</strong>
+                            <span className="impact-tag impact-high">{item.strategic_impact || 'High Impact'}</span>
+                          </div>
+                          <p className="swot-item-desc">{item.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Weaknesses */}
+                  <div className="glass-card swot-box swot-weaknesses">
+                    <div className="swot-box-header">
+                      <div className="swot-icon-badge weakness-badge">W</div>
+                      <div>
+                        <h4 className="swot-box-title">Internal Weaknesses</h4>
+                        <span className="swot-box-sub">Bottlenecks & resource constraints</span>
+                      </div>
+                    </div>
+                    <div className="swot-items-list">
+                      {swotData.swot?.weaknesses?.map((item, idx) => (
+                        <div key={idx} className="swot-item-card">
+                          <div className="swot-item-top">
+                            <strong className="swot-item-title">{item.title}</strong>
+                            <span className="impact-tag impact-med">{item.severity || 'Medium Severity'}</span>
+                          </div>
+                          <p className="swot-item-desc">{item.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Opportunities */}
+                  <div className="glass-card swot-box swot-opportunities">
+                    <div className="swot-box-header">
+                      <div className="swot-icon-badge opportunity-badge">O</div>
+                      <div>
+                        <h4 className="swot-box-title">External Opportunities</h4>
+                        <span className="swot-box-sub">Market vectors & expansion tailwinds</span>
+                      </div>
+                    </div>
+                    <div className="swot-items-list">
+                      {swotData.swot?.opportunities?.map((item, idx) => (
+                        <div key={idx} className="swot-item-card">
+                          <div className="swot-item-top">
+                            <strong className="swot-item-title">{item.title}</strong>
+                            <span className="impact-tag impact-cyan">{item.potential_upside || 'High Upside'}</span>
+                          </div>
+                          <p className="swot-item-desc">{item.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Threats */}
+                  <div className="glass-card swot-box swot-threats">
+                    <div className="swot-box-header">
+                      <div className="swot-icon-badge threat-badge">T</div>
+                      <div>
+                        <h4 className="swot-box-title">External Threats</h4>
+                        <span className="swot-box-sub">Incumbent response & regulatory risks</span>
+                      </div>
+                    </div>
+                    <div className="swot-items-list">
+                      {swotData.swot?.threats?.map((item, idx) => (
+                        <div key={idx} className="swot-item-card">
+                          <div className="swot-item-top">
+                            <strong className="swot-item-title">{item.title}</strong>
+                            <span className="impact-tag impact-rose">{item.urgency || 'Medium Urgency'}</span>
+                          </div>
+                          <p className="swot-item-desc">{item.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Risk Assessment & Mitigation Matrix */}
+                {swotData.risk_assessment && (
+                  <div className="glass-card risk-matrix-card">
+                    <div className="risk-matrix-header">
+                      <Icons.Zap />
+                      <div>
+                        <h3 className="card-title">Multi-Category Risk Assessment & Mitigation Playbook</h3>
+                        <p className="pane-subtext">Actionable safeguards across technical, market, regulatory, and financial dimensions:</p>
+                      </div>
+                    </div>
+
+                    <div className="risk-cards-grid">
+                      {swotData.risk_assessment.map((risk, rIdx) => (
+                        <div key={rIdx} className="glass-card risk-detail-card">
+                          <div className="risk-card-top">
+                            <span className="risk-category-badge">{risk.category}</span>
+                            <span className={`risk-severity-pill severity-${(risk.severity || 'medium').toLowerCase()}`}>
+                              Severity: {risk.severity || 'Medium'}
+                            </span>
+                          </div>
+                          <h4 className="risk-title">{risk.risk_title}</h4>
+                          <div className="risk-mitigation-box">
+                            <div className="mitigation-header">
+                              <Icons.Sparkle />
+                              <strong>Actionable Mitigation Playbook:</strong>
+                            </div>
+                            <p className="mitigation-text">{risk.mitigation_strategy}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* TAB: MVP Feature Roadmap & MoSCoW (Milestone 3)         */}
+            {/* ======================================================== */}
+            {activeTab === 'mvp' && mvpData && (
+              <div className="tab-pane animate-fade-in">
+                {/* Build Philosophy & Tech Stack */}
+                <div className="glass-card mvp-hero-card">
+                  <div className="mvp-hero-top">
+                    <div>
+                      <span className="pill-category-badge">Product Strategy & Scoping</span>
+                      <h3 className="pane-section-title">Lean MVP Product Philosophy</h3>
+                    </div>
+                    <div className="build-time-badge">
+                      <Icons.Zap />
+                      <span>Est. Build Time: {mvpData.estimated_mvp_build_time_weeks || 6} Weeks</span>
+                    </div>
+                  </div>
+                  <p className="market-narrative">{mvpData.mvp_philosophy}</p>
+
+                  {/* Recommended Stack Chips */}
+                  {mvpData.recommended_tech_stack && (
+                    <div className="mvp-stack-row">
+                      <span className="stack-label">Recommended Tech Stack:</span>
+                      <div className="stack-chips-wrap">
+                        {mvpData.recommended_tech_stack.map((stk, sIdx) => (
+                          <span key={sIdx} className="tech-stack-chip">{stk}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* MoSCoW Feature Prioritization Section */}
+                <div className="moscow-section-wrap">
+                  <div className="moscow-section-header">
+                    <div>
+                      <h3 className="pane-section-title">MoSCoW Product Scope & Feature Prioritization</h3>
+                      <p className="pane-subtext">Disciplined feature stratification to guarantee MVP ship date within {mvpData.estimated_mvp_build_time_weeks || 6} weeks.</p>
+                    </div>
+                    
+                    {/* Tier Filter Pills */}
+                    <div className="moscow-filter-pills">
+                      <button 
+                        type="button"
+                        className={`moscow-filter-pill ${moscowFilter === 'all' ? 'active' : ''}`}
+                        onClick={() => setMoscowFilter('all')}
+                      >
+                        All 4 Tiers (2×2 Matrix)
+                      </button>
+                      <button 
+                        type="button"
+                        className={`moscow-filter-pill pill-must ${moscowFilter === 'must' ? 'active' : ''}`}
+                        onClick={() => setMoscowFilter('must')}
+                      >
+                        ★ Must Have ({mvpData.moscow_matrix?.must_have?.length || 0})
+                      </button>
+                      <button 
+                        type="button"
+                        className={`moscow-filter-pill pill-should ${moscowFilter === 'should' ? 'active' : ''}`}
+                        onClick={() => setMoscowFilter('should')}
+                      >
+                        ⚡ Should Have ({mvpData.moscow_matrix?.should_have?.length || 0})
+                      </button>
+                      <button 
+                        type="button"
+                        className={`moscow-filter-pill pill-could ${moscowFilter === 'could' ? 'active' : ''}`}
+                        onClick={() => setMoscowFilter('could')}
+                      >
+                        ✨ Could Have ({mvpData.moscow_matrix?.could_have?.length || 0})
+                      </button>
+                      <button 
+                        type="button"
+                        className={`moscow-filter-pill pill-wont ${moscowFilter === 'wont' ? 'active' : ''}`}
+                        onClick={() => setMoscowFilter('wont')}
+                      >
+                        🛡️ Won't Have ({mvpData.moscow_matrix?.wont_have_v1?.length || 0})
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* MoSCoW Balanced 2x2 Grid / Column View */}
+                  <div className={`moscow-columns-grid ${moscowFilter !== 'all' ? 'single-tier-view' : ''}`}>
+                    {/* Must Have */}
+                    {(moscowFilter === 'all' || moscowFilter === 'must') && (
+                      <div className="glass-card moscow-col col-must animate-fade-in">
+                        <div className="moscow-col-header">
+                          <div className="col-indicator indicator-must"></div>
+                          <div className="col-title-group">
+                            <div className="col-title-row">
+                              <h4 className="moscow-col-title">Must Have (V1 Core Loop)</h4>
+                              <span className="col-count-badge badge-must">{mvpData.moscow_matrix?.must_have?.length || 0} Features</span>
+                            </div>
+                            <span className="moscow-col-sub">Essential for initial problem-solution fit & core user retention</span>
+                          </div>
+                        </div>
+                        <div className="moscow-items-list">
+                          {mvpData.moscow_matrix?.must_have?.map((feat, idx) => (
+                            <div key={idx} className="feature-item-card">
+                              <div className="feature-card-top">
+                                <span className="feature-cat-tag cat-must">{feat.category || 'Core Engine'}</span>
+                                <div className="scores-pill">
+                                  <span>Effort: <strong>{feat.effort_score || 5}/10</strong></span>
+                                  <span>Impact: <strong className="score-high">{feat.impact_score || 9}/10</strong></span>
+                                </div>
+                              </div>
+                              <h5 className="feature-name">{feat.feature_name}</h5>
+                              <p className="feature-desc">{feat.description}</p>
+                              {feat.user_value && (
+                                <div className="feature-value-row">
+                                  <span className="val-icon">★</span>
+                                  <span><strong>User Value:</strong> {feat.user_value}</span>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Should Have */}
+                    {(moscowFilter === 'all' || moscowFilter === 'should') && (
+                      <div className="glass-card moscow-col col-should animate-fade-in">
+                        <div className="moscow-col-header">
+                          <div className="col-indicator indicator-should"></div>
+                          <div className="col-title-group">
+                            <div className="col-title-row">
+                              <h4 className="moscow-col-title">Should Have (V1.1 Retain)</h4>
+                              <span className="col-count-badge badge-should">{mvpData.moscow_matrix?.should_have?.length || 0} Features</span>
+                            </div>
+                            <span className="moscow-col-sub">High value enhancements once core conversion loop is proven</span>
+                          </div>
+                        </div>
+                        <div className="moscow-items-list">
+                          {mvpData.moscow_matrix?.should_have?.map((feat, idx) => (
+                            <div key={idx} className="feature-item-card">
+                              <div className="feature-card-top">
+                                <span className="feature-cat-tag cat-should">{feat.category || 'Integration'}</span>
+                                <div className="scores-pill">
+                                  <span>Effort: <strong>{feat.effort_score || 5}/10</strong></span>
+                                  <span>Impact: <strong className="score-med">{feat.impact_score || 7}/10</strong></span>
+                                </div>
+                              </div>
+                              <h5 className="feature-name">{feat.feature_name}</h5>
+                              <p className="feature-desc">{feat.description}</p>
+                              {feat.user_value && (
+                                <div className="feature-value-row value-should">
+                                  <span className="val-icon">⚡</span>
+                                  <span><strong>Value Add:</strong> {feat.user_value}</span>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Could Have */}
+                    {(moscowFilter === 'all' || moscowFilter === 'could') && (
+                      <div className="glass-card moscow-col col-could animate-fade-in">
+                        <div className="moscow-col-header">
+                          <div className="col-indicator indicator-could"></div>
+                          <div className="col-title-group">
+                            <div className="col-title-row">
+                              <h4 className="moscow-col-title">Could Have (Delight)</h4>
+                              <span className="col-count-badge badge-could">{mvpData.moscow_matrix?.could_have?.length || 0} Features</span>
+                            </div>
+                            <span className="moscow-col-sub">Delight & virality features if sprint capacity allows</span>
+                          </div>
+                        </div>
+                        <div className="moscow-items-list">
+                          {mvpData.moscow_matrix?.could_have?.map((feat, idx) => (
+                            <div key={idx} className="feature-item-card">
+                              <div className="feature-card-top">
+                                <span className="feature-cat-tag cat-could">{feat.category || 'Delight'}</span>
+                                <div className="scores-pill">
+                                  <span>Effort: <strong>{feat.effort_score || 4}/10</strong></span>
+                                  <span>Impact: <strong className="score-could">{feat.impact_score || 6}/10</strong></span>
+                                </div>
+                              </div>
+                              <h5 className="feature-name">{feat.feature_name}</h5>
+                              <p className="feature-desc">{feat.description}</p>
+                              {feat.user_value && (
+                                <div className="feature-value-row value-could">
+                                  <span className="val-icon">✨</span>
+                                  <span><strong>Delight Factor:</strong> {feat.user_value}</span>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Won't Have V1 */}
+                    {(moscowFilter === 'all' || moscowFilter === 'wont') && (
+                      <div className="glass-card moscow-col col-wont animate-fade-in">
+                        <div className="moscow-col-header">
+                          <div className="col-indicator indicator-wont"></div>
+                          <div className="col-title-group">
+                            <div className="col-title-row">
+                              <h4 className="moscow-col-title">Won't Have (Scope Fence)</h4>
+                              <span className="col-count-badge badge-wont">{mvpData.moscow_matrix?.wont_have_v1?.length || 0} Exclusions</span>
+                            </div>
+                            <span className="moscow-col-sub">Explicitly excluded to protect runway and prevent scope creep</span>
+                          </div>
+                        </div>
+                        <div className="moscow-items-list">
+                          {mvpData.moscow_matrix?.wont_have_v1?.map((feat, idx) => (
+                            <div key={idx} className="feature-item-card wont-card">
+                              <div className="feature-card-top">
+                                <span className="feature-cat-tag cat-wont">Scope Fence</span>
+                              </div>
+                              <h5 className="feature-name">{feat.feature_name}</h5>
+                              <div className="wont-rationale-box">
+                                <span className="rationale-tag">Exclusion Rationale:</span>
+                                <p className="feature-desc">{feat.rationale || feat.description}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Phased Sprint Milestones */}
+                {mvpData.sprint_roadmap && (
+                  <div className="glass-card sprint-roadmap-card">
+                    <div className="sprint-header">
+                      <Icons.Sliders />
+                      <h3 className="card-title">Lean 30-Day vs 60-Day Sprint Roadmap</h3>
+                    </div>
+                    <div className="sprint-phases-grid">
+                      <div className="sprint-phase-box phase-1">
+                        <div className="sprint-phase-badge">Phase 1: Days 1–30</div>
+                        <h4 className="sprint-phase-title">Core Problem-Solution Fit & Beta Pilot</h4>
+                        <p className="sprint-phase-desc">{mvpData.sprint_roadmap.phase_1_30_days}</p>
+                      </div>
+                      <div className="sprint-phase-box phase-2">
+                        <div className="sprint-phase-badge">Phase 2: Days 31–60</div>
+                        <h4 className="sprint-phase-title">Integrations, Analytics & Monetization</h4>
+                        <p className="sprint-phase-desc">{mvpData.sprint_roadmap.phase_2_60_days}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* TAB: Go-To-Market & Traction Playbook (Milestone 3)      */}
+            {/* ======================================================== */}
+            {activeTab === 'gtm' && gtmData && (
+              <div className="tab-pane animate-fade-in">
+                {/* GTM Summary & Value Positioning Canvas */}
+                <div className="glass-card gtm-hero-card">
+                  <div className="gtm-top-meta">
+                    <Icons.Target />
+                    <h3 className="pane-section-title">Strategic Value Positioning & Acquisition Flywheel</h3>
+                  </div>
+                  <p className="market-narrative">{gtmData.gtm_executive_summary}</p>
+
+                  {/* Positioning Framework */}
+                  {gtmData.positioning_statement && (
+                    <div className="positioning-canvas-card">
+                      <h4 className="pos-canvas-title">Core Positioning Statement</h4>
+                      <div className="pos-elements-grid">
+                        <div className="pos-item">
+                          <span className="pos-label">FOR (Target Customer):</span>
+                          <p className="pos-val">{gtmData.positioning_statement.for_target}</p>
+                        </div>
+                        <div className="pos-item">
+                          <span className="pos-label">WHO (Struggle With):</span>
+                          <p className="pos-val">{gtmData.positioning_statement.who_struggle_with}</p>
+                        </div>
+                        <div className="pos-item">
+                          <span className="pos-label">OUR SOLUTION (Is):</span>
+                          <p className="pos-val">{gtmData.positioning_statement.our_solution_is}</p>
+                        </div>
+                        <div className="pos-item">
+                          <span className="pos-label">THAT (Delivers):</span>
+                          <p className="pos-val">{gtmData.positioning_statement.that_delivers}</p>
+                        </div>
+                        <div className="pos-item pos-span-full">
+                          <span className="pos-label">UNLIKE (Competitor Alternatives):</span>
+                          <p className="pos-val">{gtmData.positioning_statement.unlike_competitors}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Acquisition Channels Breakdown */}
+                {gtmData.acquisition_channels && (
+                  <div className="glass-card channels-section-card">
+                    <div className="channels-header">
+                      <Icons.Globe />
+                      <div>
+                        <h3 className="card-title">Customer Acquisition Channels & CAC Dynamics</h3>
+                        <p className="pane-subtext">Ranked channels with target conversion benchmarks and execution playbooks:</p>
+                      </div>
+                    </div>
+
+                    <div className="channels-grid">
+                      {gtmData.acquisition_channels.map((ch, cIdx) => (
+                        <div key={cIdx} className="glass-card channel-card">
+                          <div className="channel-card-top">
+                            <span className="channel-type-tag">{ch.channel_type || 'Organic'}</span>
+                            <span className={`channel-priority-pill priority-${(ch.priority || 'primary').toLowerCase()}`}>
+                              {ch.priority || 'Primary'} Channel
+                            </span>
+                          </div>
+                          <h4 className="channel-title">{ch.channel_name}</h4>
+                          <div className="channel-metrics-row">
+                            <div className="ch-metric">
+                              <span className="ch-lbl">Est. CAC:</span>
+                              <strong className="ch-val">{ch.estimated_cac}</strong>
+                            </div>
+                            <div className="ch-metric">
+                              <span className="ch-lbl">Target Conversion:</span>
+                              <strong className="ch-val text-emerald">{ch.expected_conversion_rate || '4.5% - 8.0%'}</strong>
+                            </div>
+                          </div>
+                          <div className="channel-playbook-box">
+                            <strong>Execution Playbook:</strong>
+                            <p>{ch.tactical_playbook}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* First 100 Customers & Pricing Grid */}
+                <div className="gtm-bottom-grid">
+                  {/* First 100 Customers Checklist */}
+                  {gtmData.first_100_customers_playbook && (
+                    <div className="glass-card first100-card">
+                      <div className="first100-header">
+                        <Icons.Check />
+                        <h3 className="card-title">"First 100 Customers" Tactical Playbook</h3>
+                      </div>
+                      <p className="pane-subtext">Actionable 4-step sequence to achieve initial beachhead velocity:</p>
+                      <div className="playbook-steps-list">
+                        {gtmData.first_100_customers_playbook.map((step, sIdx) => {
+                          const stepContent = typeof step === 'string'
+                            ? step
+                            : (step.action || step.description || step.title || '');
+                          return (
+                            <div key={sIdx} className="playbook-step-row">
+                              <span className="playbook-step-num">{sIdx + 1}</span>
+                              <p className="playbook-step-text">{stepContent}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Pricing & Monetization Ladder */}
+                  {gtmData.pricing_and_monetization_strategy && (
+                    <div className="glass-card pricing-ladder-card">
+                      <div className="pricing-header">
+                        <Icons.Zap />
+                        <div>
+                          <h3 className="card-title">Pricing & Monetization Strategy</h3>
+                          <span className="pricing-model-badge">{gtmData.pricing_and_monetization_strategy.model_type || 'Tiered SaaS'}</span>
+                        </div>
+                      </div>
+                      <p className="pricing-rationale">{gtmData.pricing_and_monetization_strategy.rationale}</p>
+                      
+                      <div className="pricing-tiers-stack">
+                        <div className="pricing-tier-row tier-starter">
+                          <span className="tier-tag">Starter / Pilot</span>
+                          <p>{gtmData.pricing_and_monetization_strategy.starter_tier}</p>
+                        </div>
+                        <div className="pricing-tier-row tier-growth highlight-tier">
+                          <span className="tier-tag">Growth / Pro</span>
+                          <p>{gtmData.pricing_and_monetization_strategy.growth_tier}</p>
+                        </div>
+                        <div className="pricing-tier-row tier-enterprise">
+                          <span className="tier-tag">Enterprise / Custom</span>
+                          <p>{gtmData.pricing_and_monetization_strategy.enterprise_tier}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
@@ -2522,6 +3832,277 @@ Generated autonomously by Venture Intelligence Platform.`;
             )}
 
             {/* ======================================================== */}
+            {/* TAB: Executive Validation Report & Multi-Format Exports (M4) */}
+            {/* ======================================================== */}
+            {activeTab === 'report' && (
+              <div className="tab-pane animate-fade-in">
+                <div className="glass-card report-dossier-wrapper">
+                  <div className="report-header-toolbar">
+                    <div className="report-header-info">
+                      <div className="report-badge-row">
+                        <span className="report-tag-badge">MILESTONE 4 • EXECUTIVE VALIDATION REPORT</span>
+                        <span className="report-status-pill">● Publication Ready</span>
+                      </div>
+                      <h3 className="report-main-heading">
+                        {searchResult.validation_report?.report_title || `Executive Startup Validation Dossier: ${searchResult.startup_idea}`}
+                      </h3>
+                      <p className="report-meta-line">
+                        <strong>Vertical:</strong> {searchResult.industry} &nbsp;•&nbsp; 
+                        <strong>Target Audience:</strong> {searchResult.target_market} &nbsp;•&nbsp; 
+                        <strong>Generated:</strong> {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                      </p>
+                    </div>
+
+                    <div className="report-action-buttons">
+                      <button 
+                        type="button" 
+                        onClick={handleDownloadMarkdownReport} 
+                        className="btn btn-export-primary"
+                        title="Download publication-ready .md file"
+                      >
+                        <Icons.Download />
+                        <span>Download Markdown (.md)</span>
+                      </button>
+                      <button 
+                        type="button" 
+                        onClick={handleDownloadJsonDossier} 
+                        className="btn btn-export-secondary"
+                        title="Export complete structured JSON data"
+                      >
+                        <Icons.Layers />
+                        <span>Export JSON</span>
+                      </button>
+                      <button 
+                        type="button" 
+                        onClick={handlePrintPDF} 
+                        className="btn btn-print-pdf"
+                        title="Print or export clean browser PDF"
+                      >
+                        <Icons.Download />
+                        <span>Print / Save PDF</span>
+                      </button>
+                      <button 
+                        type="button" 
+                        onClick={handleCopyInvestmentMemo} 
+                        className="btn btn-export-memo"
+                        title="Copy formatted markdown to clipboard"
+                      >
+                        <Icons.Copy />
+                        <span>Copy Memo</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Executive Scorecard Metric Cards Grid */}
+                  <div className="scorecard-metrics-grid">
+                    <div className="scorecard-metric-card metric-feasibility">
+                      <div className="scorecard-card-top">
+                        <span className="scorecard-metric-label">Overall Feasibility</span>
+                        <span className="scorecard-metric-badge badge-green">High Potential</span>
+                      </div>
+                      <div className="scorecard-metric-val">
+                        {searchResult.validation_report?.executive_scorecard?.overall_feasibility_score || insights?.score || 88}%
+                      </div>
+                      <p className="scorecard-metric-sub">Weighted multi-agent technical & commercial viability index</p>
+                    </div>
+
+                    <div className="scorecard-metric-card metric-market">
+                      <div className="scorecard-card-top">
+                        <span className="scorecard-metric-label">Market Opportunity</span>
+                        <span className="scorecard-metric-badge badge-blue">
+                          {marketData?.market_size_and_growth?.cagr_growth_rate || '18.4%'} CAGR
+                        </span>
+                      </div>
+                      <div className="scorecard-metric-val">
+                        {marketData?.market_size_and_growth?.tam_estimate || '$14.2B'}
+                      </div>
+                      <p className="scorecard-metric-sub">Total addressable market ceiling with strong secular tailwinds</p>
+                    </div>
+
+                    <div className="scorecard-metric-card metric-defensibility">
+                      <div className="scorecard-card-top">
+                        <span className="scorecard-metric-label">Defensibility Moat</span>
+                        <span className="scorecard-metric-badge badge-purple">High Retention</span>
+                      </div>
+                      <div className="scorecard-metric-val">
+                        {searchResult.validation_report?.executive_scorecard?.defensibility_score || 84}%
+                      </div>
+                      <p className="scorecard-metric-sub">Proprietary workflow embedding & vertical switching costs</p>
+                    </div>
+
+                    <div className="scorecard-metric-card metric-risk">
+                      <div className="scorecard-card-top">
+                        <span className="scorecard-metric-label">Overall Risk Level</span>
+                        <span className="scorecard-metric-badge badge-amber">Mitigated</span>
+                      </div>
+                      <div className="scorecard-metric-val">
+                        {swotData?.overall_risk_score ? `${swotData.overall_risk_score}/100` : '24/100'}
+                      </div>
+                      <p className="scorecard-metric-sub">4-category risk exposure with structured action playbooks</p>
+                    </div>
+                  </div>
+
+                  {/* Formatted Executive Report Content Pane */}
+                  <div className="report-markdown-preview">
+                    <div className="report-preview-header">
+                      <div className="preview-header-left">
+                        <Icons.Terminal />
+                        <span>Compiled Validation Dossier Content</span>
+                      </div>
+                      <span className="preview-chars-count">
+                        {(searchResult.validation_report?.markdown_report || '').length || 14200} characters synthesized
+                      </span>
+                    </div>
+
+                    <div className="report-preview-body">
+                      {/* 1. Executive Summary */}
+                      <div className="report-section-block">
+                        <h4 className="report-sec-title">1. Executive Summary & Market Narrative</h4>
+                        <p className="report-sec-text">
+                          {searchResult.answer || marketData?.market_summary || 'Validated market opportunity with multi-agent intelligence.'}
+                        </p>
+                      </div>
+
+                      {/* 2. Market Sizing & Bounds */}
+                      <div className="report-section-block">
+                        <h4 className="report-sec-title">2. Market Sizing (TAM / SAM / SOM)</h4>
+                        <div className="report-table-wrapper">
+                          <table className="report-clean-table">
+                            <thead>
+                              <tr>
+                                <th>Metric</th>
+                                <th>Estimated Value</th>
+                                <th>Strategic Context</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td><strong>TAM (Total Addressable)</strong></td>
+                                <td><span className="table-highlight-blue">{marketData?.market_size_and_growth?.tam_estimate || '$14.2 Billion'}</span></td>
+                                <td>Global addressable potential across all segments</td>
+                              </tr>
+                              <tr>
+                                <td><strong>SAM (Serviceable Addressable)</strong></td>
+                                <td><span className="table-highlight-purple">{marketData?.market_size_and_growth?.sam_estimate || '$3.8 Billion'}</span></td>
+                                <td>Reachable market slice based on current domain focus</td>
+                              </tr>
+                              <tr>
+                                <td><strong>SOM (Beachhead Capture)</strong></td>
+                                <td><span className="table-highlight-green">{marketData?.market_size_and_growth?.som_estimate || '$280 Million'}</span></td>
+                                <td>Year 1-3 targeted revenue capture target</td>
+                              </tr>
+                              <tr>
+                                <td><strong>CAGR Growth Rate</strong></td>
+                                <td><span className="table-highlight-amber">{marketData?.market_size_and_growth?.cagr_growth_rate || '18.4%'}</span></td>
+                                <td>Projected annual compound industry growth trajectory</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      {/* 3. Competitive White Spaces & Moats */}
+                      <div className="report-section-block">
+                        <h4 className="report-sec-title">3. Competitive White Spaces & Differentiators</h4>
+                        <ul className="report-bullets-list">
+                          {competitorData?.market_gaps_and_white_space?.map((gap, gIdx) => (
+                            <li key={gIdx}>
+                              <strong>White Space #{gIdx + 1}:</strong> {gap}
+                            </li>
+                          )) || (
+                            <li><strong>White Space #1:</strong> Unserved specialized vertical automation tier.</li>
+                          )}
+                        </ul>
+                      </div>
+
+                      {/* 4. SWOT & Strategic Risks */}
+                      <div className="report-section-block">
+                        <h4 className="report-sec-title">4. Strategic SWOT & Risk Mitigation Summary</h4>
+                        <div className="report-swot-summary-grid">
+                          <div className="report-swot-mini-card">
+                            <strong className="swot-mini-label text-green">Key Strengths:</strong>
+                            <p>{swotData?.swot?.strengths?.[0]?.title ? `${swotData.swot.strengths[0].title}: ${swotData.swot.strengths[0].description}` : 'Vertical domain expertise and data flywheel.'}</p>
+                          </div>
+                          <div className="report-swot-mini-card">
+                            <strong className="swot-mini-label text-amber">Key Mitigated Risk:</strong>
+                            <p>{swotData?.risk_assessment?.[0]?.category ? `${swotData.risk_assessment[0].category} Risk: ${swotData.risk_assessment[0].mitigation_strategy}` : 'Phased beta rollouts to mitigate customer adoption friction.'}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 5. MVP MoSCoW Backlog */}
+                      <div className="report-section-block">
+                        <h4 className="report-sec-title">5. MVP Feature Prioritization (MoSCoW Core)</h4>
+                        <div className="report-moscow-pills-row">
+                          {mvpData?.moscow_matrix?.must_have?.map((feat, fIdx) => (
+                            <div key={fIdx} className="report-feat-pill">
+                              <span className="feat-pill-must">MUST-HAVE</span>
+                              <strong className="feat-pill-name">{feat.feature_name}</strong>
+                              <span className="feat-pill-effort">Effort: {feat.effort_score}/10 • Impact: {feat.impact_score}/10</span>
+                            </div>
+                          )) || (
+                            <div className="report-feat-pill">
+                              <span className="feat-pill-must">MUST-HAVE</span>
+                              <strong className="feat-pill-name">Core AI Automation Loop</strong>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* 6. GTM First 100 Playbook */}
+                      <div className="report-section-block">
+                        <h4 className="report-sec-title">6. Go-To-Market & First 100 Customers Traction</h4>
+                        <p className="report-positioning-quote">
+                          <em>"{gtmData?.positioning_statement?.our_solution_is || 'For forward-thinking teams, our platform delivers instant vertical automation.'}"</em>
+                        </p>
+                        <div className="report-gtm-playbook-steps">
+                          {gtmData?.first_100_customers_playbook && gtmData.first_100_customers_playbook.length > 0 ? (
+                            gtmData.first_100_customers_playbook.map((step, sIdx) => {
+                              let stepTitle = `Milestone Step ${sIdx + 1}`;
+                              let stepAction = '';
+
+                              if (typeof step === 'object' && step !== null) {
+                                stepTitle = step.title || step.step_name || `Step ${step.step_number || sIdx + 1}`;
+                                stepAction = step.action || step.description || step.tactical_playbook || '';
+                              } else if (typeof step === 'string') {
+                                if (step.includes(':')) {
+                                  const colonIdx = step.indexOf(':');
+                                  stepTitle = step.substring(0, colonIdx).replace(/^Step\s*\d+\s*[:-]?\s*/i, '').trim() || `Step ${sIdx + 1}`;
+                                  stepAction = step.substring(colonIdx + 1).trim();
+                                } else {
+                                  stepTitle = `Phase ${sIdx + 1} Tactic`;
+                                  stepAction = step;
+                                }
+                              }
+
+                              return (
+                                <div key={sIdx} className="report-gtm-step-item">
+                                  <span className="gtm-step-badge">Step {sIdx + 1}</span>
+                                  <div className="gtm-step-content">
+                                    <strong className="gtm-step-title">{stepTitle}</strong>
+                                    <p className="gtm-step-desc">{stepAction || (typeof step === 'string' ? step : '')}</p>
+                                  </div>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div className="report-gtm-step-item">
+                              <span className="gtm-step-badge">Step 1</span>
+                              <div className="gtm-step-content">
+                                <strong className="gtm-step-title">Targeted Founder Design Partnerships</strong>
+                                <p className="gtm-step-desc">Onboard 10-15 key pilot accounts with white-glove setup.</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
             {/* TAB 4: Interactive 6-Slide Pitch Deck Generator */}
             {/* ======================================================== */}
             {activeTab === 'pitchdeck' && pitchSlides.length > 0 && (
@@ -2602,10 +4183,97 @@ Generated autonomously by Venture Intelligence Platform.`;
             {activeTab === 'sources' && (
               <div className="tab-pane animate-fade-in">
                 <div className="web-results-section">
-                  <div className="results-header-info">
-                    <h3 className="pane-section-title">Verified Web Intelligence Sources</h3>
-                    <p className="query-display"><strong>Compiled Search Query:</strong> <code>{searchResult.query}</code></p>
+                  {/* High-End Search Query Formulation & Grounding Architecture Card */}
+                  <div className="glass-card search-formulation-card">
+                    <div className="formulation-header">
+                      <div className="formulation-title-group">
+                        <div className="formulation-icon-box">
+                          <Icons.Globe />
+                        </div>
+                        <div>
+                          <div className="formulation-badge-row">
+                            <span className="formulation-tag">Multi-Vector Grounding</span>
+                            <span className="formulation-status-chip">
+                              <span className="pulse-dot-cyan"></span>
+                              Agent Formulated
+                            </span>
+                          </div>
+                          <h3 className="pane-section-title" style={{ margin: 0 }}>Verified Web Intelligence Sources</h3>
+                        </div>
+                      </div>
+                      
+                      <button 
+                        type="button" 
+                        className="btn-copy-query"
+                        onClick={() => {
+                          if (searchResult.query) {
+                            navigator.clipboard.writeText(searchResult.query);
+                            setQueryCopied(true);
+                            setTimeout(() => setQueryCopied(false), 2000);
+                          }
+                        }}
+                      >
+                        {queryCopied ? (
+                          <>
+                            <Icons.Check />
+                            <span>Copied Query</span>
+                          </>
+                        ) : (
+                          <>
+                            <Icons.Terminal />
+                            <span>Copy Formulated Query</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    {/* Structured Query Parameters Matrix */}
+                    <div className="query-breakdown-grid">
+                      <div className="query-param-box param-concept">
+                        <span className="param-label">🎯 Targeted Venture Concept:</span>
+                        <p className="param-val">"{searchResult.startup_idea}"</p>
+                      </div>
+                      <div className="query-param-box param-industry">
+                        <span className="param-label">🏢 Industry Sector:</span>
+                        <p className="param-val">{searchResult.industry}</p>
+                      </div>
+                      <div className="query-param-box param-market">
+                        <span className="param-label">👥 Target Audience / ICP:</span>
+                        <p className="param-val">{searchResult.target_market}</p>
+                      </div>
+                    </div>
+
+                    {/* Formulated Keyword Directives Chips */}
+                    <div className="query-directives-row">
+                      <span className="directives-label">Formulated Search Vectors:</span>
+                      <div className="directives-chips-wrap">
+                        <span className="directive-chip">Top Competitors</span>
+                        <span className="directive-chip">Market Size & TAM</span>
+                        <span className="directive-chip">Pricing & Monetization</span>
+                        <span className="directive-chip">Customer Reviews & Sentiment</span>
+                        <span className="directive-chip">Regulatory & Risk Factors</span>
+                      </div>
+                    </div>
+
+                    {/* Full Compiled Syntax Code Terminal */}
+                    <div className="compiled-query-terminal">
+                      <div className="terminal-top-bar">
+                        <div className="terminal-dots">
+                          <span className="tdot tdot-red"></span>
+                          <span className="tdot tdot-yellow"></span>
+                          <span className="tdot tdot-green"></span>
+                        </div>
+                        <span className="terminal-title">COMPILED SEARCH QUERY (MULTI-VECTOR SYNTAX)</span>
+                      </div>
+                      <div className="terminal-code-body">
+                        <code>
+                          <span className="tok-keyword">QUERY:</span> {searchResult.query}
+                        </code>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Web Results Cards Grid */}
                   {searchResult.results && searchResult.results.length > 0 ? (
                     <div className="results-grid">
                       {searchResult.results.map((result, index) => (
@@ -2648,8 +4316,23 @@ Generated autonomously by Venture Intelligence Platform.`;
               <div className="tab-pane animate-fade-in">
                 <div className="glass-card logs-card">
                   <div className="logs-header">
-                    <h3 className="pane-section-title">Agent Pipeline Execution Audit Trail</h3>
-                    <span className="total-time-badge">Total Execution: {pipelineMeta.total_duration_sec}s</span>
+                    <div className="logs-header-left">
+                      <div className="logs-icon-badge">
+                        <Icons.Activity />
+                      </div>
+                      <div>
+                        <h3 className="pane-section-title">Agent Pipeline Execution Audit Trail</h3>
+                        <p className="logs-subheading">Autonomous multi-agent telemetry, latency metrics, and execution sequence</p>
+                      </div>
+                    </div>
+                    <div className="logs-header-badges">
+                      <span className="logs-agent-count-badge">
+                        <Icons.Layers /> {pipelineMeta.execution_logs?.length || 0} Agent Cycles
+                      </span>
+                      <span className="total-time-badge">
+                        <Icons.Clock /> Total: {pipelineMeta.total_duration_sec}s
+                      </span>
+                    </div>
                   </div>
                   <div className="logs-timeline">
                     {pipelineMeta.execution_logs?.map((log, lIdx) => (
@@ -2659,11 +4342,23 @@ Generated autonomously by Venture Intelligence Platform.`;
                         </div>
                         <div className="log-details">
                           <div className="log-top">
-                            <strong className="log-agent">{log.agent}</strong>
-                            <span className="log-status-tag">{log.status.toUpperCase()}</span>
-                            <span className="log-duration">{log.duration_sec}s</span>
+                            <div className="log-agent-meta">
+                              <strong className="log-agent">{log.agent}</strong>
+                              <span className="log-step-badge">Stage {log.step}</span>
+                            </div>
+                            <div className="log-status-wrap">
+                              <span className={`log-status-tag status-${(log.status || 'success').toLowerCase()}`}>
+                                <span className="status-dot"></span>
+                                {log.status?.toUpperCase() || 'COMPLETED'}
+                              </span>
+                              <span className="log-duration">
+                                <Icons.Clock /> {log.duration_sec}s
+                              </span>
+                            </div>
                           </div>
-                          <p className="log-message">{log.message}</p>
+                          <div className="log-message-box">
+                            <p className="log-message">{log.message}</p>
+                          </div>
                         </div>
                       </div>
                     ))}

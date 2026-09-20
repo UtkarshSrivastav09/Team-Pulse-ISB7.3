@@ -4,7 +4,7 @@
 [![Frontend](https://img.shields.io/badge/Frontend-React_19_+_Vite-61DAFB?logo=react&logoColor=black)](https://team-pulse-isb-7-3.vercel.app/)
 [![Backend](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi&logoColor=white)](https://team-pulse-isb7-3.onrender.com/)
 
-**VenturePulse** is an autonomous multi-agent web platform designed to validate startup concepts, analyze market feasibility, compute TAM/SAM/SOM sizing bounds, benchmark competitor landscapes, and generate actionable market intelligence in real-time. Built as part of **Infosys Springboard 7.0 (Batch 3) by Team Pulse**.
+**VenturePulse** is an autonomous multi-agent web platform designed to validate startup concepts, analyze market feasibility, compute TAM/SAM/SOM sizing bounds, benchmark competitor landscapes, synthesize SWOT/risk playbooks, prioritize MVP roadmaps, and generate actionable go-to-market intelligence in real-time. Built as part of **Infosys Springboard 7.0 (Batch 3) by Team Pulse**.
 
 ---
 
@@ -22,23 +22,25 @@ Explore the live production environments of **VenturePulse** below:
 
 ## Project Overview
 
-Starting a business requires exhaustive market research, competitor benchmarking, and segmentation. This platform automates that process using a connected **Autonomous Multi-Agent Pipeline**:
+Starting a business requires exhaustive market research, competitor benchmarking, risk mitigation, and go-to-market planning. This platform automates that process using a connected **Autonomous Multi-Agent Pipeline**:
 1. **Founder inputs** startup concept, targeted industry vertical, and customer segment.
 2. **Agent 1 (Web Search Agent)** queries real-time web search indices for competitor records and industry data.
-3. **Agent 2 (Market Opportunity & Segmentation Agent)** extracts TAM/SAM/SOM market sizing, CAGR growth rates, buyer vs end-user personas, core pain points, and willingness to pay.
-4. **Agent 3 (Competitor Discovery & Comparison Agent)** maps direct and indirect players, builds an interactive Feature & Positioning Comparison Matrix, and surfaces unserved market white-spaces.
-5. **Agent Orchestrator** sequences all agents, audits runtime performance, and delivers an executive validation report.
+3. **Agent 2 (Market Opportunity Agent)** extracts TAM/SAM/SOM market sizing, CAGR growth rates, buyer vs end-user personas, core pain points, and willingness to pay.
+4. **Agent 3 (Competitor Discovery Agent)** maps direct and indirect players, builds an interactive Feature & Positioning Comparison Matrix, and surfaces unserved market white-spaces.
+5. **Agent 4 (SWOT & Risk Analysis Agent)** generates structured SWOT vectors and multi-category risk assessments (Tech, Market, Legal, Financial) with actionable mitigations.
+6. **Agent 5 (MVP Feature Recommendation Agent)** prioritizes core features using the MoSCoW framework (*Must-Have*, *Should-Have*, *Could-Have*, *Won't-Have*) and Effort vs Impact scoring.
+7. **Agent 6 (Go-To-Market Strategy Agent)** formulates strategic positioning, customer acquisition channels with CAC estimates, and a "First 100 Customers" traction playbook.
+8. **Agent 7 (Conversational Startup Advisor Agent)** engages in interactive, multi-turn consultation on unit economics, GTM execution, and defensibility.
 
 ---
 
-## 🌟 Milestone 2 Core Features
+## 🌟 Milestone 3 Core Features
 
-* **Connected Multi-Agent Pipeline**: Autonomous sequential execution (`WebSearchAgent` $\rightarrow$ `MarketOpportunityAgent` $\rightarrow$ `CompetitorDiscoveryAgent`).
-* **Market Sizing & Growth Metrics**: Computes Total Addressable Market (TAM), Serviceable Addressable Market (SAM), Serviceable Obtainable Market (SOM), and CAGR projection rates.
-* **Customer Segmentation & Persona Breakdown**: Maps distinct customer archetypes with Decision-Maker vs End-User dynamics, critical pain points, motivations, and procurement behaviors.
-* **Direct vs Indirect Competitor Discovery**: In-depth competitor profiles with core offerings, moats, customer complaints, and pricing tiers.
-* **Competitor Comparison Matrix**: Multi-dimensional benchmarking matrix across AI Automation, Setup Speed, Domain Focus, Pricing, and Real-Time Capabilities.
-* **Market Gaps & White-Space Identification**: Surfaces overlooked customer frustrations and tactical differentiation playbooks for founders.
+* **6-Stage Autonomous Multi-Agent Pipeline**: Sequential DAG execution (`WebSearchAgent` $\rightarrow$ `MarketOpportunityAgent` $\rightarrow$ `CompetitorDiscoveryAgent` $\rightarrow$ `SWOTRiskAgent` $\rightarrow$ `MVPFeatureAgent` $\rightarrow$ `GTMStrategyAgent`).
+* **SWOT & Risk Assessment Matrix**: Structured 2x2 SWOT grid with impact scoring and a comprehensive Risk Mitigation table with severity and probability metrics.
+* **MVP Feature Prioritization (MoSCoW)**: Prioritizes core lean features into Must-Have, Should-Have, Could-Have, and Won't-Have categories with Effort vs. Impact (1-10) scores and a 30/60-day sprint roadmap.
+* **Go-To-Market (GTM) Strategy & Traction**: Formulates value positioning statements, ranked acquisition channels with estimated CAC, and a tactical "First 100 Customers" action checklist.
+* **Conversational AI Startup Advisor**: Context-aware multi-turn consultation endpoint (`POST /advisor/chat`) loaded with the validated startup dossier.
 * **Resilient Multi-LLM Layer**: Seamless interoperability with Google Gemini, Groq, OpenAI REST APIs, and smart offline heuristic domain synthesis fallback.
 * **Interactive React Dashboard**: Sleek tabbed interface with real-time agent execution visualizers, viability gauges, and pitch copilots.
 
@@ -48,22 +50,33 @@ Starting a business requires exhaustive market research, competitor benchmarking
 
 ```mermaid
 graph TD
-    User([Founder / User]) --> UI["React 18 + Vite Dashboard"]
-    UI -->|POST /validate| API["FastAPI Server (v2.0.0)"]
+    User([Founder / User]) --> UI["React 19 + Vite Dashboard"]
+    UI -->|POST /validate| API["FastAPI Server (v3.0.0)"]
+    UI -->|POST /advisor/chat| API
     API --> Orchestrator["Agent Pipeline Orchestrator"]
+    API --> AdvisorAgent["Conversational Advisor Agent"]
     
-    subgraph MultiAgentPipeline [Multi-Agent Execution Pipeline]
+    subgraph MultiAgentPipeline [Connected Multi-Agent Execution Pipeline]
         Orchestrator -->|Step 1: Scrape Records| WSA["Agent 1: Web Search Agent"]
         WSA -->|Live Market Intelligence| Orchestrator
         
-        Orchestrator -->|Step 2: Sizing & Segmentation| MOA["Agent 2: Market Opportunity Agent"]
+        Orchestrator -->|Step 2: Sizing & Segments| MOA["Agent 2: Market Opportunity Agent"]
         MOA -->|TAM/SAM/SOM, Personas, Pain Points| Orchestrator
         
         Orchestrator -->|Step 3: Benchmarking & Gaps| CCA["Agent 3: Competitor Discovery Agent"]
         CCA -->|Direct/Indirect Matrix, White Spaces| Orchestrator
+
+        Orchestrator -->|Step 4: SWOT & Risks| SRA["Agent 4: SWOT & Risk Analysis Agent"]
+        SRA -->|2x2 SWOT Grid, Risk Mitigations| Orchestrator
+
+        Orchestrator -->|Step 5: MVP Scoping| MVPA["Agent 5: MVP Feature Agent"]
+        MVPA -->|MoSCoW Board, Effort vs Impact| Orchestrator
+
+        Orchestrator -->|Step 6: GTM & Channels| GTMA["Agent 6: GTM Strategy Agent"]
+        GTMA -->|Positioning, CAC, First 100 Playbook| Orchestrator
     end
     
-    Orchestrator -->|Unified Structured JSON Payload| API
+    Orchestrator -->|Unified Milestone 3 JSON Payload| API
     API -->|HTTP 200| UI
 ```
 
@@ -75,11 +88,15 @@ For complete technical specifications, see the [System Architecture Document](do
 
 ```
 Team-Pulse-ISB7.3/
-├── Backend/                       # Python FastAPI API Server (v2.0.0)
+├── Backend/                       # Python FastAPI API Server (v3.0.0)
 │   ├── services/                  # Multi-Agent Architecture
 │   │   ├── search_service.py      # Agent 1: Web Search Agent (Tavily Index)
 │   │   ├── market_agent.py        # Agent 2: Market Opportunity & Segmentation Agent
 │   │   ├── competitor_agent.py    # Agent 3: Competitor Discovery & Comparison Agent
+│   │   ├── swot_risk_agent.py     # Agent 4: SWOT & Risk Analysis Agent
+│   │   ├── mvp_agent.py           # Agent 5: MVP Feature Recommendation Agent
+│   │   ├── gtm_agent.py           # Agent 6: Go-To-Market Strategy Agent
+│   │   ├── advisor_agent.py       # Agent 7: Conversational Startup Advisor Agent
 │   │   ├── llm_service.py         # Universal Multi-LLM Adapter (Gemini/Groq/OpenAI/Fallback)
 │   │   └── orchestrator.py        # Pipeline Orchestrator with Step Logging & Audit Trail
 │   ├── test_pipeline.py           # Automated Test Suite for 3 Diverse Industry Concepts
@@ -89,8 +106,8 @@ Team-Pulse-ISB7.3/
 │   └── requirements.txt           # Python backend dependencies
 ├── frontend/                      # React Client Application (Vite)
 │   ├── src/                       # Source files
-│   │   ├── App.css                # Milestone 2 Multi-Agent Dashboard Styles
-│   │   ├── App.jsx                # Multi-Tab Analytics, Personas & Matrix Views
+│   │   ├── App.css                # Milestone 3 Multi-Agent Dashboard Styles
+│   │   ├── App.jsx                # Multi-Tab Analytics, SWOT, MoSCoW & GTM Views
 │   │   ├── index.css              # Global typography & color tokens
 │   │   └── main.jsx               # React root mount
 │   ├── index.html                 # Entry HTML template
@@ -127,7 +144,7 @@ GEMINI_API_KEY=your_gemini_key_here
 ```
 *Note: If no API keys are specified, the application automatically runs in intelligent simulation fallback mode with 0 crashes.*
 
-Run the automated test suite across 3 distinct industries:
+Run the automated test suite across 3 distinct industries (verifying all 6 connected agents):
 ```bash
 python test_pipeline.py
 ```
@@ -157,7 +174,7 @@ Open **`http://localhost:5173`** in your browser.
 
 ---
 
-## 🧪 Validated Startup Concepts (Milestone 2 Test Cases)
+## 🧪 Validated Startup Concepts (Milestone 3 Test Cases)
 
 The multi-agent pipeline has been verified on 3 diverse industry concepts:
 1. **Pet Care & HealthTech**: *"An on-demand veterinary telehealth platform with instant AI triage and symptom detection from smartphone photos."*

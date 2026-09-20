@@ -23,13 +23,21 @@ class SearchService:
             print(f"SearchService [ERROR]: Could not initialize search client: {e}")
             return None, False
 
+    def _formulate_optimized_query(self, startup_idea: str, industry: str, target_market: str) -> str:
+        """
+        Formulates high-intent search query with domain modifiers to retrieve maximum signal.
+        """
+        clean_idea = startup_idea.replace('"', '').replace("'", '').strip()
+        # Combine core concept keywords with high-intent market indicators
+        return f"top competitors market size TAM pricing customer reviews '{clean_idea}' {industry} {target_market}"
+
     def get_market_data(self, startup_idea: str, industry: str, target_market: str) -> dict:
         """
-        Formulate query and query web index for competitor and market records.
+        Formulate optimized query and query web index for competitor and market records.
         Supports automatic rotation of API keys if quota limits are reached.
         """
-        query_string = f"competitors market size and existing solutions for '{startup_idea}' in {industry} for {target_market}"
-        print(f"SearchService: Query string -> {query_string}")
+        query_string = self._formulate_optimized_query(startup_idea, industry, target_market)
+        print(f"SearchService: Optimized Query -> {query_string}")
 
         keys = self._get_api_keys()
 

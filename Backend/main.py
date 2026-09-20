@@ -17,14 +17,15 @@ if hasattr(sys.stdout, "reconfigure"):
 # Import the Services and Orchestrator
 from services.search_service import SearchService
 from services.orchestrator import AgentPipelineOrchestrator
+from services.advisor_agent import ConversationalAdvisorAgent
 
 # Load environment variables
 load_dotenv(override=True)
 
 app = FastAPI(
     title="VenturePulse - AI Startup Idea Validator & Market Intelligence API",
-    description="Backend API powering VenturePulse Multi-Agent Startup Validator: Web Search Agent -> Market Opportunity Agent -> Competitor Discovery Agent.",
-    version="2.0.0"
+    description="Backend API powering VenturePulse Multi-Agent Startup Validator (Milestone 1, 2, & 3 connected pipeline).",
+    version="3.0.0"
 )
 
 # Enable CORS (Cross-Origin Resource Sharing)
@@ -40,12 +41,18 @@ app.add_middleware(
 # Initialize Services & Multi-Agent Orchestrator
 search_service = SearchService()
 orchestrator = AgentPipelineOrchestrator(search_service=search_service)
+advisor_agent = ConversationalAdvisorAgent(llm_service=orchestrator.llm_service)
 
-# Pydantic request model for input validation
+# Pydantic request models for input validation
 class StartupValidationRequest(BaseModel):
     startup_idea: str = Field(..., min_length=3, description="Core startup idea or description")
     industry: str = Field(..., min_length=2, description="The market industry or domain")
     target_market: str = Field(..., min_length=2, description="The target audience or customer base")
+
+class AdvisorChatRequest(BaseModel):
+    message: str = Field(..., min_length=1, description="Founder question or query")
+    history: list = Field(default=[], description="Previous conversation message turns")
+    validation_context: dict = Field(default={}, description="Validated startup dossier and agent outputs")
 
 @app.on_event("startup")
 def print_startup_banner():
@@ -54,19 +61,25 @@ def print_startup_banner():
     """
     has_tavily = search_service._get_tavily_client()[1]
     print("\n" + "=" * 72)
-    print("🚀 [VENTUREPULSE] Multi-Agent Startup Intelligence Engine (v2.0.0)")
+    print("🚀 [VENTUREPULSE] Multi-Agent Startup Intelligence Engine (v4.0.0)")
     print("=" * 72)
     print(f"📡 Search Index Connection: {'[LIVE TAVILY CONNECTED]' if has_tavily else '[ENTERPRISE SIMULATION / HYBRID]'}")
-    print("🤖 4 Active Connected Intelligence Agents:")
-    print("   ├─ [1] WebSearchAgent (Market Scraping & Live Web Indexing)")
-    print("   ├─ [2] MarketOpportunityAgent (TAM/SAM/SOM Bounds & Customer Segmentation)")
-    print("   ├─ [3] CompetitorDiscoveryAgent (2x2 Matrix & Market White Spaces)")
-    print("   └─ [4] AgentPipelineOrchestrator (Sequential Execution & Synthesis)")
+    print("🤖 8 Active Connected Intelligence Agents:")
+    print("   ├─ [1] WebSearchAgent (Market Scraping & Live Web Indexing - M1)")
+    print("   ├─ [2] MarketOpportunityAgent (TAM/SAM/SOM & Personas - M2)")
+    print("   ├─ [3] CompetitorDiscoveryAgent (2x2 Matrix & Market White Spaces - M2)")
+    print("   ├─ [4] SWOTRiskAgent (SWOT Matrix & Risk Mitigations - M3)")
+    print("   ├─ [5] MVPFeatureAgent (MoSCoW & Effort vs Impact Prioritization - M3)")
+    print("   ├─ [6] GTMStrategyAgent (Positioning, Acquisition & Launch Playbook - M3)")
+    print("   ├─ [7] ValidationReportAgent (Executive Dossier & Export Engine - M4)")
+    print("   └─ [8] ConversationalAdvisorAgent (Context-Aware Multi-turn Q&A - M3/M4)")
     print("⚡ Active REST Endpoints:")
-    print("   ├─ GET  /         -> Multi-Agent API Status & Developer Portal")
-    print("   ├─ GET  /agents   -> Agent Pipeline Architecture Metadata")
-    print("   ├─ GET  /health   -> Service Healthcheck (200 OK)")
-    print("   └─ POST /validate -> Multi-Agent Autonomous Validation Pipeline")
+    print("   ├─ GET  /              -> Multi-Agent API Status & Developer Portal")
+    print("   ├─ GET  /agents        -> Agent Pipeline Architecture Metadata")
+    print("   ├─ GET  /health        -> Service Healthcheck (200 OK)")
+    print("   ├─ POST /validate      -> Multi-Agent Autonomous Validation Pipeline (M1-M4)")
+    print("   ├─ POST /advisor/chat  -> Conversational Startup Advisor Copilot (M3/M4)")
+    print("   └─ POST /export/report -> Executive Dossier Export Engine (Markdown/JSON) (M4)")
     print("=" * 72 + "\n")
 
 @app.get("/")
@@ -74,17 +87,23 @@ def home(request: Request, format: str = None):
     has_tavily = bool(search_service._get_tavily_client()[1])
     
     json_data = {
-        "message": "VenturePulse Multi-Agent API is active (v2.0.0)",
-        "version": "2.0.0",
+        "message": "VenturePulse Multi-Agent API is active (v4.0.0)",
+        "version": "4.0.0",
         "search_index_connected": has_tavily,
         "active_agents": [
             "WebSearchAgent (Milestone 1)",
             "MarketOpportunityAgent (Milestone 2)",
             "CompetitorDiscoveryAgent (Milestone 2)",
-            "AgentPipelineOrchestrator (Milestone 2)"
+            "SWOTRiskAgent (Milestone 3)",
+            "MVPFeatureAgent (Milestone 3)",
+            "GTMStrategyAgent (Milestone 3)",
+            "ValidationReportAgent (Milestone 4)",
+            "ConversationalAdvisorAgent (Milestone 3/4)"
         ],
         "endpoints": {
             "validate": "POST /validate",
+            "advisor_chat": "POST /advisor/chat",
+            "export_report": "POST /export/report",
             "agents_metadata": "GET /agents",
             "health": "GET /health"
         }
@@ -578,9 +597,13 @@ def home(request: Request, format: str = None):
 </html>"""
     return HTMLResponse(content=html_content)
 
+class ExportReportRequest(BaseModel):
+    validation_data: dict = Field(..., description="Full validation response dictionary or dossier")
+    export_format: str = Field(default="markdown", description="'markdown', 'json', or 'html'")
+
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "2.0.0"}
+    return {"status": "ok", "version": "4.0.0"}
 
 @app.get("/agents")
 def get_agents():
@@ -589,12 +612,13 @@ def get_agents():
     """
     print("🤖 [API GET /agents] Agent architecture metadata requested.")
     return {
+        "version": "4.0.0",
         "pipeline": [
             {
                 "id": "web_search_agent",
                 "name": "Web Search & Market Index Agent",
                 "milestone": 1,
-                "role": "Scrapes real-time web indexes for competitors, industry benchmarks, and solutions."
+                "role": "Scrapes real-time web indexes for competitors, industry benchmarks, and live market records."
             },
             {
                 "id": "market_opportunity_agent",
@@ -609,13 +633,125 @@ def get_agents():
                 "role": "Identifies direct/indirect players, creates comparative feature matrices, and highlights market white spaces."
             },
             {
-                "id": "agent_orchestrator",
-                "name": "Agent Pipeline Orchestrator",
-                "milestone": 2,
-                "role": "Executes sequential DAG pipeline, captures performance timings, and synthesizes executive dossier."
+                "id": "swot_risk_agent",
+                "name": "SWOT & Risk Analysis Agent",
+                "milestone": 3,
+                "role": "Generates structured SWOT vectors and multi-category risk assessments with concrete mitigation playbooks."
+            },
+            {
+                "id": "mvp_feature_agent",
+                "name": "MVP Feature Recommendation Agent",
+                "milestone": 3,
+                "role": "Prioritizes core product features using MoSCoW and Effort vs Impact matrices for 30/60 day build sprints."
+            },
+            {
+                "id": "gtm_strategy_agent",
+                "name": "Go-To-Market Strategy Agent",
+                "milestone": 3,
+                "role": "Formulates positioning statement, acquisition channel CAC dynamics, First 100 Customers playbook, and launch phases."
+            },
+            {
+                "id": "validation_report_agent",
+                "name": "Startup Validation Report Generation Agent",
+                "milestone": 4,
+                "role": "Compiles executive dossiers into structured markdown, JSON scorecards, and publication-ready investor reports."
+            },
+            {
+                "id": "conversational_advisor_agent",
+                "name": "Conversational Startup Advisor Agent",
+                "milestone": 3,
+                "role": "Engages in interactive, multi-turn consultation on unit economics, GTM execution, and defensibility."
             }
         ]
     }
+
+@app.post("/export/report")
+def export_report(request: ExportReportRequest):
+    """
+    Milestone 4 Export Endpoint:
+    Exports startup validation dossier in Markdown, JSON, or HTML printable format.
+    """
+    data = request.validation_data
+    if not data:
+        raise HTTPException(status_code=400, detail="Validation data payload is required.")
+
+    fmt = request.export_format.lower()
+    startup_name = data.get("startup_idea", "startup").replace(" ", "_")[:24]
+    
+    # Extract or generate markdown report
+    rep = data.get("validation_report", {})
+    md_report = rep.get("markdown_report")
+    if not md_report:
+        # Generate on the fly using report agent
+        from services.report_agent import ValidationReportAgent
+        r_agent = ValidationReportAgent(llm_service=orchestrator.llm_service)
+        compiled = r_agent.generate_report(data)
+        md_report = compiled.get("markdown_report", "")
+
+    if fmt == "json":
+        return {
+            "format": "json",
+            "filename": f"venturepulse_{startup_name}_dossier.json",
+            "content": data
+        }
+    elif fmt == "html":
+        # Simple styled HTML wrapping markdown or raw summary
+        title = data.get("startup_idea", "VenturePulse Dossier")
+        html_doc = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{title} - Validation Dossier</title>
+<style>
+body {{ font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; color: #1e293b; max-width: 800px; margin: 40px auto; padding: 0 20px; }}
+h1, h2, h3 {{ color: #0f172a; }}
+table {{ border-collapse: collapse; width: 100%; margin: 20px 0; }}
+th, td {{ border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }}
+th {{ background-color: #f1f5f9; }}
+pre, code {{ background: #f8fafc; padding: 2px 6px; border-radius: 4px; font-family: monospace; }}
+</style>
+</head>
+<body>
+<pre style="white-space: pre-wrap; font-family: inherit;">{md_report}</pre>
+</body>
+</html>"""
+        return {
+            "format": "html",
+            "filename": f"venturepulse_{startup_name}_report.html",
+            "content": html_doc
+        }
+    else:
+        # Default Markdown
+        return {
+            "format": "markdown",
+            "filename": f"venturepulse_{startup_name}_report.md",
+            "content": md_report
+        }
+
+@app.post("/advisor/chat")
+def advisor_chat(request: AdvisorChatRequest):
+    """
+    Milestone 3 Conversational Advisor Endpoint:
+    Processes user follow-up questions in the context of the validated startup dossier.
+    """
+    if not request.message.strip():
+        raise HTTPException(status_code=400, detail="Message cannot be empty.")
+
+    try:
+        response = advisor_agent.chat(
+            user_message=request.message.strip(),
+            history=request.history,
+            validation_context=request.validation_context
+        )
+        return response
+    except Exception as e:
+        print(f"❌ [API ERROR] Advisor chat failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Advisor chat error: {str(e)}")
+
+@app.post("/chat")
+def chat_alias(request: AdvisorChatRequest):
+    """Alias endpoint for conversational advisor."""
+    return advisor_chat(request)
 
 @app.post("/validate")
 def validate_startup_idea(request: StartupValidationRequest):
