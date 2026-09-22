@@ -1,0 +1,41 @@
+{
+  "vp_anintellig": {
+    "id": "vp_anintellig",
+    "startup_idea": "Startup Concept",
+    "industry": "Technology",
+    "target_market": "General Audience",
+    "created_at": "2026-09-22 22:25:03",
+    "responses": [
+      {
+        "id": "resp_1",
+        "respondent_name": "Anonymous Explorer",
+        "problem_frequency": "Monthly",
+        "current_solution": "No good solution yet",
+        "rating": 4,
+        "willingness_to_pay": "Free Early Adopter Pilot",
+        "feedback": "",
+        "submitted_at": "2026-09-22 22:25:03"
+      }
+    ]
+  },
+  "vp_bc3c88d2": {
+    "id": "vp_bc3c88d2",
+    "startup_idea": "An automated cash flow intelligence and instant invoice factoring platform tailored for SMB contractors.",
+    "industry": "FinTech & SMB Banking",
+    "target_market": "Small business owners, general contractors, freelancers",
+    "founder_name": "Founding Team",
+    "custom_pitch": "We are building a solution for Small business owners, general contractors, freelancers in FinTech & SMB Banking: An automated cash flow intelligence and instant invoice factoring platform tailored for SMB contractors.",
+    "created_at": "2026-09-22 22:44:14",
+    "responses": []
+  },
+  "vp_365c2655": {
+    "id": "vp_365c2655",
+    "startup_idea": "An automated cash flow intelligence and instant invoice factoring platform tailored for SMB contractors.",
+    "industry": "FinTech & SMB Banking",
+    "target_market": "Small business owners, general contractors, freelancers",
+    "founder_name": "Founding Team",
+    "custom_pitch": "We are building a solution for Small business owners, general contractors, freelancers in FinTech & SMB Banking: An automated cash flow intelligence and instant invoice factoring platform tailored for SMB contractors.",
+    "created_at": "2026-09-22 22:44:14",
+    "responses": []
+  }
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import './App.css'
 
 // Professional Inline SVG Icons for top-tier enterprise UI aesthetics
@@ -187,6 +187,68 @@ const Icons = {
   MessageSquare: () => (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  ),
+  Debate: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m14.5 12.5-8 8a2.119 2.119 0 1 1-3-3l8-8" />
+      <path d="m16 16 6-6" />
+      <path d="m8 8 6-6" />
+      <path d="m9 7 8 8" />
+      <path d="m21 11-8-8" />
+    </svg>
+  ),
+  Volume: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+    </svg>
+  ),
+  VolumeX: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <line x1="23" y1="9" x2="17" y2="15" />
+      <line x1="17" y1="9" x2="23" y2="15" />
+    </svg>
+  ),
+  Maximize: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="15 3 21 3 21 9" />
+      <polyline points="9 21 3 21 3 15" />
+      <line x1="21" y1="3" x2="14" y2="10" />
+      <line x1="3" y1="21" x2="10" y2="14" />
+    </svg>
+  ),
+  Minimize: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="4 14 10 14 10 20" />
+      <polyline points="20 10 14 10 14 4" />
+      <line x1="14" y1="10" x2="21" y2="3" />
+      <line x1="3" y1="21" x2="10" y2="14" />
+    </svg>
+  ),
+  Play: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <polygon points="5 3 19 12 5 21 5 3" />
+    </svg>
+  ),
+  Pause: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <rect x="6" y="4" width="4" height="16" />
+      <rect x="14" y="4" width="4" height="16" />
+    </svg>
+  ),
+  Vote: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m9 12 2 2 4-4" />
+      <path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z" />
+      <path d="M22 19H2" />
+    </svg>
+  ),
+  Flame: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
     </svg>
   ),
   Presentation: () => (
@@ -824,23 +886,33 @@ const HUD_AGENTS_METADATA = [
 ];
 
 function App() {
-  // Theme Switcher State (Dark / Light)
+  // Theme Switcher State (Dark / Light) with mobile-safe storage & double DOM attribute sync
   const [theme, setTheme] = useState(() => {
     try {
-      return localStorage.getItem('venturepulse_theme') || 'dark';
+      if (typeof window !== 'undefined' && window.localStorage) {
+        return localStorage.getItem('venturepulse_theme') || 'dark';
+      }
     } catch {
       return 'dark';
     }
+    return 'dark';
   });
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
     try {
-      localStorage.setItem('venturepulse_theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+      document.body.setAttribute('data-theme', theme);
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('venturepulse_theme', theme);
+      }
     } catch {}
   }, [theme]);
 
-  const toggleTheme = () => {
+  const toggleTheme = (e) => {
+    if (e) {
+      e.preventDefault?.();
+      e.stopPropagation?.();
+    }
     setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   };
 
@@ -861,23 +933,175 @@ function App() {
   const [searchResult, setSearchResult] = useState(null)
   
   // Tab navigation states
-  const [activeTab, setActiveTab] = useState('market') // 'market' | 'competitors' | 'strategy' | 'pitchdeck' | 'sources' | 'logs'
+  const [activeTab, setActiveTab] = useState('market') // 'market' | 'competitors' | 'strategy' | 'debate' | 'pitchdeck' | 'sources' | 'logs'
   const [pitchTab, setPitchTab] = useState('pitch')
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
+  const [isFullscreenDeck, setIsFullscreenDeck] = useState(false)
+  const [showSpeakerNotes, setShowSpeakerNotes] = useState(false)
+  const [isDeckAutoplaying, setIsDeckAutoplaying] = useState(false)
+  const [deckTimerSeconds, setDeckTimerSeconds] = useState(0)
+
+  // AI Investor Committee Debate States (Devil's Advocate)
+  const [debateRound, setDebateRound] = useState(1) // 1: Market & TAM, 2: Moat & Defensibility, 3: Unit Economics & GTM
+  const [isDebateVoiceActive, setIsDebateVoiceActive] = useState(false)
+  const [activeDebateSpeaker, setActiveDebateSpeaker] = useState(null) // 'bull' | 'bear' | null
+  const [founderDefenseText, setFounderDefenseText] = useState('')
+  const [founderDefensesList, setFounderDefensesList] = useState([])
+  const [committeeVote, setCommitteeVote] = useState(null) // 'invest' | 'pilot' | 'pass' | null
+  const [bullScoreDelta, setBullScoreDelta] = useState(0)
 
   // Financial Model Sensitivity Slider States
   const [targetCustomers, setTargetCustomers] = useState(25000)
   const [arpu, setArpu] = useState(600)
   const [penetrationRate, setPenetrationRate] = useState(1.5)
 
-  // 7-Stage Pipeline Slider Ref & Handler
+  // 7-Stage Pipeline Infinite Cyclic Slider Ref, State & Handler
   const pipelineScrollRef = useRef(null)
+  const [isPipelinePaused, setIsPipelinePaused] = useState(false)
+  const isPipelineInteractingRef = useRef(false)
+
+  // Initialize and align to the middle set (Set 1) so it has seamless 2-way infinite scroll
+  const initPipelineScroll = useCallback(() => {
+    const track = pipelineScrollRef.current;
+    if (!track) return;
+    const singleSetWidth = track.scrollWidth / 3;
+    if (singleSetWidth > 0 && track.scrollLeft < 10) {
+      track.scrollLeft = singleSetWidth;
+    }
+  }, [])
+
+  useEffect(() => {
+    initPipelineScroll();
+    window.addEventListener('resize', initPipelineScroll);
+    return () => window.removeEventListener('resize', initPipelineScroll);
+  }, [initPipelineScroll])
+
   const slidePipeline = (direction) => {
-    if (pipelineScrollRef.current) {
-      const scrollAmount = direction === 'left' ? -220 : 220;
-      pipelineScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    const track = pipelineScrollRef.current;
+    if (!track) return;
+    const cardStep = 195; // Card width + connector spacing
+    const scrollAmount = direction === 'left' ? -cardStep : cardStep;
+    track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  }
+
+  // Handle cyclic scroll wrapping seamlessly during manual swipe/scroll or arrows
+  const handlePipelineScroll = () => {
+    const track = pipelineScrollRef.current;
+    if (!track) return;
+    const singleSetWidth = track.scrollWidth / 3;
+    if (singleSetWidth > 20) {
+      if (track.scrollLeft <= 5) {
+        track.scrollLeft += singleSetWidth;
+      } else if (track.scrollLeft >= singleSetWidth * 2) {
+        track.scrollLeft -= singleSetWidth;
+      }
     }
   }
+
+  // 60FPS Continuous Left-to-Right (-->) Cyclic Auto-Glide Loop for 7-Stage Pipeline
+  useEffect(() => {
+    const track = pipelineScrollRef.current;
+    if (!track) return;
+
+    let animId = null;
+    let lastTime = performance.now();
+    const glideSpeed = 34; // 34 pixels per second — silky smooth continuous motion
+
+    const glideFrame = (now) => {
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      if (!isPipelinePaused && !isPipelineInteractingRef.current && track) {
+        const singleSetWidth = track.scrollWidth / 3;
+        if (singleSetWidth > 20) {
+          track.scrollLeft -= glideSpeed * delta; // Glides visually from Left to Right (-->)
+          if (track.scrollLeft <= 5) {
+            track.scrollLeft += singleSetWidth;
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(glideFrame);
+    };
+
+    animId = requestAnimationFrame(glideFrame);
+
+    return () => {
+      if (animId) cancelAnimationFrame(animId);
+    };
+  }, [isPipelinePaused])
+
+  // Category Filter Pills: Mobile-only 60FPS Left-to-Right Glide (No backward bounce)
+  const categoryFilterRef = useRef(null)
+  const [isCatFilterPaused, setIsCatFilterPaused] = useState(false)
+
+  useEffect(() => {
+    const track = categoryFilterRef.current;
+    if (!track) return;
+
+    let animId = null;
+    let lastTime = performance.now();
+    const glideSpeed = 24; // Smooth drift
+
+    const glideFrame = (now) => {
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      if (window.innerWidth <= 768 && !isCatFilterPaused && track) {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (maxScroll > 6) {
+          track.scrollLeft -= glideSpeed * delta;
+          if (track.scrollLeft <= 1) {
+            track.scrollLeft = maxScroll; // Seamlessly loop from right to left without reversing backwards
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(glideFrame);
+    };
+
+    animId = requestAnimationFrame(glideFrame);
+
+    return () => {
+      if (animId) cancelAnimationFrame(animId);
+    };
+  }, [isCatFilterPaused])
+
+  // Mini Pipeline Flow: Mobile-only 60FPS Left-to-Right Glide (No backward bounce)
+  const miniFlowRef = useRef(null)
+  const [isMiniFlowPaused, setIsMiniFlowPaused] = useState(false)
+
+  useEffect(() => {
+    const track = miniFlowRef.current;
+    if (!track) return;
+
+    let animId = null;
+    let lastTime = performance.now();
+    const glideSpeed = 28; // Smooth drift
+
+    const glideFrame = (now) => {
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
+      if (window.innerWidth <= 768 && !isMiniFlowPaused && track) {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (maxScroll > 6) {
+          track.scrollLeft -= glideSpeed * delta;
+          if (track.scrollLeft <= 1) {
+            track.scrollLeft = maxScroll; // Seamlessly loop without reversing backwards
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(glideFrame);
+    };
+
+    animId = requestAnimationFrame(glideFrame);
+
+    return () => {
+      if (animId) cancelAnimationFrame(animId);
+    };
+  }, [isMiniFlowPaused])
 
   // Interactive UI Extras (Telemetry node drawer, hover states, toast)
   const [selectedAgentNode, setSelectedAgentNode] = useState(null)
@@ -904,6 +1128,164 @@ function App() {
       copilotEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
   }, [copilotMessages, copilotThinking, isCopilotOpen])
+
+  // Background backend warmup ping on page load (wakes up cloud server / Render instance early)
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    fetch(`${apiUrl}/health`).catch(() => {})
+  }, [])
+
+  // Standalone Customer Survey Route Detection (e.g. ?survey=vp_xyz)
+  const [standaloneSurveyId, setStandaloneSurveyId] = useState(() => {
+    const params = new URLSearchParams(window.location.search)
+    return params.get('survey') || params.get('s') || null
+  })
+  const [standaloneSurveyMeta, setStandaloneSurveyMeta] = useState(null)
+  const [surveyForm, setSurveyForm] = useState({
+    name: '',
+    frequency: 'Daily',
+    currentSolution: 'Manual workarounds & spreadsheets',
+    rating: 5,
+    willingnessToPay: '100% Free Forever (Open Access)',
+    feedback: ''
+  })
+  const [surveySubmitted, setSurveySubmitted] = useState(false)
+  const [isSubmittingSurvey, setIsSubmittingSurvey] = useState(false)
+
+  // Fetch metadata for Standalone Survey if opened by end user
+  useEffect(() => {
+    if (!standaloneSurveyId) return
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    fetch(`${apiUrl}/survey/${standaloneSurveyId}`)
+      .then(res => res.json())
+      .then(data => setStandaloneSurveyMeta(data))
+      .catch(() => {
+        setStandaloneSurveyMeta({
+          id: standaloneSurveyId,
+          startup_idea: "AI Startup Concept Validation",
+          industry: "Technology & Software",
+          target_market: "Early Adopters & Product Users",
+          custom_pitch: "We are currently validating a new AI platform. We would love your 30-second honest feedback!"
+        })
+      })
+  }, [standaloneSurveyId])
+
+  // Live Founder Dashboard Survey Feedback Pool & Interactive States
+  const [customerResponses, setCustomerResponses] = useState([
+    {
+      id: "resp_1",
+      respondent_name: "Aarav Sharma (Early Adopter)",
+      problem_frequency: "Daily",
+      current_solution: "Manual spreadsheets & multiple SaaS tabs",
+      rating: 5,
+      willingness_to_pay: "100% Free Forever",
+      feedback: "This solves a huge workflow bottleneck for our team. Thrilled that all features and export tools are 100% free to use!",
+      submitted_at: "Today, 10:14 AM"
+    },
+    {
+      id: "resp_2",
+      respondent_name: "Priya Patel (Product Lead)",
+      problem_frequency: "Weekly",
+      current_solution: "Cobbled together 3 internal tools",
+      rating: 5,
+      willingness_to_pay: "Free Early Adopter Pilot",
+      feedback: "Very clean concept and super fast. Awesome that founders and students get full 100% free community access.",
+      submitted_at: "Yesterday, 04:30 PM"
+    },
+    {
+      id: "resp_3",
+      respondent_name: "Rohan Varma (Operations Manager)",
+      problem_frequency: "Daily",
+      current_solution: "Manual copy-pasting across systems",
+      rating: 5,
+      willingness_to_pay: "Free Student & Community Tier",
+      feedback: "The time saved on market research and slide decks is unbelievable. 100% free tier makes this an instant must-have.",
+      submitted_at: "2 days ago"
+    }
+  ])
+
+  // Real-time Interactive Survey States
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false)
+  const [surveyFilter, setSurveyFilter] = useState('all') // 'all' | '5star' | 'daily' | 'weekly'
+  const [surveySearchQuery, setSurveySearchQuery] = useState('')
+  const [newlyAddedResponseId, setNewlyAddedResponseId] = useState(null)
+  const [isLiveSyncActive, setIsLiveSyncActive] = useState(true)
+
+  // Unique Survey ID for current venture idea
+  const currentSurveyId = `vp_${(searchResult?.startup_idea || startupIdea || 'idea').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 10) || 'concept'}`
+
+  // Real-time sync engine: Auto-polling backend + BroadcastChannel + LocalStorage event listener
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    let isMounted = true
+
+    const fetchLiveResponses = async () => {
+      try {
+        const res = await fetch(`${apiUrl}/survey/${currentSurveyId}/responses`)
+        if (res.ok) {
+          const data = await res.json()
+          if (data.responses && data.responses.length > 0 && isMounted) {
+            setCustomerResponses(prev => {
+              const existingIds = new Set(prev.map(r => r.id))
+              const newItems = data.responses.filter(r => !existingIds.has(r.id))
+              if (newItems.length > 0) {
+                const latest = newItems[0]
+                setNewlyAddedResponseId(latest.id)
+                showToast(`🎉 New Live Customer Feedback from ${latest.respondent_name || 'User'}!`)
+                return [...newItems, ...prev]
+              }
+              return prev
+            })
+          }
+        }
+      } catch {}
+    }
+
+    fetchLiveResponses()
+    const pollInterval = setInterval(fetchLiveResponses, 3500)
+
+    // Cross-tab BroadcastChannel listener
+    let channel = null
+    try {
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        channel = new BroadcastChannel('venturepulse_survey_sync')
+        channel.onmessage = (event) => {
+          if (event.data && event.data.type === 'NEW_RESPONSE' && isMounted) {
+            const resp = event.data.response
+            setCustomerResponses(prev => {
+              if (prev.some(r => r.id === resp.id)) return prev
+              setNewlyAddedResponseId(resp.id)
+              showToast(`🔔 Instant Feedback received from ${resp.respondent_name}!`)
+              return [resp, ...prev]
+            })
+          }
+        }
+      }
+    } catch {}
+
+    // Cross-window storage fallback listener
+    const handleStorageChange = (e) => {
+      if (e.key === 'venturepulse_new_feedback' && e.newValue && isMounted) {
+        try {
+          const resp = JSON.parse(e.newValue)
+          setCustomerResponses(prev => {
+            if (prev.some(r => r.id === resp.id)) return prev
+            setNewlyAddedResponseId(resp.id)
+            showToast(`🔔 Live Feedback received from ${resp.respondent_name}!`)
+            return [resp, ...prev]
+          })
+        } catch {}
+      }
+    }
+    window.addEventListener('storage', handleStorageChange)
+
+    return () => {
+      isMounted = false
+      clearInterval(pollInterval)
+      if (channel) channel.close()
+      window.removeEventListener('storage', handleStorageChange)
+    }
+  }, [currentSurveyId])
 
   // Validation History Vault (localStorage)
   const [isVaultOpen, setIsVaultOpen] = useState(false)
@@ -1194,7 +1576,7 @@ function App() {
         }
         return prev
       })
-    }, 1400)
+    }, 450)
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
@@ -1301,6 +1683,227 @@ function App() {
       console.error("Failed to clear localStorage", err)
     }
     showToast("All Vault history cleared.")
+  }
+
+  // ============================================================================
+  // Customer Discovery Survey Actions & Handlers
+  // ============================================================================
+  // Customer Discovery Survey Actions & Handlers
+  // ============================================================================
+  const getShareableSurveyUrl = () => {
+    const base = window.location.origin + window.location.pathname
+    const currentIdea = searchResult?.startup_idea || startupIdea || 'AI Venture Concept'
+    const currentIndustry = searchResult?.industry || industry || 'Technology & Software'
+    const currentMarket = searchResult?.target_market || targetMarket || 'Target Customers'
+    const cleanId = currentIdea
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '')
+      .slice(0, 10) || 'idea'
+    const surveyId = `vp_${cleanId}`
+
+    // Persist survey metadata to localStorage for instant local/cross-tab resolution
+    try {
+      localStorage.setItem(`survey_meta_${surveyId}`, JSON.stringify({
+        id: surveyId,
+        startup_idea: currentIdea,
+        industry: currentIndustry,
+        target_market: currentMarket
+      }))
+    } catch {}
+
+    // Register survey on backend in background
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+      fetch(`${apiUrl}/survey/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          startup_idea: currentIdea,
+          industry: currentIndustry,
+          target_market: currentMarket,
+          founder_name: "Founding Team"
+        })
+      }).catch(() => {})
+    } catch {}
+
+    return `${base}?survey=${surveyId}`
+  }
+
+  const handleShareWhatsApp = () => {
+    const link = getShareableSurveyUrl()
+    const currentIdea = searchResult?.startup_idea || startupIdea || "an automated venture intelligence platform"
+    const currentIndustry = searchResult?.industry || industry || "Technology & Software"
+    const currentMarket = searchResult?.target_market || targetMarket || "Early Adopters & Product Teams"
+
+    const msg = `🚀 *Startup Validation & Early Feedback Request*
+
+👋 Hi there! We are currently conducting early customer research to validate a new startup solution:
+
+🎯 *Startup Concept:*
+"${currentIdea}"
+
+🏢 *Industry Sector:* ${currentIndustry}
+👥 *Target Audience:* ${currentMarket}
+
+Could you please take *30 seconds* to answer 4 quick questions to help us shape our 100% Free community MVP?
+
+🔗 *Take the 30-Second Free Survey:*
+${link}
+
+✨ *No login or signup required • 100% Free access for early testers.*
+Your honest thoughts mean the world to our founding team! 🙏`
+
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank')
+  }
+
+  const handleShareEmail = () => {
+    const link = getShareableSurveyUrl()
+    const currentIdea = searchResult?.startup_idea || startupIdea || "Automated Venture Intelligence Platform"
+    const currentIndustry = searchResult?.industry || industry || "Technology & Software"
+    const currentMarket = searchResult?.target_market || targetMarket || "Early Adopters & Product Teams"
+
+    const subject = `[Quick Feedback Request] Validating: "${currentIdea.slice(0, 48)}..."`
+    const body = `Hi,
+
+I hope you're doing well!
+
+Our founding team is currently conducting early customer discovery and user validation for our new startup concept:
+
+🎯 Venture Concept:
+"${currentIdea}"
+
+🏢 Industry Sector: ${currentIndustry}
+👥 Target Audience: ${currentMarket}
+
+We would truly value your quick perspective as someone in this domain. Could you take 30 seconds to answer 4 quick questions about your current workflow and pain points?
+
+🔗 Open 30-Second Validation Survey (100% Free • No Login Required):
+${link}
+
+Your input will directly help us prioritize our 100% Free open community release and feature roadmap.
+
+Thank you so much for your time and guidance!
+
+Best regards,
+Founding Team • VenturePulse Validation Hub`
+
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }
+
+  const handleCopySurveyLink = () => {
+    const link = getShareableSurveyUrl()
+    navigator.clipboard.writeText(link)
+    showToast("📋 Unique survey link copied to clipboard!")
+  }
+
+  const handleOpenSurveyPreview = () => {
+    const link = getShareableSurveyUrl()
+    window.open(link, '_blank')
+  }
+
+  const handleAddSimulatedResponse = () => {
+    const sampleNames = ["Ananya Roy (Beta Tester)", "Vikram Malhotra (Angel Investor)", "Sneha Kulkarni (Growth Lead)", "Devansh Mehta (CTO)", "Divya N (Customer)", "Arjun Reddy (Operations Lead)"]
+    const sampleSolutions = ["Multiple separate SaaS tools", "Manual Excel sheets & copy-pasting", "Custom internal scripts", "No good existing solution"]
+    const sampleFeedback = [
+      "Love the focus on workflow automation. Make sure the 100% free beta onboarding takes less than 2 minutes.",
+      "The value prop is 10/10. Definitely include team collaboration and WhatsApp instant summary alerts.",
+      "Awesome that this is 100% free with open community access. Makes validation painless for early stage founders.",
+      "Great solution to a very real problem. Can we get 1-click export to PDF and Google Sheets?",
+      "Very promising concept! I have already shared this with two other startup founders in my network."
+    ]
+    const pickedName = sampleNames[Math.floor(Math.random() * sampleNames.length)]
+    const pickedSol = sampleSolutions[Math.floor(Math.random() * sampleSolutions.length)]
+    const pickedFeed = sampleFeedback[Math.floor(Math.random() * sampleFeedback.length)]
+    const newResp = {
+      id: `resp_${Date.now()}`,
+      respondent_name: pickedName,
+      problem_frequency: "Daily",
+      current_solution: pickedSol,
+      rating: 5,
+      willingness_to_pay: "100% Free Forever",
+      feedback: pickedFeed,
+      submitted_at: "Just now"
+    }
+
+    setCustomerResponses(prev => [newResp, ...prev])
+    setNewlyAddedResponseId(newResp.id)
+    showToast(`🎉 Live response simulated from ${pickedName}!`)
+
+    // Broadcast across tabs
+    try {
+      localStorage.setItem('venturepulse_new_feedback', JSON.stringify(newResp))
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        const channel = new BroadcastChannel('venturepulse_survey_sync')
+        channel.postMessage({ type: 'NEW_RESPONSE', response: newResp })
+        channel.close()
+      }
+    } catch {}
+  }
+
+  const handleExportSurveyCSV = () => {
+    if (!customerResponses || customerResponses.length === 0) {
+      showToast("No responses to export yet.")
+      return
+    }
+    const headers = ["ID", "Respondent Name", "Problem Frequency", "Current Workaround", "Rating (1-5)", "Willingness To Pay / Access Tier", "Feedback", "Submitted At"]
+    const rows = customerResponses.map(r => [
+      `"${r.id}"`,
+      `"${(r.respondent_name || '').replace(/"/g, '""')}"`,
+      `"${(r.problem_frequency || '').replace(/"/g, '""')}"`,
+      `"${(r.current_solution || '').replace(/"/g, '""')}"`,
+      r.rating || 5,
+      `"${(r.willingness_to_pay || '').replace(/"/g, '""')}"`,
+      `"${(r.feedback || '').replace(/"/g, '""')}"`,
+      `"${r.submitted_at || ''}"`
+    ])
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n")
+    const encodedUri = encodeURI(csvContent)
+    const link = document.createElement("a")
+    link.setAttribute("href", encodedUri)
+    link.setAttribute("download", `VenturePulse_Customer_Survey_${(searchResult?.startup_idea || 'validation').slice(0, 15).replace(/\s+/g, '_')}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    showToast("📊 Customer survey exported as CSV spreadsheet!")
+  }
+
+  const handleStandaloneSurveySubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmittingSurvey(true)
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    const newEntry = {
+      id: `resp_${Date.now()}`,
+      respondent_name: surveyForm.name.trim() || "Anonymous Explorer",
+      problem_frequency: surveyForm.frequency,
+      current_solution: surveyForm.currentSolution,
+      rating: surveyForm.rating,
+      willingness_to_pay: surveyForm.willingnessToPay,
+      feedback: surveyForm.feedback.trim() || "Excited for the 100% free beta release! Strong concept.",
+      submitted_at: "Just now"
+    }
+
+    try {
+      await fetch(`${apiUrl}/survey/${standaloneSurveyId || 'vp_demo'}/submit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newEntry)
+      })
+    } catch {
+      // Offline fallback
+    }
+
+    // Cross-tab & local notification sync
+    try {
+      localStorage.setItem('venturepulse_new_feedback', JSON.stringify(newEntry))
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        const channel = new BroadcastChannel('venturepulse_survey_sync')
+        channel.postMessage({ type: 'NEW_RESPONSE', response: newEntry })
+        channel.close()
+      }
+    } catch {}
+
+    setIsSubmittingSurvey(false)
+    setSurveySubmitted(true)
   }
 
   // Copilot Intelligent Answering with Backend Advisor Agent Integration
@@ -1515,75 +2118,540 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
     { id: 'comp-1', name: "Generic Tool B", quadId: 'incumbents', quadName: 'Generic Incumbents', x: 28, y: 74, strengths: "Low pricing tier", weaknesses: "Lacks specialized automation", pricing: "Freemium" }
   ];
 
-  // 6-Slide Pitch Deck Generator Array
+  // 10-Slide Institutional Pitch Deck Generator Array
   const pitchSlides = searchResult ? [
     {
       slideNumber: "01",
       tag: "THE BURNING PROBLEM",
-      title: `Operational Friction in ${searchResult.industry}`,
+      title: `Operational Friction & Inefficiencies in ${searchResult.industry}`,
       points: [
-        `Target customers in ${searchResult.target_market} face severe repetitive bottlenecks with manual tools.`,
-        `Legacy incumbent suites are fragmented, complex, and lack AI automation.`,
-        `High operational costs create an urgent demand for specialized solutions.`
-      ]
+        `Target customers in ${searchResult.target_market} waste 15–20+ hours weekly on fragmented, manual workflows.`,
+        `Legacy incumbent suites are costly, monolithic, and lack domain-specific autonomous AI capabilities.`,
+        `Urgent economic pressure to cut operating expenses by 40%+ while dramatically boosting output speed.`
+      ],
+      speakerNotes: "Hook the investor immediately with quantified customer pain in the specific target industry."
     },
     {
       slideNumber: "02",
-      tag: "THE SOLUTION & AI ENGINE",
-      title: `Autonomous Vertical Copilot for ${searchResult.target_market}`,
+      tag: "THE AUTONOMOUS SOLUTION",
+      title: `Vertical Intelligence Platform for ${searchResult.target_market}`,
       points: [
-        `"${searchResult.startup_idea}" delivers purpose-built domain intelligence.`,
-        `Continuous feedback loop fine-tunes specialized domain models with active usage.`,
-        `Instant time-to-value with frictionless integration into existing workflows.`
-      ]
+        `"${searchResult.startup_idea}" delivers an end-to-end autonomous copilot tailored for ${searchResult.industry}.`,
+        `Self-improving feedback loop fine-tunes specialized domain models with active usage.`,
+        `Frictionless onboarding: instant time-to-value without disrupting existing legacy software.`
+      ],
+      speakerNotes: "Explain why vertical specialization and purpose-built agents beat generic horizontal LLMs."
     },
     {
       slideNumber: "03",
-      tag: "MARKET OPPORTUNITY",
-      title: `Addressable Market Sizing: ${marketData?.market_size_and_growth?.tam_estimate || '$14.2B'} TAM`,
+      tag: "MARKET OPPORTUNITY (TAM/SAM/SOM)",
+      title: `Multi-Billion Dollar Opportunity: ${marketData?.market_size_and_growth?.tam_estimate || '$14.2B'} Global TAM`,
       points: [
-        `TAM (Total Global Market): ${marketData?.market_size_and_growth?.tam_estimate || '$14.2B'}`,
-        `SAM (Serviceable Addressable): ${marketData?.market_size_and_growth?.sam_estimate || '$3.8B'}`,
+        `TAM (Total Global Market): ${marketData?.market_size_and_growth?.tam_estimate || '$14.2B'} in annual spend.`,
+        `SAM (Serviceable Addressable Market): ${marketData?.market_size_and_growth?.sam_estimate || '$3.8B'} high-intent segment.`,
         `SOM (Year-1 Beachhead Target): ${marketData?.market_size_and_growth?.som_estimate || '$280M'} growing at ${marketData?.market_size_and_growth?.cagr_growth_rate || '18.4%'} CAGR.`
-      ]
+      ],
+      speakerNotes: "Anchor on the credible SOM beachhead to prove realistic near-term traction."
     },
     {
       slideNumber: "04",
-      tag: "COMPETITIVE POSITIONING",
-      title: `Frontier Disrupter Exploiting Unserved Gaps`,
+      tag: "COMPETITIVE ADVANTAGE & MOAT",
+      title: `Frontier Disrupter Exploiting Unserved Market Gaps`,
       points: [
-        `Incumbents are generic, expensive, and slow to ship autonomous features.`,
-        `Identified Market White Space: ${competitorData?.market_gaps_and_white_space?.[0] || 'Unserved specialized workflow automation tier'}.`,
-        `Strategic Moat: Proprietary workflow embedding and high switching costs.`
-      ]
+        `Incumbents like ${competitorData?.direct_competitors?.[0]?.name || 'Legacy Suites'} are generic, costly, and slow to innovate.`,
+        `Identified Market White Space: ${competitorData?.market_gaps_and_white_space?.[0] || 'Unserved specialized autonomous workflow tier'}.`,
+        `Strategic Moat: Proprietary workflow embedding, accumulated domain telemetry, and high switching costs.`
+      ],
+      speakerNotes: "Highlight why incumbent competitors cannot easily pivot to copy this vertical engine."
     },
     {
       slideNumber: "05",
-      tag: "BUSINESS MODEL & MONETIZATION",
-      title: `High-Margin SaaS Recurring Revenue Engine`,
+      tag: "STRATEGIC SWOT AUDIT",
+      title: `Internal Strengths & Expansion Tailwinds`,
       points: [
-        `Tiered Subscription Model ($49 to $1,200+/month based on seats & volume).`,
-        `80%+ projected software gross margins with optimized compute inference.`,
-        `Clear expansion vectors into adjacent enterprise verticals in ${searchResult.industry}.`
-      ]
+        `Core Strength: ${swotData?.swot?.strengths?.[0]?.title || 'Specialized Domain Focus'} (${swotData?.swot?.strengths?.[0]?.description || 'Optimized workflow execution'}).`,
+        `Key Market Opportunity: ${swotData?.swot?.opportunities?.[0]?.title || 'Enterprise Automation Wave'} — ${swotData?.swot?.opportunities?.[0]?.description || 'Rapid cloud adoption tailwind'}.`,
+        `Overall Risk Score: ${swotData?.overall_risk_score || 28}/100 — Verdict: ${swotData?.risk_verdict || 'Moderate Risk — Highly Defensible'}.`
+      ],
+      speakerNotes: "Demonstrate self-awareness of internal constraints and multi-category risk mitigations."
     },
     {
       slideNumber: "06",
-      tag: "GO-TO-MARKET VELOCITY",
-      title: `12-Month Execution Roadmap to $1M+ ARR`,
+      tag: "PRODUCT BLUEPRINT & SCOPE",
+      title: `Disciplined Feature Stratification (${mvpData?.estimated_mvp_build_time_weeks || 6} Week Ship Date)`,
       points: [
-        `Phase 1 (Months 1-3): 15 design partnership pilot accounts in ${searchResult.target_market}.`,
-        `Phase 2 (Months 4-8): Inbound acquisition engine & high-intent organic funnels.`,
-        `Phase 3 (Months 9-12): Launch enterprise tier with custom security & SLA agreements.`
-      ]
+        `Must Have (Core Loop): ${mvpData?.moscow_matrix?.must_have?.[0]?.feature_name || 'Autonomous Workflow Engine'}.`,
+        `Should Have (V1.1 Retain): ${mvpData?.moscow_matrix?.should_have?.[0]?.feature_name || 'Automated Reporting & Webhook Hub'}.`,
+        `Recommended Stack: ${(mvpData?.recommended_tech_stack || ['React', 'FastAPI', 'PostgreSQL', 'LangGraph']).join(', ')}.`
+      ],
+      speakerNotes: "Show disciplined engineering focus to ship within 6 weeks and avoid scope creep."
+    },
+    {
+      slideNumber: "07",
+      tag: "GO-TO-MARKET & ACQUISITION",
+      title: `Playbook to Acquire Initial 100 Anchor Accounts`,
+      points: [
+        `Primary Acquisition Channel: ${gtmData?.acquisition_channels?.[0]?.channel_name || 'Targeted Outbound'} (Est. CAC: ${gtmData?.acquisition_channels?.[0]?.estimated_cac || '$25'}).`,
+        `Target Conversion Benchmark: ${gtmData?.acquisition_channels?.[0]?.expected_conversion_rate || '6.5%'}.`,
+        `Beachhead Sequence: ${typeof gtmData?.first_100_customers_playbook?.[0] === 'string' ? gtmData.first_100_customers_playbook[0] : (gtmData?.first_100_customers_playbook?.[0]?.action || '15 Design partnership pilots in target vertical')}.`
+      ],
+      speakerNotes: "Walk through the tactical acquisition roadmap to achieve first 100 paying accounts."
+    },
+    {
+      slideNumber: "08",
+      tag: "PHASED SPRINT ROADMAP",
+      title: `Lean Phased Execution to Product-Market Fit`,
+      points: [
+        `Phase 1 (Days 1–30): ${mvpData?.sprint_roadmap?.phase_1_30_days || 'Core Problem-Solution Fit & Beta Pilot onboarding 50 users'}.`,
+        `Phase 2 (Days 31–60): ${mvpData?.sprint_roadmap?.phase_2_31_60_days || 'Integrations, Analytics Hub & Monetization Launch'}.`,
+        `Target Milestone: Proven unit retention and reference customer case studies by Day 60.`
+      ],
+      speakerNotes: "Prove rapid execution velocity with realistic sprint deliverables."
+    },
+    {
+      slideNumber: "09",
+      tag: "RISK SAFEGUARDS & DEFENSE",
+      title: `Multi-Category Safeguards & Defensive Playbooks`,
+      points: [
+        `Primary Risk Factor: ${swotData?.risk_assessment?.[0]?.category || 'Technical / Regulatory'} — Severity: ${swotData?.risk_assessment?.[0]?.severity || 'Medium'}.`,
+        `Playbook Safeguard: ${swotData?.risk_assessment?.[0]?.mitigation_strategy || 'Strict data partitioning and targeted beta pilot trials'}.`,
+        `Secondary Safeguard: ${swotData?.risk_assessment?.[1]?.mitigation_strategy || 'Proactive compliance audits and unit economics monitoring'}.`
+      ],
+      speakerNotes: "Address potential investor objections before they even ask."
+    },
+    {
+      slideNumber: "10",
+      tag: "INVESTMENT ASK & MILESTONES",
+      title: `Seed Financing: Accelerating to $1.5M ARR & 18-Month Scale`,
+      points: [
+        `Seeking $1,500,000 Seed Capital for 18-month operating runway.`,
+        `Use of Funds: 60% Core Engineering & AI Infrastructure, 25% Go-To-Market Growth, 15% Operations/Legal.`,
+        `18-Month Target Milestones: 500+ Paying B2B Accounts, $1.5M ARR, Cash-Flow Neutrality.`
+      ],
+      speakerNotes: "Close with clarity on valuation, capital requirements, and next milestones."
     }
   ] : [];
 
+  // Dynamic 3-Round AI Investor Debate Simulation Data (Adversarial)
+  const debateRoundsData = searchResult ? [
+    {
+      roundNumber: 1,
+      topic: "Market Opportunity, TAM Sizing & Problem Urgency",
+      subtitle: "Evaluating real buyer willingness-to-pay and market capture velocity",
+      bull: {
+        name: "Alex Thorne",
+        role: "General Partner, Alpha Horizon",
+        badge: "Growth & TAM Thesis",
+        avatar: "👨‍💼",
+        speech: `The data is undeniable. The ${marketData?.market_size_and_growth?.tam_estimate || '$14.2B'} TAM in ${searchResult.industry} is experiencing rapid expansion at ${marketData?.market_size_and_growth?.cagr_growth_rate || '18.4%'} CAGR. Customers in ${searchResult.target_market} are actively burning 15-20 hours weekly on manual tools. With a beachhead SOM of ${marketData?.market_size_and_growth?.som_estimate || '$280M'}, capturing even 1.5% creates a $40M+ ARR cash-flow positive juggernaut.`,
+        keyThesis: `Huge ${marketData?.market_size_and_growth?.tam_estimate || '$14.2B'} TAM tailwind with acute friction in ${searchResult.target_market}.`
+      },
+      bear: {
+        name: "Marcus Vance",
+        role: "Principal Risk Auditor, Ironclad Capital",
+        badge: "Market Skeptic",
+        avatar: "🧐",
+        speech: `Top-down TAM calculations consistently mislead founders. ${searchResult.target_market} is historically price-sensitive and burdened by multi-stakeholder procurement cycles. If customer acquisition cost doubles during outbound scale and sales cycles drag beyond 5 months, this venture will exhaust its runway before reaching true product-market fit.`,
+        keyRisk: `Long enterprise sales cycles and procurement friction could inflate CAC beyond sustainable payback.`
+      }
+    },
+    {
+      roundNumber: 2,
+      topic: "Defensibility, Moats & Incumbent Retaliation",
+      subtitle: "Analyzing switching costs, data flywheels, and threat of Big Tech bundling",
+      bull: {
+        name: "Alex Thorne",
+        role: "General Partner, Alpha Horizon",
+        badge: "Defensibility Thesis",
+        avatar: "👨‍💼",
+        speech: `Legacy incumbents like ${competitorData?.direct_competitors?.[0]?.name || 'Legacy Suites'} suffer from innovator's dilemma—they cannot easily refactor their core architecture. Team-Pulse seizes the proven white space: '${competitorData?.market_gaps_and_white_space?.[0] || 'Autonomous domain-specific automation'}'. By embedding proprietary workflow state and user telemetry, switching costs become insurmountable within 6 months of pilot adoption.`,
+        keyThesis: `High workflow switching costs and unserved specialized white space lock out generic suites.`
+      },
+      bear: {
+        name: "Marcus Vance",
+        role: "Principal Risk Auditor, Ironclad Capital",
+        badge: "Moat Skeptic",
+        avatar: "🧐",
+        speech: `What creates a true technical barrier here? If horizontal giants like Microsoft or Salesforce release a vertical plugin, what stops them from bundling this for free? Furthermore, the SWOT audit flags '${swotData?.swot?.weaknesses?.[0]?.title || 'Resource constraints'}'. Without defensible proprietary IP, copycat entrants will compress software margins down to zero.`,
+        keyRisk: `Vulnerability to incumbent bundling and fast-follower feature clones.`
+      }
+    },
+    {
+      roundNumber: 3,
+      topic: "Unit Economics, GTM Velocity & Execution Playbook",
+      subtitle: "Stress-testing CAC:LTV ratio, monetization tiering, and first 100 customer acquisition",
+      bull: {
+        name: "Alex Thorne",
+        role: "General Partner, Alpha Horizon",
+        badge: "Execution Thesis",
+        avatar: "👨‍💼",
+        speech: `The GTM engine is lean and targeted. Leveraging ${gtmData?.acquisition_channels?.[0]?.channel_name || 'Targeted Outbound'} delivers an estimated CAC of ${gtmData?.acquisition_channels?.[0]?.estimated_cac || '$25'} at an expected conversion rate of ${gtmData?.acquisition_channels?.[0]?.expected_conversion_rate || '6.5%'}. Combined with a disciplined ${mvpData?.estimated_mvp_build_time_weeks || 6}-week MVP ship date and 3-tier SaaS monetization, payback period is under 4 months with a 4.8x LTV:CAC profile.`,
+        keyThesis: `Rapid ${mvpData?.estimated_mvp_build_time_weeks || 6}-week ship date with high-margin tiered expansion revenue.`
+      },
+      bear: {
+        name: "Marcus Vance",
+        role: "Principal Risk Auditor, Ironclad Capital",
+        badge: "Unit Economics Skeptic",
+        avatar: "🧐",
+        speech: `Initial outbound channels saturate within 90 days. Transitioning from beta pilot users to high-ACV enterprise accounts requires dedicated compliance, security certifications, and high-touch customer success headcount. If net revenue retention falls below 110%, the company will struggle to command premium Series A valuations.`,
+        keyRisk: `Channel saturation and post-launch expansion overhead could strain net margins.`
+      }
+    }
+  ] : [];
+
+  // Voice speech synthesis helpers
+  const stopDebateAudio = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    setIsDebateVoiceActive(false);
+    setActiveDebateSpeaker(null);
+  };
+
+  const playDebateSpeech = (text, speaker) => {
+    if (!('speechSynthesis' in window)) {
+      showToast("Speech synthesis is not supported in this browser.");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    if (speaker === 'bull') {
+      utterance.pitch = 1.15;
+    } else {
+      utterance.pitch = 0.88;
+    }
+    utterance.onstart = () => {
+      setIsDebateVoiceActive(true);
+      setActiveDebateSpeaker(speaker);
+    };
+    utterance.onend = () => {
+      setIsDebateVoiceActive(false);
+      setActiveDebateSpeaker(null);
+    };
+    utterance.onerror = () => {
+      setIsDebateVoiceActive(false);
+      setActiveDebateSpeaker(null);
+    };
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const playFullDebateRound = (round) => {
+    if (!('speechSynthesis' in window)) {
+      showToast("Speech synthesis is not supported in this browser.");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const bullUtterance = new SpeechSynthesisUtterance(round.bull.speech);
+    bullUtterance.rate = 1.0;
+    bullUtterance.pitch = 1.15;
+    
+    const bearUtterance = new SpeechSynthesisUtterance(round.bear.speech);
+    bearUtterance.rate = 1.0;
+    bearUtterance.pitch = 0.88;
+
+    bullUtterance.onstart = () => {
+      setIsDebateVoiceActive(true);
+      setActiveDebateSpeaker('bull');
+    };
+    bullUtterance.onend = () => {
+      setActiveDebateSpeaker('bear');
+      window.speechSynthesis.speak(bearUtterance);
+    };
+    bearUtterance.onend = () => {
+      setIsDebateVoiceActive(false);
+      setActiveDebateSpeaker(null);
+    };
+    bearUtterance.onerror = () => {
+      setIsDebateVoiceActive(false);
+      setActiveDebateSpeaker(null);
+    };
+    window.speechSynthesis.speak(bullUtterance);
+  };
+
+  const handleFounderDefenseSubmit = (e) => {
+    e.preventDefault();
+    if (!founderDefenseText.trim()) return;
+    const defense = founderDefenseText.trim();
+    const newDefenseItem = {
+      id: Date.now(),
+      text: defense,
+      round: debateRound,
+      bullFeedback: `Excellent defense! Highlighting "${defense.slice(0, 50)}..." reinforces customer lock-in and raises the valuation ceiling.`,
+      bearFeedback: `Point noted. However, ensure pilot customer retention data validates this thesis before Series A roadshows.`,
+      scoreBoost: 4
+    };
+    setFounderDefensesList(prev => [newDefenseItem, ...prev]);
+    setBullScoreDelta(prev => Math.min(22, prev + 4));
+    setFounderDefenseText('');
+    showToast("Founder defense submitted! AI Investor Committee evaluated counter-argument.");
+  };
+
+  const handleCommitteeVote = (vote) => {
+    setCommitteeVote(vote);
+    if (vote === 'invest') {
+      setBullScoreDelta(prev => Math.min(25, prev + 8));
+      showToast("🎉 Investment Committee APPROVED: $1.5M Seed Term Sheet Issued!");
+    } else if (vote === 'pilot') {
+      showToast("⚡ Conditional Approval: 60-Day Beta Pilot Milestones Required.");
+    } else {
+      showToast("❌ Committee Passed: Further Risk Mitigation Recommended.");
+    }
+  };
+
+  // Fullscreen keyboard listener for Presentation Studio
+  useEffect(() => {
+    if (!isFullscreenDeck) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        setActiveSlideIndex(prev => Math.min(pitchSlides.length - 1, prev + 1));
+      } else if (e.key === 'ArrowLeft') {
+        setActiveSlideIndex(prev => Math.max(0, prev - 1));
+      } else if (e.key === 'Escape') {
+        setIsFullscreenDeck(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFullscreenDeck, pitchSlides.length]);
+
+  // Presentation Timer Effect
+  useEffect(() => {
+    let interval = null;
+    if (isFullscreenDeck || isDeckAutoplaying) {
+      interval = setInterval(() => {
+        setDeckTimerSeconds(prev => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isFullscreenDeck, isDeckAutoplaying]);
+
+  // Autoplay Slides Effect
+  useEffect(() => {
+    let timer = null;
+    if (isDeckAutoplaying && pitchSlides.length > 0) {
+      timer = setInterval(() => {
+        setActiveSlideIndex(prev => {
+          if (prev >= pitchSlides.length - 1) {
+            setIsDeckAutoplaying(false);
+            return prev;
+          }
+          return prev + 1;
+        });
+      }, 5000);
+    }
+    return () => clearInterval(timer);
+  }, [isDeckAutoplaying, pitchSlides.length]);
+
   const handleCopyPitchDeck = () => {
-    if (!pitchSlides.length) return
-    const text = pitchSlides.map(s => `[SLIDE ${s.slideNumber}: ${s.tag}]\n# ${s.title}\n${s.points.map(p => `- ${p}`).join('\n')}\n`).join('\n---\n\n')
-    navigator.clipboard.writeText(text)
-    showToast("Pitch Deck 6-Slide content copied to clipboard!")
+    if (!pitchSlides.length) return;
+    const text = pitchSlides.map(s => `[SLIDE ${s.slideNumber}: ${s.tag}]\n# ${s.title}\n${s.points.map(p => `- ${p}`).join('\n')}\n*Speaker Notes:* ${s.speakerNotes}\n`).join('\n---\n\n');
+    navigator.clipboard.writeText(text);
+    showToast("Pitch Deck 10-Slide content copied to clipboard!");
+  };
+
+  const handlePrintPitchDeck = () => {
+    window.print();
+  };
+
+  const formatTimer = (sec) => {
+    const mins = Math.floor(sec / 60);
+    const secs = sec % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const calculatedBullProbability = Math.min(95, Math.max(30, (insights?.composite_viability_score || 72) + bullScoreDelta));
+
+  // Render Standalone End-User Survey Page if opened via shareable link
+  if (standaloneSurveyId) {
+    const queryParams = new URLSearchParams(window.location.search);
+    const surveyIdea = standaloneSurveyMeta?.startup_idea || queryParams.get('idea') || "AI Venture Concept";
+    const surveyIndustry = standaloneSurveyMeta?.industry || queryParams.get('industry') || queryParams.get('ind') || "Technology & Software";
+    const surveyMarket = standaloneSurveyMeta?.target_market || queryParams.get('target') || queryParams.get('mkt') || "Target Customers";
+
+    return (
+      <div className="standalone-survey-page">
+        <NeuralBackground />
+        {toastMessage && (
+          <div className="toast-notification animate-fade-in">
+            <Icons.Check />
+            <span>{toastMessage}</span>
+          </div>
+        )}
+
+        {/* Top Floating Branding & Theme Switcher Bar */}
+        <header className="standalone-survey-header animate-fade-in">
+          <div className="standalone-brand-box">
+            <div className="logo-sparkle-box">
+              <Icons.Sparkle />
+            </div>
+            <div className="standalone-brand-text">
+              <span className="brand-name">Venture<span className="brand-accent">Pulse</span></span>
+              <span className="survey-badge-free">100% FREE VALIDATION</span>
+            </div>
+          </div>
+
+          <button 
+            type="button" 
+            onClick={toggleTheme} 
+            className="btn-theme-toggle"
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+          >
+            {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
+          </button>
+        </header>
+
+        <div className="standalone-survey-card animate-fade-in">
+          {!surveySubmitted ? (
+            <>
+              <div className="survey-brand-badge">
+                <Icons.Sparkle />
+                <span>Customer Discovery & Community Feedback</span>
+              </div>
+
+              <h1 className="survey-hero-title">Help Shape This Startup Idea</h1>
+              <p className="survey-hero-subtitle">
+                The founders are conducting early customer research. Answer 4 quick questions below to shape the roadmap (100% Free • takes &lt; 30 seconds).
+              </p>
+
+              <div className="survey-pitch-box">
+                <div className="survey-pitch-tag">{surveyIndustry} • {surveyMarket}</div>
+                <p className="survey-pitch-text">"{surveyIdea}"</p>
+              </div>
+
+              <form onSubmit={handleStandaloneSurveySubmit}>
+                {/* Question 1 */}
+                <div className="survey-question-block">
+                  <label className="survey-q-label">1. How often do you experience this problem or pain point?</label>
+                  <div className="survey-options-row">
+                    {["Daily", "Weekly", "Monthly", "Rarely", "Never"].map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        className={`survey-option-btn ${surveyForm.frequency === opt ? 'selected' : ''}`}
+                        onClick={() => setSurveyForm({ ...surveyForm, frequency: opt })}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Question 2 */}
+                <div className="survey-question-block">
+                  <label className="survey-q-label">2. How do you currently solve or manage this today?</label>
+                  <div className="survey-options-row">
+                    {["Manual workarounds", "Spreadsheets & Docs", "Existing Software / App", "No good solution yet"].map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        className={`survey-option-btn ${surveyForm.currentSolution === opt ? 'selected' : ''}`}
+                        onClick={() => setSurveyForm({ ...surveyForm, currentSolution: opt })}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Question 3 */}
+                <div className="survey-question-block">
+                  <label className="survey-q-label">3. How valuable would this startup solution be to you?</label>
+                  <div className="survey-stars-row">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        className="survey-star-btn"
+                        onClick={() => setSurveyForm({ ...surveyForm, rating: star })}
+                        title={`${star} Stars`}
+                      >
+                        {star <= surveyForm.rating ? '★' : '☆'}
+                      </button>
+                    ))}
+                    <span className="survey-star-desc">
+                      {surveyForm.rating === 5 ? "Must-Have / Game Changer! 🚀" :
+                       surveyForm.rating === 4 ? "Very Useful 👍" :
+                       surveyForm.rating === 3 ? "Somewhat Useful 🤔" :
+                       surveyForm.rating === 2 ? "Nice to have 😐" : "Not relevant for me ❌"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Question 4 - 100% Free / Open Access Tiers */}
+                <div className="survey-question-block">
+                  <label className="survey-q-label">4. Which 100% Free / Open Access model do you prefer?</label>
+                  <div className="survey-price-grid">
+                    {[
+                      { title: "100% Free Forever", sub: "Open Community Access" },
+                      { title: "Free Early Adopter Pilot", sub: "Full Feature Unlock" },
+                      { title: "Free Student & Non-Profit", sub: "Unlimited Validations" },
+                      { title: "Open Source Edition", sub: "Public Research Use" }
+                    ].map((p) => (
+                      <div
+                        key={p.title}
+                        className={`survey-price-card ${surveyForm.willingnessToPay === p.title ? 'selected' : ''}`}
+                        onClick={() => setSurveyForm({ ...surveyForm, willingnessToPay: p.title })}
+                      >
+                        <div className="survey-price-title">{p.title}</div>
+                        <div className="survey-price-sub">{p.sub}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Question 5 */}
+                <div className="survey-question-block">
+                  <label className="survey-q-label">5. Any critical feature requests or suggestions for the founder?</label>
+                  <textarea
+                    rows={3}
+                    className="survey-input-text"
+                    placeholder="e.g. Please make sure there is WhatsApp integration and fast export..."
+                    value={surveyForm.feedback}
+                    onChange={(e) => setSurveyForm({ ...surveyForm, feedback: e.target.value })}
+                  />
+                </div>
+
+                {/* Optional Name */}
+                <div className="survey-question-block">
+                  <label className="survey-q-label">Your Name or Role (Optional):</label>
+                  <input
+                    type="text"
+                    className="survey-input-text"
+                    placeholder="e.g. Student, Founder, Product Designer"
+                    value={surveyForm.name}
+                    onChange={(e) => setSurveyForm({ ...surveyForm, name: e.target.value })}
+                  />
+                </div>
+
+                <button type="submit" className="survey-submit-btn" disabled={isSubmittingSurvey}>
+                  {isSubmittingSurvey ? "Submitting Feedback..." : "⚡ Submit Free Validation Feedback"}
+                </button>
+              </form>
+            </>
+          ) : (
+            <div className="survey-success-card animate-fade-in">
+              <div className="survey-success-icon">✓</div>
+              <h2 className="survey-hero-title">Thank You For Your Feedback!</h2>
+              <p className="survey-hero-subtitle">
+                Your response has been saved and shared directly with the founding team to refine the product roadmap.
+              </p>
+              <div style={{ marginTop: '24px', display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    window.location.href = window.location.pathname;
+                  }}
+                >
+                  Explore VenturePulse Platform
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -1852,7 +2920,7 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
               </div>
             </div>
 
-            {/* Interactive 7-Stage Autonomous Pipeline Stepper / DAG Ribbon */}
+            {/* Interactive 7-Stage Autonomous Pipeline Stepper / Cyclic DAG Ribbon */}
             <div className="pipeline-stepper-section animate-fade-in">
               <div className="pipeline-stepper-header">
                 <div className="stepper-title-group">
@@ -1863,6 +2931,15 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                 
                 <div className="stepper-actions">
                   <span className="stepper-hint">Tap stage to inspect architecture</span>
+                  <button
+                    type="button"
+                    className={`stepper-pause-pill ${isPipelinePaused ? 'is-paused' : ''}`}
+                    onClick={() => setIsPipelinePaused(prev => !prev)}
+                    title={isPipelinePaused ? "Resume auto-slide" : "Pause auto-slide"}
+                  >
+                    <span className={`stepper-pause-dot ${isPipelinePaused ? 'paused' : 'live'}`}></span>
+                    <span>{isPipelinePaused ? 'Paused' : 'Auto Glide'}</span>
+                  </button>
                   <div className="stepper-arrows">
                     <button
                       type="button"
@@ -1886,16 +2963,23 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                 </div>
               </div>
 
-              <div className="pipeline-stepper-track-wrap" ref={pipelineScrollRef}>
+              <div 
+                className={`pipeline-stepper-track-wrap ${isPipelinePaused ? 'is-paused' : 'is-gliding'}`} 
+                ref={pipelineScrollRef}
+                onScroll={handlePipelineScroll}
+                onMouseEnter={() => setIsPipelinePaused(true)}
+                onMouseLeave={() => setIsPipelinePaused(false)}
+                onTouchStart={() => {
+                  isPipelineInteractingRef.current = true;
+                  setIsPipelinePaused(true);
+                }}
+                onTouchEnd={() => {
+                  isPipelineInteractingRef.current = false;
+                  setTimeout(() => setIsPipelinePaused(false), 2400);
+                }}
+              >
                 <div className="pipeline-stepper-track">
-                  {HUD_AGENTS_METADATA.slice(0, 7).map((agent, idx) => {
-                    const AgentIcon = idx === 0 ? Icons.Globe :
-                                      idx === 1 ? Icons.Chart :
-                                      idx === 2 ? Icons.Competitors :
-                                      idx === 3 ? Icons.Shield :
-                                      idx === 4 ? Icons.Zap :
-                                      idx === 5 ? Icons.Strategy : Icons.Sparkle;
-                    
+                  {[0, 1, 2].flatMap((setIdx) => {
                     const stageTitles = [
                       "Web Search",
                       "Market Sizing",
@@ -1916,44 +3000,54 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                       "Executive Dossier"
                     ];
 
-                    return (
-                      <div key={agent.id} className="stepper-node-wrapper">
-                        <button
-                          type="button"
-                          className="stepper-card-node"
-                          style={{
-                            '--agent-accent': agent.accentColor,
-                          }}
-                          onClick={() => setActiveHudAgent(agent)}
-                          title={`Click to inspect Stage ${agent.num}: ${stageTitles[idx]}`}
-                        >
-                          <div className="stepper-card-top">
-                            <span className="stepper-num-badge" style={{ backgroundColor: agent.accentColor }}>
-                              {agent.num}
-                            </span>
-                            <div className="stepper-icon-wrap" style={{ color: agent.accentColor, backgroundColor: `${agent.accentColor}18` }}>
-                              <AgentIcon />
+                    return HUD_AGENTS_METADATA.slice(0, 7).map((agent, idx) => {
+                      const AgentIcon = idx === 0 ? Icons.Globe :
+                                        idx === 1 ? Icons.Chart :
+                                        idx === 2 ? Icons.Competitors :
+                                        idx === 3 ? Icons.Shield :
+                                        idx === 4 ? Icons.Zap :
+                                        idx === 5 ? Icons.Strategy : Icons.Sparkle;
+
+                      const isStageSeven = idx === 6;
+
+                      return (
+                        <div key={`pipe-set-${setIdx}-${agent.id}`} className="stepper-node-wrapper">
+                          <button
+                            type="button"
+                            className="stepper-card-node"
+                            style={{
+                              '--agent-accent': agent.accentColor,
+                            }}
+                            onClick={() => setActiveHudAgent(agent)}
+                            title={`Click to inspect Stage ${agent.num}: ${stageTitles[idx]}`}
+                          >
+                            <div className="stepper-card-top">
+                              <span className="stepper-num-badge" style={{ backgroundColor: agent.accentColor }}>
+                                {agent.num}
+                              </span>
+                              <div className="stepper-icon-wrap" style={{ color: agent.accentColor, backgroundColor: `${agent.accentColor}18` }}>
+                                <AgentIcon />
+                              </div>
                             </div>
-                          </div>
-                          <div className="stepper-card-content">
-                            <h4 className="stepper-agent-title">{stageTitles[idx]}</h4>
-                            <span className="stepper-agent-sub">{stageSubtitles[idx]}</span>
-                          </div>
-                          <div className="stepper-card-footer">
-                            <span className="stepper-inspect-tag">Stage {agent.num}</span>
-                            <span className="stepper-inspect-arrow">→</span>
-                          </div>
-                        </button>
-                        {idx < 6 && (
-                          <div className="stepper-connector" aria-hidden="true">
+                            <div className="stepper-card-content">
+                              <h4 className="stepper-agent-title">{stageTitles[idx]}</h4>
+                              <span className="stepper-agent-sub">{stageSubtitles[idx]}</span>
+                            </div>
+                            <div className="stepper-card-footer">
+                              <span className="stepper-inspect-tag">Stage {agent.num}</span>
+                              <span className="stepper-inspect-arrow">→</span>
+                            </div>
+                          </button>
+                          
+                          <div className={`stepper-connector ${isStageSeven ? 'is-loop-connector' : ''}`} aria-hidden="true">
                             <div className="stepper-connector-line"></div>
-                            <div className="stepper-connector-badge">
+                            <div className="stepper-connector-badge" title={isStageSeven ? "Cycles back to Stage 01" : undefined}>
                               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                           </div>
-                        )}
-                      </div>
-                    );
+                        </div>
+                      );
+                    });
                   })}
                 </div>
               </div>
@@ -1973,13 +3067,22 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                 <div className="presets-title-wrap">
                   <div className="presets-eyebrow-row">
                     <span className="presets-eyebrow">Interactive Blueprints</span>
-                    <span className="presets-mobile-hint">Swipe 8 templates ▸</span>
+                    <span className="presets-mobile-hint">Tap to Auto-Configure</span>
                   </div>
                   <h3 className="presets-title">Select Industry Template to Auto-Configure</h3>
                 </div>
                 
-                {/* Category Filter Pills & Vault Chip */}
-                <div className="category-filter-pills">
+                {/* Category Filter Pills */}
+                <div 
+                  className={`category-filter-pills ${isCatFilterPaused ? 'is-paused' : 'is-gliding'}`}
+                  ref={categoryFilterRef}
+                  onMouseEnter={() => setIsCatFilterPaused(true)}
+                  onMouseLeave={() => setIsCatFilterPaused(false)}
+                  onTouchStart={() => setIsCatFilterPaused(true)}
+                  onTouchEnd={() => {
+                    setTimeout(() => setIsCatFilterPaused(false), 2400);
+                  }}
+                >
                   {categories.map((cat) => (
                     <button
                       key={cat.key}
@@ -2057,7 +3160,16 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                     <span className="pulse-dot"></span>
                     <span>7-Stage Autonomous Pipeline Active</span>
                   </div>
-                  <div className="mini-pipeline-flow">
+                  <div 
+                    className={`mini-pipeline-flow ${isMiniFlowPaused ? 'is-paused' : 'is-gliding'}`}
+                    ref={miniFlowRef}
+                    onMouseEnter={() => setIsMiniFlowPaused(true)}
+                    onMouseLeave={() => setIsMiniFlowPaused(false)}
+                    onTouchStart={() => setIsMiniFlowPaused(true)}
+                    onTouchEnd={() => {
+                      setTimeout(() => setIsMiniFlowPaused(false), 2400);
+                    }}
+                  >
                     <span className="flow-node active">Web Search</span>
                     <span className="flow-arrow">→</span>
                     <span className="flow-node">TAM Sizing</span>
@@ -2256,7 +3368,25 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                 <div className="bento-bullets">
                   <div className="bento-bullet"><Icons.Check /><span>30 & 60-day MVP build milestones</span></div>
                   <div className="bento-bullet"><Icons.Check /><span>First 100 Customers CAC playbook</span></div>
-                  <div className="bento-bullet"><Icons.Check /><span>1-Click Markdown, PDF & JSON dossier export</span></div>
+                  <div className="bento-bullet"><Icons.Check /><span>1-Click Markdown, PDF & JSON export</span></div>
+                </div>
+              </div>
+
+              <div className="bento-card bento-amber">
+                <div className="bento-top-row">
+                  <div className="bento-icon-box bento-icon-amber">
+                    <Icons.Sparkle />
+                  </div>
+                  <span className="bento-tag bento-tag-amber">CUSTOMER VALIDATION</span>
+                </div>
+                <h3 className="bento-title">Live End-User Surveys & WhatsApp Engine</h3>
+                <p className="bento-desc">
+                  Generates unique, standalone survey links to gather real end-user problem severity, willingness-to-pay, and feature feedback via WhatsApp, Email & Social.
+                </p>
+                <div className="bento-bullets">
+                  <div className="bento-bullet"><Icons.Check /><span>1-Click WhatsApp & Social share links</span></div>
+                  <div className="bento-bullet"><Icons.Check /><span>Distraction-free 5-question mobile view</span></div>
+                  <div className="bento-bullet"><Icons.Check /><span>Live feedback analytics & response scorecard</span></div>
                 </div>
               </div>
             </div>
@@ -2429,8 +3559,10 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                     { id: 'mvp', label: 'MVP Roadmap & MoSCoW', icon: Icons.Layers, subtitle: 'V1 Scope' },
                     { id: 'gtm', label: 'GTM & Traction', icon: Icons.Target, subtitle: 'First 100' },
                     { id: 'strategy', label: 'Viability & Moats', icon: Icons.Strategy, subtitle: 'Score Radar' },
+                    { id: 'survey', label: 'Customer Survey', icon: Icons.Sparkle, subtitle: 'WhatsApp / Link' },
+                    { id: 'debate', label: 'AI Investor Debate', icon: Icons.Debate, subtitle: 'Bull vs Bear' },
+                    { id: 'pitchdeck', label: 'Pitch Deck Studio', icon: Icons.Presentation, subtitle: '10 Slides & PDF' },
                     { id: 'report', label: 'Executive Report', icon: Icons.Download, subtitle: 'Dossier' },
-                    { id: 'pitchdeck', label: 'Pitch Deck', icon: Icons.Presentation, subtitle: '6 Slides' },
                     { id: 'sources', label: 'Web Sources', icon: Icons.Globe, subtitle: `${searchResult?.results?.length || 0} Citations` },
                     { id: 'logs', label: 'Pipeline Logs', icon: Icons.Terminal, subtitle: 'Audit Trail' }
                   ].map((tab) => {
@@ -2463,8 +3595,10 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                     { id: 'mvp', label: 'MVP Roadmap & MoSCoW', icon: Icons.Layers, subtitle: 'V1 Scope' },
                     { id: 'gtm', label: 'GTM & Traction', icon: Icons.Target, subtitle: 'First 100' },
                     { id: 'strategy', label: 'Viability & Moats', icon: Icons.Strategy, subtitle: 'Score Radar' },
+                    { id: 'survey', label: 'Customer Survey', icon: Icons.Sparkle, subtitle: 'WhatsApp / Link' },
+                    { id: 'debate', label: 'AI Investor Debate', icon: Icons.Debate, subtitle: 'Bull vs Bear' },
+                    { id: 'pitchdeck', label: 'Pitch Deck Studio', icon: Icons.Presentation, subtitle: '10 Slides & PDF' },
                     { id: 'report', label: 'Executive Report', icon: Icons.Download, subtitle: 'Dossier' },
-                    { id: 'pitchdeck', label: 'Pitch Deck', icon: Icons.Presentation, subtitle: '6 Slides' },
                     { id: 'sources', label: 'Web Sources', icon: Icons.Globe, subtitle: `${searchResult?.results?.length || 0} Citations` },
                     { id: 'logs', label: 'Pipeline Logs', icon: Icons.Terminal, subtitle: 'Audit Trail' }
                   ].map((tab) => {
@@ -3832,6 +4966,316 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
             )}
 
             {/* ======================================================== */}
+            {/* TAB: Customer Discovery & Live WhatsApp Survey Hub */}
+            {/* ======================================================== */}
+            {activeTab === 'survey' && (
+              <div className="tab-pane animate-fade-in">
+                <div className="survey-hub-panel">
+                  {/* Top Share Hero Card */}
+                  <div className="glass-card survey-share-hero">
+                    <div className="concept-header">
+                      <div className="survey-live-sync-indicator">
+                        <span className="pulse-dot-green"></span>
+                        <strong>Live Auto-Sync Active (Real-Time Stream)</strong>
+                      </div>
+                      <div className="concept-chips">
+                        <span className="chip-item">Survey ID: {currentSurveyId}</span>
+                        <span className="chip-item">Mode: 100% Free Standalone</span>
+                      </div>
+                    </div>
+
+                    <h3 className="card-title" style={{ fontSize: '22px', marginTop: '12px' }}>
+                      Collect Real End-User Validation via WhatsApp, QR & Social
+                    </h3>
+                    <p className="section-subtitle" style={{ margin: '8px 0 16px 0' }}>
+                      Share this distraction-free link with target users. When anyone submits feedback, your dashboard updates <strong>in real time</strong> without needing to refresh.
+                    </p>
+
+                    <div className="survey-link-row">
+                      <input 
+                        type="text" 
+                        readOnly 
+                        className="survey-link-input"
+                        value={getShareableSurveyUrl()}
+                      />
+                      <button type="button" onClick={handleCopySurveyLink} className="btn btn-primary">
+                        <Icons.Copy />
+                        <span>Copy Link</span>
+                      </button>
+                    </div>
+
+                    {/* Interactive Action Toolbar */}
+                    <div className="survey-share-buttons">
+                      <button type="button" onClick={handleShareWhatsApp} className="share-btn share-btn-whatsapp">
+                        <span>💬 Share on WhatsApp</span>
+                      </button>
+                      <button type="button" onClick={handleShareEmail} className="share-btn share-btn-email">
+                        <span>✉️ Send via Email</span>
+                      </button>
+                      <button type="button" onClick={() => setIsQrModalOpen(true)} className="share-btn share-btn-qr">
+                        <span>📱 Scannable QR Code</span>
+                      </button>
+                      <button type="button" onClick={handleExportSurveyCSV} className="share-btn share-btn-csv">
+                        <span>📊 Export CSV Spreadsheet</span>
+                      </button>
+                      <button type="button" onClick={handleOpenSurveyPreview} className="share-btn share-btn-preview">
+                        <span>👁️ Test End-User Survey</span>
+                      </button>
+                      <button type="button" onClick={handleAddSimulatedResponse} className="btn btn-secondary btn-simulate-feedback">
+                        <span>⚡ + Simulate Live Response</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Customer Responses Analytics Scorecard */}
+                  <div className="survey-stats-row">
+                    <div className="survey-stat-card">
+                      <div className="survey-stat-num">{customerResponses.length}</div>
+                      <div className="survey-stat-label">Total Survey Responses</div>
+                    </div>
+                    <div className="survey-stat-card">
+                      <div className="survey-stat-num text-amber-glow">
+                        {(customerResponses.reduce((acc, r) => acc + (r.rating || 5), 0) / (customerResponses.length || 1)).toFixed(1)} ★
+                      </div>
+                      <div className="survey-stat-label">Avg Problem Severity & Utility</div>
+                    </div>
+                    <div className="survey-stat-card">
+                      <div className="survey-stat-num text-emerald-glow">
+                        100%
+                      </div>
+                      <div className="survey-stat-label">100% Free Adoption Commitment</div>
+                    </div>
+                    <div className="survey-stat-card">
+                      <div className="survey-stat-num" style={{ color: '#3b82f6' }}>
+                        {Math.round((customerResponses.filter(r => r.problem_frequency === 'Daily').length / (customerResponses.length || 1)) * 100)}%
+                      </div>
+                      <div className="survey-stat-label">Daily Friction Frequency</div>
+                    </div>
+                  </div>
+
+                  {/* Problem Severity Breakdown & Key Feature Insights Bar */}
+                  <div className="glass-card survey-insights-card">
+                    <div className="survey-insights-top">
+                      <div className="insights-heading-group">
+                        <Icons.Sparkle />
+                        <div>
+                          <h4 className="survey-insights-title">Synthesized Feature Demand & Pain Heatmap</h4>
+                          <span className="survey-insights-sub">Live keyword extraction from qualitative respondent feedback</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="survey-demand-tags-row">
+                      <span className="tags-label">Top Requested Feature Vectors:</span>
+                      <div className="tags-chips-wrap">
+                        {["WhatsApp Instant Alerts", "1-Click PDF & Slide Export", "100% Free Community Tier", "Fast 2-Minute Onboarding", "Team Collaboration & Sharing", "Google Sheets Sync"].map((tag, tIdx) => (
+                          <button
+                            key={tIdx}
+                            type="button"
+                            className={`demand-tag-chip ${surveySearchQuery.toLowerCase() === tag.toLowerCase() ? 'active' : ''}`}
+                            onClick={() => {
+                              if (surveySearchQuery === tag) {
+                                setSurveySearchQuery('')
+                              } else {
+                                setSurveySearchQuery(tag.split(' ')[0])
+                              }
+                            }}
+                          >
+                            #{tag.replace(/\s+/g, '')}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Customer Feed List with Filter & Search Controls */}
+                  <div className="glass-card">
+                    <div className="feedback-stream-header">
+                      <div className="feedback-stream-title-box">
+                        <Icons.MessageSquare />
+                        <h3 className="card-title">Live End-User Feedback Stream ({customerResponses.length})</h3>
+                      </div>
+
+                      {/* Interactive Filter Pills */}
+                      <div className="feedback-filter-pills">
+                        <button 
+                          type="button" 
+                          className={`feedback-filter-btn ${surveyFilter === 'all' ? 'active' : ''}`}
+                          onClick={() => setSurveyFilter('all')}
+                        >
+                          All ({customerResponses.length})
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`feedback-filter-btn ${surveyFilter === '5star' ? 'active' : ''}`}
+                          onClick={() => setSurveyFilter('5star')}
+                        >
+                          5★ Must-Have ({customerResponses.filter(r => r.rating === 5).length})
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`feedback-filter-btn ${surveyFilter === 'daily' ? 'active' : ''}`}
+                          onClick={() => setSurveyFilter('daily')}
+                        >
+                          Daily Pain ({customerResponses.filter(r => r.problem_frequency === 'Daily').length})
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Search Input Bar */}
+                    <div className="survey-search-bar-wrap">
+                      <input
+                        type="text"
+                        placeholder="🔍 Filter by respondent name, workaround, or feature request..."
+                        className="survey-search-input"
+                        value={surveySearchQuery}
+                        onChange={(e) => setSurveySearchQuery(e.target.value)}
+                      />
+                      {surveySearchQuery && (
+                        <button type="button" className="btn-clear-search" onClick={() => setSurveySearchQuery('')}>✕ Clear</button>
+                      )}
+                    </div>
+
+                    {/* Filtered Response Cards Grid */}
+                    <div className="survey-feedback-list">
+                      {customerResponses
+                        .filter(resp => {
+                          if (surveyFilter === '5star' && resp.rating !== 5) return false
+                          if (surveyFilter === 'daily' && resp.problem_frequency !== 'Daily') return false
+                          if (surveySearchQuery.trim()) {
+                            const q = surveySearchQuery.toLowerCase()
+                            const combined = `${resp.respondent_name} ${resp.feedback} ${resp.current_solution} ${resp.willingness_to_pay}`.toLowerCase()
+                            return combined.includes(q)
+                          }
+                          return true
+                        })
+                        .map((resp, idx) => {
+                          const isNew = resp.id === newlyAddedResponseId
+                          const waFollowupMsg = `Hi ${resp.respondent_name.split(' ')[0]}, thank you for giving feedback on our startup idea: "${searchResult?.startup_idea || startupIdea}"! We'd love to invite you to our 100% free early access group.`
+                          const waFollowupUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(waFollowupMsg)}`
+
+                          return (
+                            <div key={resp.id || idx} className={`survey-feedback-item animate-fade-in ${isNew ? 'is-newly-added' : ''}`}>
+                              {isNew && (
+                                <div className="new-feedback-beacon">
+                                  <span className="pulse-dot-green"></span>
+                                  <span>JUST RECEIVED (LIVE)</span>
+                                </div>
+                              )}
+                              <div className="survey-feedback-header">
+                                <div className="survey-feedback-user-group">
+                                  <div className="respondent-avatar-pill">
+                                    {(resp.respondent_name || 'U').slice(0, 1).toUpperCase()}
+                                  </div>
+                                  <strong className="survey-feedback-name">{resp.respondent_name}</strong>
+                                  <span className="survey-chip chip-blue">
+                                    Pain: {resp.problem_frequency}
+                                  </span>
+                                  <span className="survey-chip chip-green">
+                                    {resp.willingness_to_pay}
+                                  </span>
+                                </div>
+                                <div className="survey-feedback-stars">
+                                  {'★'.repeat(resp.rating)}{'☆'.repeat(5 - resp.rating)}
+                                </div>
+                              </div>
+
+                              <p className="survey-feedback-body">
+                                "{resp.feedback}"
+                              </p>
+
+                              <div className="survey-feedback-footer">
+                                <div className="survey-feedback-meta">
+                                  Current workaround: <strong>{resp.current_solution}</strong> • Submitted {resp.submitted_at}
+                                </div>
+
+                                <a 
+                                  href={waFollowupUrl} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer" 
+                                  className="btn-feedback-wa"
+                                  title="Reach out to respondent on WhatsApp"
+                                >
+                                  <span>💬 Connect / Invite</span>
+                                </a>
+                              </div>
+                            </div>
+                          )
+                        })}
+
+                      {customerResponses.length === 0 && (
+                        <div className="survey-empty-state">
+                          <p>No customer responses recorded yet. Share your survey link above to start gathering live validation!</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Scannable Live QR Code Modal */}
+            {isQrModalOpen && (
+              <div className="qr-modal-overlay animate-fade-in" onClick={() => setIsQrModalOpen(false)}>
+                <div className="qr-modal-card animate-scale-up" onClick={(e) => e.stopPropagation()}>
+                  <div className="qr-modal-header">
+                    <div className="qr-modal-title-group">
+                      <div className="logo-sparkle-box">
+                        <Icons.Sparkle />
+                      </div>
+                      <div>
+                        <h3 className="qr-modal-title">Live Scannable Survey QR Code</h3>
+                        <span className="qr-modal-sub">Scan directly on phone camera to answer in 30 seconds</span>
+                      </div>
+                    </div>
+                    <button type="button" className="qr-modal-close" onClick={() => setIsQrModalOpen(false)}>✕</button>
+                  </div>
+
+                  <div className="qr-code-viewport">
+                    <img 
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(getShareableSurveyUrl())}&bgcolor=ffffff&color=0f172a&margin=2`} 
+                      alt="Survey QR Code" 
+                      className="qr-image"
+                    />
+                    <div className="qr-scan-badge">
+                      <span>📸 Point Phone Camera at Screen</span>
+                    </div>
+                  </div>
+
+                  <div className="qr-modal-idea-preview">
+                    <span className="qr-idea-tag">TARGET VENTURE:</span>
+                    <p className="qr-idea-text">"{searchResult?.startup_idea || startupIdea}"</p>
+                  </div>
+
+                  <div className="qr-modal-actions">
+                    <button 
+                      type="button" 
+                      className="btn btn-primary"
+                      onClick={() => {
+                        handleCopySurveyLink()
+                        setIsQrModalOpen(false)
+                      }}
+                    >
+                      <Icons.Copy />
+                      <span>Copy Survey Link</span>
+                    </button>
+
+                    <button 
+                      type="button" 
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        handleOpenSurveyPreview()
+                        setIsQrModalOpen(false)
+                      }}
+                    >
+                      <span>Open Live Survey Page</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
             {/* TAB: Executive Validation Report & Multi-Format Exports (M4) */}
             {/* ======================================================== */}
             {activeTab === 'report' && (
@@ -4103,33 +5547,373 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
             )}
 
             {/* ======================================================== */}
-            {/* TAB 4: Interactive 6-Slide Pitch Deck Generator */}
+            {/* TAB: AI Investor Debate Simulation (Devil's Advocate)     */}
+            {/* ======================================================== */}
+            {activeTab === 'debate' && debateRoundsData.length > 0 && (
+              <div className="tab-pane animate-fade-in">
+                {/* Debate Hero & Real-Time Sentiment Meter */}
+                <div className="glass-card debate-hero-card">
+                  <div className="debate-hero-top">
+                    <div>
+                      <div className="debate-eyebrow">
+                        <Icons.Debate />
+                        <span>Adversarial Multi-Agent Simulation</span>
+                      </div>
+                      <h3 className="pane-section-title">Devil's Advocate: AI Investor Committee Debate</h3>
+                      <p className="pane-subtext">
+                        Autonomous cross-examination between Growth VC Partner (Bull) and Principal Risk Auditor (Bear):
+                      </p>
+                    </div>
+
+                    <div className="debate-audio-actions">
+                      {isDebateVoiceActive ? (
+                        <button type="button" onClick={stopDebateAudio} className="btn-debate-voice stop">
+                          <Icons.VolumeX />
+                          <span>Stop Voice Debate</span>
+                        </button>
+                      ) : (
+                        <button 
+                          type="button" 
+                          onClick={() => playFullDebateRound(debateRoundsData[debateRound - 1])} 
+                          className="btn-debate-voice play"
+                        >
+                          <Icons.Volume />
+                          <span>🔊 Play Round {debateRound} Voice Debate</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Dynamic Bull vs Bear Sentiment Probability Gauge */}
+                  <div className="sentiment-gauge-card">
+                    <div className="gauge-labels-row">
+                      <div className="gauge-side bull-side">
+                        <span className="gauge-avatar">👨‍💼</span>
+                        <div>
+                          <strong>Bull Thesis: {calculatedBullProbability}%</strong>
+                          <span className="gauge-sub">Alpha Horizon (Growth VC)</span>
+                        </div>
+                      </div>
+
+                      <div className="gauge-verdict-center">
+                        <span className={`gauge-badge ${calculatedBullProbability >= 65 ? 'verdict-bull' : 'verdict-bear'}`}>
+                          {calculatedBullProbability >= 65 ? '🔥 High Upside Potential' : '⚠️ Skeptical / Scrutiny'}
+                        </span>
+                      </div>
+
+                      <div className="gauge-side bear-side">
+                        <div>
+                          <strong>Bear Thesis: {100 - calculatedBullProbability}%</strong>
+                          <span className="gauge-sub">Ironclad Capital (Risk Auditor)</span>
+                        </div>
+                        <span className="gauge-avatar">🧐</span>
+                      </div>
+                    </div>
+
+                    <div className="gauge-track">
+                      <div 
+                        className="gauge-fill-bull" 
+                        style={{ width: `${calculatedBullProbability}%` }}
+                      ></div>
+                      <div 
+                        className="gauge-fill-bear" 
+                        style={{ width: `${100 - calculatedBullProbability}%` }}
+                      ></div>
+                    </div>
+                  </div>
+
+                  {/* Debate Round Selector Tabs */}
+                  <div className="debate-rounds-nav">
+                    {debateRoundsData.map((rd) => (
+                      <button
+                        key={rd.roundNumber}
+                        type="button"
+                        className={`debate-round-btn ${debateRound === rd.roundNumber ? 'active' : ''}`}
+                        onClick={() => {
+                          setDebateRound(rd.roundNumber);
+                          stopDebateAudio();
+                        }}
+                      >
+                        <span className="round-pill">Round 0{rd.roundNumber}</span>
+                        <span className="round-topic-text">{rd.topic}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Active Round Adversarial Dialogue Grid */}
+                {debateRoundsData[debateRound - 1] && (
+                  <div className="debate-dialogue-grid">
+                    {/* Bull Partner Card */}
+                    <div className={`glass-card debater-card card-bull ${activeDebateSpeaker === 'bull' ? 'is-speaking' : ''}`}>
+                      <div className="debater-header">
+                        <div className="debater-meta">
+                          <div className="debater-avatar-box bull">👨‍💼</div>
+                          <div>
+                            <h4 className="debater-name">{debateRoundsData[debateRound - 1].bull.name}</h4>
+                            <span className="debater-role">{debateRoundsData[debateRound - 1].bull.role}</span>
+                          </div>
+                        </div>
+                        <span className="thesis-badge bull-badge">{debateRoundsData[debateRound - 1].bull.badge}</span>
+                      </div>
+
+                      <div className="debater-speech-bubble bull-bubble">
+                        <p>{debateRoundsData[debateRound - 1].bull.speech}</p>
+                      </div>
+
+                      <div className="debater-footer">
+                        <div className="debater-key-point">
+                          <strong>Key Growth Driver:</strong>
+                          <span>{debateRoundsData[debateRound - 1].bull.keyThesis}</span>
+                        </div>
+                        <button
+                          type="button"
+                          className="btn-mini-voice bull"
+                          onClick={() => playDebateSpeech(debateRoundsData[debateRound - 1].bull.speech, 'bull')}
+                        >
+                          <Icons.Volume />
+                          <span>Hear Bull</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Bear Partner Card */}
+                    <div className={`glass-card debater-card card-bear ${activeDebateSpeaker === 'bear' ? 'is-speaking' : ''}`}>
+                      <div className="debater-header">
+                        <div className="debater-meta">
+                          <div className="debater-avatar-box bear">🧐</div>
+                          <div>
+                            <h4 className="debater-name">{debateRoundsData[debateRound - 1].bear.name}</h4>
+                            <span className="debater-role">{debateRoundsData[debateRound - 1].bear.role}</span>
+                          </div>
+                        </div>
+                        <span className="thesis-badge bear-badge">{debateRoundsData[debateRound - 1].bear.badge}</span>
+                      </div>
+
+                      <div className="debater-speech-bubble bear-bubble">
+                        <p>{debateRoundsData[debateRound - 1].bear.speech}</p>
+                      </div>
+
+                      <div className="debater-footer">
+                        <div className="debater-key-point">
+                          <strong>Primary Skepticism:</strong>
+                          <span>{debateRoundsData[debateRound - 1].bear.keyRisk}</span>
+                        </div>
+                        <button
+                          type="button"
+                          className="btn-mini-voice bear"
+                          onClick={() => playDebateSpeech(debateRoundsData[debateRound - 1].bear.speech, 'bear')}
+                        >
+                          <Icons.Volume />
+                          <span>Hear Bear</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Interactive Founder Objection Defense & Counter-Argument Box */}
+                <div className="glass-card founder-defense-card">
+                  <div className="defense-header">
+                    <div className="defense-title-row">
+                      <Icons.Shield />
+                      <h3 className="card-title">Founder Hot Seat: Inject Counter-Defense to the Committee</h3>
+                    </div>
+                    <span className="defense-subtext">
+                      Type your counter-argument or unique advantage to challenge the Bear Auditor and update the committee's conviction score:
+                    </span>
+                  </div>
+
+                  <form onSubmit={handleFounderDefenseSubmit} className="founder-defense-form">
+                    <div className="defense-input-wrap">
+                      <input
+                        type="text"
+                        value={founderDefenseText}
+                        onChange={(e) => setFounderDefenseText(e.target.value)}
+                        placeholder="e.g., We secured 3 exclusivity LOIs with leading regional enterprises and custom inference caching that slashes compute CAC by 70%..."
+                        className="defense-input"
+                      />
+                      <button type="submit" className="btn btn-primary btn-submit-defense">
+                        <Icons.Zap />
+                        <span>Challenge Committee</span>
+                      </button>
+                    </div>
+                  </form>
+
+                  {/* Log of Injected Defenses & Committee Reaction */}
+                  {founderDefensesList.length > 0 && (
+                    <div className="defense-reactions-list">
+                      <span className="reactions-heading">AI Committee Evaluation of Your Defenses:</span>
+                      {founderDefensesList.map((item) => (
+                        <div key={item.id} className="defense-reaction-item animate-fade-in">
+                          <div className="defense-founder-quote">
+                            <strong>Your Defense:</strong> "{item.text}"
+                          </div>
+                          <div className="committee-verdict-chips">
+                            <div className="verdict-bubble-bull">
+                              <span>👨‍💼 Bull Response:</span> {item.bullFeedback}
+                            </div>
+                            <div className="verdict-bubble-bear">
+                              <span>🧐 Bear Response:</span> {item.bearFeedback}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Investment Committee Partner Decision Voting */}
+                <div className="glass-card committee-vote-card">
+                  <div className="committee-vote-header">
+                    <Icons.Vote />
+                    <div>
+                      <h3 className="card-title">Simulated Investment Committee Partner Vote</h3>
+                      <p className="pane-subtext">Cast the final partner decision based on the adversarial evidence:</p>
+                    </div>
+                  </div>
+
+                  <div className="vote-options-grid">
+                    <button
+                      type="button"
+                      className={`vote-btn vote-invest ${committeeVote === 'invest' ? 'selected' : ''}`}
+                      onClick={() => handleCommitteeVote('invest')}
+                    >
+                      <span className="vote-icon">✅</span>
+                      <div className="vote-text">
+                        <strong>Issue $1.5M Seed Term Sheet</strong>
+                        <span className="vote-desc">Strong moat, rapid SOM velocity, and validated market white space.</span>
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`vote-btn vote-pilot ${committeeVote === 'pilot' ? 'selected' : ''}`}
+                      onClick={() => handleCommitteeVote('pilot')}
+                    >
+                      <span className="vote-icon">⚡</span>
+                      <div className="vote-text">
+                        <strong>Request 60-Day Pilot Proof</strong>
+                        <span className="vote-desc">Require 15 paid beta customer retentions before finalizing valuation.</span>
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`vote-btn vote-pass ${committeeVote === 'pass' ? 'selected' : ''}`}
+                      onClick={() => handleCommitteeVote('pass')}
+                    >
+                      <span className="vote-icon">❌</span>
+                      <div className="vote-text">
+                        <strong>Pass — High CAC & Runway Risk</strong>
+                        <span className="vote-desc">Crowded competitor landscape and high switching friction.</span>
+                      </div>
+                    </button>
+                  </div>
+
+                  {committeeVote && (
+                    <div className="recorded-verdict-banner animate-fade-in">
+                      <span className="verdict-tag">Official Logged Decision:</span>
+                      <strong>
+                        {committeeVote === 'invest' && '🎉 Term Sheet Authorized: Proceed to Legal Due Diligence & Cap Table Allocation'}
+                        {committeeVote === 'pilot' && '⚡ Milestone Gate Set: 60-Day Pilot Retention Targets Assigned'}
+                        {committeeVote === 'pass' && '❌ Pass Logged: Advised Founder to Pivot Beachhead Segment'}
+                      </strong>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* ======================================================== */}
+            {/* TAB: Upgraded 10-Slide Institutional Pitch Deck Studio   */}
             {/* ======================================================== */}
             {activeTab === 'pitchdeck' && pitchSlides.length > 0 && (
               <div className="tab-pane animate-fade-in">
                 <div className="glass-card pitch-deck-wrapper">
+                  {/* Presentation Studio Header Toolbar */}
                   <div className="deck-header">
                     <div>
                       <div className="deck-eyebrow">
                         <Icons.Presentation />
-                        <span>Investor Pitch Deck Generator</span>
+                        <span>Institutional Venture Presentation Studio</span>
                       </div>
-                      <h3 className="card-title">6-Slide Venture Capital Deck Preview</h3>
-                      <p className="deck-subtext">Interactive, slide-by-slide investor deck synthesized directly from autonomous agent validation:</p>
+                      <h3 className="card-title">10-Slide Institutional Investment Pitch Deck</h3>
+                      <p className="deck-subtext">
+                        Complete institutional slide deck synthesized directly from autonomous agent validation:
+                      </p>
                     </div>
-                    <button type="button" onClick={handleCopyPitchDeck} className="btn btn-export-memo">
-                      <Icons.Copy />
-                      <span>Copy Full Slide Deck</span>
-                    </button>
+
+                    <div className="deck-toolbar-actions">
+                      <div className="deck-timer-pill" title="Presentation Time">
+                        <span>⏱️ {formatTimer(deckTimerSeconds)}</span>
+                      </div>
+
+                      <button 
+                        type="button" 
+                        onClick={() => setIsDeckAutoplaying(prev => !prev)} 
+                        className={`btn btn-secondary ${isDeckAutoplaying ? 'btn-active-glow' : ''}`}
+                        title="Autoplay Slides"
+                      >
+                        {isDeckAutoplaying ? <Icons.Pause /> : <Icons.Play />}
+                        <span>{isDeckAutoplaying ? 'Pause' : 'Autoplay'}</span>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        onClick={() => setShowSpeakerNotes(prev => !prev)} 
+                        className={`btn btn-secondary ${showSpeakerNotes ? 'btn-active-glow' : ''}`}
+                        title="Toggle Speaker Notes"
+                      >
+                        <Icons.MessageSquare />
+                        <span>{showSpeakerNotes ? 'Hide Notes' : 'Speaker Notes'}</span>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        onClick={() => setIsFullscreenDeck(true)} 
+                        className="btn btn-secondary"
+                        title="Fullscreen Presenter Mode"
+                      >
+                        <Icons.Maximize />
+                        <span>Present</span>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        onClick={handlePrintPitchDeck} 
+                        className="btn btn-secondary"
+                        title="Print / Save as PDF Deck"
+                      >
+                        <Icons.Download />
+                        <span>Print PDF</span>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        onClick={handleCopyPitchDeck} 
+                        className="btn btn-primary btn-export-memo"
+                        title="Copy All 10 Slides"
+                      >
+                        <Icons.Copy />
+                        <span>Copy Deck</span>
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Slide Carousel Viewer */}
+                  {/* Slide Carousel & Presentation Viewport */}
                   <div className="slide-viewer-box">
                     <div className="slide-card animate-fade-in">
                       <div className="slide-top-bar">
-                        <span className="slide-tag-badge">{pitchSlides[activeSlideIndex].tag}</span>
-                        <span className="slide-counter">Slide {pitchSlides[activeSlideIndex].slideNumber} / 06</span>
+                        <div className="slide-tag-group">
+                          <span className="slide-tag-badge">{pitchSlides[activeSlideIndex].tag}</span>
+                          {isDeckAutoplaying && <span className="autoplay-pulse-dot">Autoplaying...</span>}
+                        </div>
+                        <span className="slide-counter">
+                          Slide {pitchSlides[activeSlideIndex].slideNumber} / 10
+                        </span>
                       </div>
+
                       <h2 className="slide-main-title">{pitchSlides[activeSlideIndex].title}</h2>
                       
                       <div className="slide-points-list">
@@ -4140,6 +5924,17 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                           </div>
                         ))}
                       </div>
+
+                      {/* Speaker Notes Drawer */}
+                      {showSpeakerNotes && (
+                        <div className="slide-speaker-notes-drawer animate-fade-in">
+                          <div className="notes-header">
+                            <Icons.Sparkle />
+                            <strong>Executive Presenter Coaching Note:</strong>
+                          </div>
+                          <p>{pitchSlides[activeSlideIndex].speakerNotes}</p>
+                        </div>
+                      )}
                     </div>
 
                     {/* Slide Navigation Controls */}
@@ -4154,12 +5949,16 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                       </button>
 
                       <div className="slide-dot-indicators">
-                        {pitchSlides.map((_, idx) => (
-                          <span 
+                        {pitchSlides.map((s, idx) => (
+                          <button
                             key={idx} 
+                            type="button"
                             className={`slide-dot ${idx === activeSlideIndex ? 'active' : ''}`}
                             onClick={() => setActiveSlideIndex(idx)}
-                          ></span>
+                            title={`Slide ${s.slideNumber}: ${s.tag}`}
+                          >
+                            <span className="dot-number">{s.slideNumber}</span>
+                          </button>
                         ))}
                       </div>
 
@@ -4172,6 +5971,110 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                         Next Slide →
                       </button>
                     </div>
+
+                    {/* Quick Jump Slide Thumbnails Grid */}
+                    <div className="deck-thumbnails-grid">
+                      {pitchSlides.map((s, idx) => (
+                        <div
+                          key={idx}
+                          className={`deck-thumb-card ${idx === activeSlideIndex ? 'selected' : ''}`}
+                          onClick={() => setActiveSlideIndex(idx)}
+                        >
+                          <div className="thumb-top">
+                            <span className="thumb-num">#{s.slideNumber}</span>
+                            <span className="thumb-tag">{s.tag.slice(0, 18)}</span>
+                          </div>
+                          <p className="thumb-title">{s.title}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Fullscreen Presenter Mode Modal */}
+            {isFullscreenDeck && (
+              <div className="deck-fullscreen-modal animate-fade-in">
+                <div className="fullscreen-overlay" onClick={() => setIsFullscreenDeck(false)}></div>
+                <div className="fullscreen-canvas-card">
+                  <div className="fullscreen-topbar">
+                    <div className="fullscreen-meta">
+                      <span className="fullscreen-brand">TEAM-PULSE VENTURE STUDIO</span>
+                      <span className="fullscreen-timer">⏱️ {formatTimer(deckTimerSeconds)}</span>
+                      <span className="fullscreen-slide-badge">
+                        Slide {pitchSlides[activeSlideIndex].slideNumber} of 10
+                      </span>
+                    </div>
+
+                    <div className="fullscreen-actions">
+                      <button 
+                        type="button" 
+                        onClick={() => setShowSpeakerNotes(prev => !prev)} 
+                        className="btn-fullscreen-tool"
+                      >
+                        {showSpeakerNotes ? 'Hide Speaker Notes' : 'Show Speaker Notes'}
+                      </button>
+                      <button 
+                        type="button" 
+                        onClick={() => setIsFullscreenDeck(false)} 
+                        className="btn-close-fullscreen"
+                      >
+                        ✕ Exit (ESC)
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="fullscreen-slide-body">
+                    <span className="fullscreen-tag">{pitchSlides[activeSlideIndex].tag}</span>
+                    <h1 className="fullscreen-title">{pitchSlides[activeSlideIndex].title}</h1>
+
+                    <div className="fullscreen-points-list">
+                      {pitchSlides[activeSlideIndex].points.map((pt, pIdx) => (
+                        <div key={pIdx} className="fullscreen-point-item">
+                          <span className="fullscreen-bullet"><Icons.Check /></span>
+                          <p>{pt}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {showSpeakerNotes && (
+                      <div className="fullscreen-notes-box">
+                        <strong>Coaching Note:</strong> {pitchSlides[activeSlideIndex].speakerNotes}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="fullscreen-bottom-nav">
+                    <button 
+                      type="button"
+                      disabled={activeSlideIndex === 0}
+                      onClick={() => setActiveSlideIndex(prev => Math.max(0, prev - 1))}
+                      className="btn btn-secondary"
+                    >
+                      ← Previous (Left Arrow)
+                    </button>
+
+                    <div className="fullscreen-dots">
+                      {pitchSlides.map((s, idx) => (
+                        <span 
+                          key={idx} 
+                          className={`fs-dot ${idx === activeSlideIndex ? 'active' : ''}`}
+                          onClick={() => setActiveSlideIndex(idx)}
+                        >
+                          {s.slideNumber}
+                        </span>
+                      ))}
+                    </div>
+
+                    <button 
+                      type="button"
+                      disabled={activeSlideIndex === pitchSlides.length - 1}
+                      onClick={() => setActiveSlideIndex(prev => Math.min(pitchSlides.length - 1, prev + 1))}
+                      className="btn btn-primary"
+                    >
+                      Next (Right Arrow) →
+                    </button>
                   </div>
                 </div>
               </div>
