@@ -787,3 +787,224 @@ def search_startup(request: StartupValidationRequest):
     Runs the full multi-agent pipeline and returns unified results.
     """
     return validate_startup_idea(request)
+
+# ==============================================================================
+# Customer Discovery & Standalone Survey Engine (Milestone 4 Extension)
+# ==============================================================================
+
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+os.makedirs(DATA_DIR, exist_ok=True)
+SURVEYS_FILE = os.path.join(DATA_DIR, "surveys.json")
+
+def _load_surveys() -> dict:
+    if os.path.exists(SURVEYS_FILE):
+        try:
+            with open(SURVEYS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+def _save_surveys(data: dict):
+    try:
+        with open(SURVEYS_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        print(f"Error saving surveys: {e}")
+
+class CreateSurveyRequest(BaseModel):
+    startup_idea: str = Field(..., min_length=3)
+    industry: str = Field(..., min_length=2)
+    target_market: str = Field(..., min_length=2)
+    founder_name: str = Field(default="Founder")
+    custom_pitch: str = Field(default="")
+
+class SubmitSurveyResponseRequest(BaseModel):
+    respondent_name: str = Field(default="Anonymous Explorer")
+    problem_frequency: str = Field(..., description="Daily, Weekly, Monthly, Rarely, Never")
+    current_solution: str = Field(default="Manual workaround")
+    rating: int = Field(..., ge=1, le=5, description="Utility rating 1-5")
+    willingness_to_pay: str = Field(..., description="Pricing bracket willingness")
+    feedback: str = Field(default="")
+
+@app.post("/survey/create")
+def create_survey(request: CreateSurveyRequest):
+    """
+    Generates a unique, shareable survey for a startup concept.
+    """
+    import hashlib
+    import time
+    surveys = _load_surveys()
+    
+    seed = f"{request.startup_idea}_{request.industry}_{time.time()}"
+    survey_id = "vp_" + hashlib.md5(seed.encode()).hexdigest()[:8]
+    
+    survey_obj = {
+        "id": survey_id,
+        "startup_idea": request.startup_idea,
+        "industry": request.industry,
+        "target_market": request.target_market,
+        "founder_name": request.founder_name,
+        "custom_pitch": request.custom_pitch or f"We are building a solution for {request.target_market} in {request.industry}: {request.startup_idea}",
+        "created_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "responses": []
+    }
+    
+    surveys[survey_id] = survey_obj
+    _save_surveys(surveys)
+    
+    return {
+        "status": "success",
+        "survey_id": survey_id,
+        "survey": survey_obj,
+        "message": "Survey created successfully! Share this link with potential customers."
+    }
+
+@app.get("/survey/{survey_id}")
+def get_survey(survey_id: str):
+    """
+    Retrieves public survey metadata for end-users to answer questions.
+    """
+    surveys = _load_surveys()
+    if survey_id in surveys:
+        survey = surveys[survey_id]
+        return {
+            "id": survey["id"],
+            "startup_idea": survey["startup_idea"],
+            "industry": survey["industry"],
+            "target_market": survey["target_market"],
+            "founder_name": survey.get("founder_name", "Founding Team"),
+            "custom_pitch": survey.get("custom_pitch", ""),
+            "created_at": survey.get("created_at", ""),
+            "response_count": len(survey.get("responses", []))
+        }
+
+    # Preset ideas lookup by ID prefix/keyword
+    KNOWN_PRESETS = {
+        "anautomate": {
+            "startup_idea": "An automated cash flow intelligence and instant invoice factoring platform tailored for SMB contractors.",
+            "industry": "FinTech & SMB Banking",
+            "target_market": "Small business owners, general contractors, freelancers"
+        },
+        "anondemand": {
+            "startup_idea": "An on-demand veterinary telehealth platform with instant AI triage and symptom detection from smartphone photos.",
+            "industry": "Pet Care & HealthTech",
+            "target_market": "Pet owners, veterinary clinics, animal shelters"
+        },
+        "anai-pow": {
+            "startup_idea": "An AI-powered route planning app for electric cargo bike deliveries in dense urban areas.",
+            "industry": "Green Logistics & Mobility",
+            "target_market": "Local e-commerce shops, urban couriers, micro-hubs"
+        },
+        "anintell": {
+            "startup_idea": "An intelligent learning copilot that converts college lectures and PDF textbooks into interactive flashcards, quizzes, and mock tests.",
+            "industry": "EdTech & Higher Education",
+            "target_market": "University students, certification exam candidates"
+        }
+    }
+
+    clean_key = survey_id.replace("vp_", "").lower()
+    for key, val in KNOWN_PRESETS.items():
+        if key in clean_key or clean_key in key:
+            return {
+                "id": survey_id,
+                "startup_idea": val["startup_idea"],
+                "industry": val["industry"],
+                "target_market": val["target_market"],
+                "founder_name": "Founding Team",
+                "custom_pitch": f"We are validating {val['startup_idea']} for {val['target_market']}.",
+                "created_at": "Active",
+                "response_count": 0
+            }
+
+    # Fallback default
+    return {
+        "id": survey_id,
+        "startup_idea": "AI Powered Startup Concept Validation",
+        "industry": "Technology & Software",
+        "target_market": "Early Adopters & Product Users",
+        "founder_name": "Founding Team",
+        "custom_pitch": "We are building an innovative platform. We would love your honest 30-second feedback!",
+        "created_at": "Active",
+        "response_count": 0
+    }
+
+@app.post("/survey/{survey_id}/submit")
+def submit_survey_response(survey_id: str, response: SubmitSurveyResponseRequest):
+    """
+    Records an end-user's response to the startup survey.
+    """
+    import time
+    surveys = _load_surveys()
+    
+    if survey_id not in surveys:
+        # Create ad-hoc survey record if not exists
+        surveys[survey_id] = {
+            "id": survey_id,
+            "startup_idea": "Startup Concept",
+            "industry": "Technology",
+            "target_market": "General Audience",
+            "created_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "responses": []
+        }
+    
+    entry = {
+        "id": f"resp_{len(surveys[survey_id]['responses']) + 1}",
+        "respondent_name": response.respondent_name.strip() or "Anonymous Explorer",
+        "problem_frequency": response.problem_frequency,
+        "current_solution": response.current_solution,
+        "rating": response.rating,
+        "willingness_to_pay": response.willingness_to_pay,
+        "feedback": response.feedback.strip(),
+        "submitted_at": time.strftime("%Y-%m-%d %H:%M:%S")
+    }
+    
+    surveys[survey_id]["responses"].append(entry)
+    _save_surveys(surveys)
+    
+    return {
+        "status": "success",
+        "message": "Thank you for validating this startup concept!",
+        "response_id": entry["id"],
+        "total_responses": len(surveys[survey_id]["responses"])
+    }
+
+@app.get("/survey/{survey_id}/responses")
+def get_survey_responses(survey_id: str):
+    """
+    Returns aggregated feedback metrics and individual responses for the founder.
+    """
+    surveys = _load_surveys()
+    survey = surveys.get(survey_id, {})
+    responses = survey.get("responses", [])
+    
+    count = len(responses)
+    if count == 0:
+        return {
+            "survey_id": survey_id,
+            "response_count": 0,
+            "average_rating": 0.0,
+            "frequency_breakdown": {},
+            "wtp_breakdown": {},
+            "responses": []
+        }
+    
+    avg_rating = round(sum(r.get("rating", 0) for r in responses) / count, 1)
+    
+    freq_map = {}
+    wtp_map = {}
+    for r in responses:
+        freq = r.get("problem_frequency", "Unknown")
+        freq_map[freq] = freq_map.get(freq, 0) + 1
+        
+        wtp = r.get("willingness_to_pay", "Unknown")
+        wtp_map[wtp] = wtp_map.get(wtp, 0) + 1
+    
+    return {
+        "survey_id": survey_id,
+        "response_count": count,
+        "average_rating": avg_rating,
+        "frequency_breakdown": freq_map,
+        "wtp_breakdown": wtp_map,
+        "responses": responses
+    }

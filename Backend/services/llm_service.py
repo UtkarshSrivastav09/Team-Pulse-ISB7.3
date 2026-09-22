@@ -66,7 +66,7 @@ class LLMService:
                     }
                 }
                 try:
-                    resp = requests.post(url, json=payload, timeout=20)
+                    resp = requests.post(url, json=payload, timeout=6)
                     if resp.status_code == 200:
                         data = resp.json()
                         candidates = data.get("candidates", [])
@@ -107,7 +107,7 @@ class LLMService:
                     "temperature": 0.2
                 }
                 try:
-                    resp = requests.post(url, headers=headers, json=payload, timeout=10)
+                    resp = requests.post(url, headers=headers, json=payload, timeout=4)
                     if resp.status_code == 200:
                         data = resp.json()
                         content = data["choices"][0]["message"]["content"]
@@ -139,7 +139,7 @@ class LLMService:
                 "temperature": 0.2
             }
             try:
-                resp = requests.post(url, headers=headers, json=payload, timeout=20)
+                resp = requests.post(url, headers=headers, json=payload, timeout=6)
                 if resp.status_code == 200:
                     data = resp.json()
                     content = data["choices"][0]["message"]["content"]

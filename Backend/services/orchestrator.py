@@ -44,8 +44,10 @@ class AgentPipelineOrchestrator:
 
     def run_pipeline(self, startup_idea: str, industry: str, target_market: str) -> Dict[str, Any]:
         """
-        Executes the complete end-to-end multi-agent pipeline for a startup concept.
+        Executes the complete end-to-end multi-agent pipeline for a startup concept
+        using high-performance concurrent multi-threading.
         """
+        from concurrent.futures import ThreadPoolExecutor
         pipeline_start = time.time()
         logs: List[Dict[str, Any]] = []
 
@@ -89,20 +91,60 @@ class AgentPipelineOrchestrator:
             })
 
         # -----------------------------------------------------------------
-        # STEP 2: Market Opportunity & Customer Segmentation Agent (Milestone 2)
+        # BATCH 1: Run MarketOpportunity & CompetitorDiscovery in Parallel
         # -----------------------------------------------------------------
-        step2_start = time.time()
-        print(f"📊 [STEP 2/7] Invoking Market Opportunity & Segmentation Agent...")
-        try:
-            market_analysis = self.market_agent.analyze(
-                startup_idea=startup_idea,
-                industry=industry,
-                target_market=target_market,
-                search_data=search_data
-            )
-            step2_duration = round(time.time() - step2_start, 2)
+        def run_market():
+            s_start = time.time()
+            try:
+                res = self.market_agent.analyze(
+                    startup_idea=startup_idea,
+                    industry=industry,
+                    target_market=target_market,
+                    search_data=search_data
+                )
+                dur = round(time.time() - s_start, 2)
+                return res, dur, None
+            except Exception as ex:
+                dur = round(time.time() - s_start, 2)
+                fallback_res = self.market_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
+                return fallback_res, dur, ex
+
+        def run_competitor():
+            s_start = time.time()
+            try:
+                res = self.competitor_agent.analyze(
+                    startup_idea=startup_idea,
+                    industry=industry,
+                    target_market=target_market,
+                    search_data=search_data,
+                    market_context=None
+                )
+                dur = round(time.time() - s_start, 2)
+                return res, dur, None
+            except Exception as ex:
+                dur = round(time.time() - s_start, 2)
+                fallback_res = self.competitor_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
+                return fallback_res, dur, ex
+
+        print(f"⚡ [CONCURRENT BATCH 1] Executing Market & Competitor Agents in parallel...")
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            fut_market = executor.submit(run_market)
+            fut_comp = executor.submit(run_competitor)
+            market_analysis, step2_duration, market_err = fut_market.result()
+            competitor_analysis, step3_duration, comp_err = fut_comp.result()
+
+        if market_err:
+            print(f"❌ [STEP 2/7] Market Agent fallback applied: {market_err}")
+            logs.append({
+                "agent": "MarketOpportunityAgent",
+                "step": 2,
+                "status": "fallback",
+                "duration_sec": step2_duration,
+                "message": f"Market analysis fallback applied due to: {str(market_err)}"
+            })
+        else:
             segments_count = len(market_analysis.get("customer_segments", []))
-            print(f"✅ [STEP 2/7] Market Agent completed in {step2_duration}s. Status: {market_analysis.get('agent_status')}, Segments: {segments_count}")
+            print(f"✅ [STEP 2/7] Market Agent completed in {step2_duration}s. Segments: {segments_count}")
             logs.append({
                 "agent": "MarketOpportunityAgent",
                 "step": 2,
@@ -110,35 +152,20 @@ class AgentPipelineOrchestrator:
                 "duration_sec": step2_duration,
                 "message": f"Extracted market size ({market_analysis.get('market_size_and_growth', {}).get('tam_estimate')}) and {segments_count} customer segments."
             })
-        except Exception as e:
-            step2_duration = round(time.time() - step2_start, 2)
-            print(f"❌ [STEP 2/7] Market Agent error: {e}. Generating fallback.")
-            market_analysis = self.market_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
-            logs.append({
-                "agent": "MarketOpportunityAgent",
-                "step": 2,
-                "status": "fallback",
-                "duration_sec": step2_duration,
-                "message": f"Market analysis fallback applied due to: {str(e)}"
-            })
 
-        # -----------------------------------------------------------------
-        # STEP 3: Competitor Discovery & Comparison Agent (Milestone 2)
-        # -----------------------------------------------------------------
-        step3_start = time.time()
-        print(f"⚔️ [STEP 3/7] Invoking Competitor Discovery & Comparison Agent...")
-        try:
-            competitor_analysis = self.competitor_agent.analyze(
-                startup_idea=startup_idea,
-                industry=industry,
-                target_market=target_market,
-                search_data=search_data,
-                market_context=market_analysis
-            )
-            step3_duration = round(time.time() - step3_start, 2)
+        if comp_err:
+            print(f"❌ [STEP 3/7] Competitor Agent fallback applied: {comp_err}")
+            logs.append({
+                "agent": "CompetitorDiscoveryAgent",
+                "step": 3,
+                "status": "fallback",
+                "duration_sec": step3_duration,
+                "message": f"Competitor analysis fallback applied due to: {str(comp_err)}"
+            })
+        else:
             direct_count = len(competitor_analysis.get("direct_competitors", []))
             gaps_count = len(competitor_analysis.get("market_gaps_and_white_space", []))
-            print(f"✅ [STEP 3/7] Competitor Agent completed in {step3_duration}s. Status: {competitor_analysis.get('agent_status')}, Competitors: {direct_count}, Gaps: {gaps_count}")
+            print(f"✅ [STEP 3/7] Competitor Agent completed in {step3_duration}s. Competitors: {direct_count}, Gaps: {gaps_count}")
             logs.append({
                 "agent": "CompetitorDiscoveryAgent",
                 "step": 3,
@@ -146,36 +173,89 @@ class AgentPipelineOrchestrator:
                 "duration_sec": step3_duration,
                 "message": f"Identified {direct_count} direct competitors and {gaps_count} white-space market opportunities."
             })
-        except Exception as e:
-            step3_duration = round(time.time() - step3_start, 2)
-            print(f"❌ [STEP 3/7] Competitor Agent error: {e}. Generating fallback.")
-            competitor_analysis = self.competitor_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
-            logs.append({
-                "agent": "CompetitorDiscoveryAgent",
-                "step": 3,
-                "status": "fallback",
-                "duration_sec": step3_duration,
-                "message": f"Competitor analysis fallback applied due to: {str(e)}"
-            })
 
         # -----------------------------------------------------------------
-        # STEP 4: SWOT & Risk Analysis Agent (Milestone 3)
+        # BATCH 2: Run SWOTRisk, MVPFeature, and GTMStrategy in Parallel
         # -----------------------------------------------------------------
-        step4_start = time.time()
-        print(f"🛡️ [STEP 4/7] Invoking SWOT & Risk Analysis Agent...")
-        try:
-            swot_analysis = self.swot_agent.analyze(
-                startup_idea=startup_idea,
-                industry=industry,
-                target_market=target_market,
-                search_data=search_data,
-                market_context=market_analysis,
-                competitor_context=competitor_analysis
-            )
-            step4_duration = round(time.time() - step4_start, 2)
+        def run_swot():
+            s_start = time.time()
+            try:
+                res = self.swot_agent.analyze(
+                    startup_idea=startup_idea,
+                    industry=industry,
+                    target_market=target_market,
+                    search_data=search_data,
+                    market_context=market_analysis,
+                    competitor_context=competitor_analysis
+                )
+                dur = round(time.time() - s_start, 2)
+                return res, dur, None
+            except Exception as ex:
+                dur = round(time.time() - s_start, 2)
+                fallback_res = self.swot_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
+                return fallback_res, dur, ex
+
+        def run_mvp():
+            s_start = time.time()
+            try:
+                res = self.mvp_agent.analyze(
+                    startup_idea=startup_idea,
+                    industry=industry,
+                    target_market=target_market,
+                    search_data=search_data,
+                    market_context=market_analysis,
+                    competitor_context=competitor_analysis,
+                    swot_context=None
+                )
+                dur = round(time.time() - s_start, 2)
+                return res, dur, None
+            except Exception as ex:
+                dur = round(time.time() - s_start, 2)
+                fallback_res = self.mvp_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
+                return fallback_res, dur, ex
+
+        def run_gtm():
+            s_start = time.time()
+            try:
+                res = self.gtm_agent.analyze(
+                    startup_idea=startup_idea,
+                    industry=industry,
+                    target_market=target_market,
+                    search_data=search_data,
+                    market_context=market_analysis,
+                    competitor_context=competitor_analysis,
+                    swot_context=None,
+                    mvp_context=None
+                )
+                dur = round(time.time() - s_start, 2)
+                return res, dur, None
+            except Exception as ex:
+                dur = round(time.time() - s_start, 2)
+                fallback_res = self.gtm_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
+                return fallback_res, dur, ex
+
+        print(f"⚡ [CONCURRENT BATCH 2] Executing SWOT, MVP, and GTM Agents in parallel...")
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            fut_swot = executor.submit(run_swot)
+            fut_mvp = executor.submit(run_mvp)
+            fut_gtm = executor.submit(run_gtm)
+            swot_analysis, step4_duration, swot_err = fut_swot.result()
+            mvp_roadmap, step5_duration, mvp_err = fut_mvp.result()
+            gtm_strategy, step6_duration, gtm_err = fut_gtm.result()
+
+        if swot_err:
+            print(f"❌ [STEP 4/7] SWOT Agent fallback: {swot_err}")
+            logs.append({
+                "agent": "SWOTRiskAgent",
+                "step": 4,
+                "status": "fallback",
+                "duration_sec": step4_duration,
+                "message": f"SWOT and risk analysis fallback applied due to: {str(swot_err)}"
+            })
+        else:
             strengths_count = len(swot_analysis.get("swot", {}).get("strengths", []))
             risks_count = len(swot_analysis.get("risk_assessment", []))
-            print(f"✅ [STEP 4/7] SWOT & Risk Agent completed in {step4_duration}s. Status: {swot_analysis.get('agent_status')}, Strengths: {strengths_count}, Risks: {risks_count}")
+            print(f"✅ [STEP 4/7] SWOT & Risk Agent completed in {step4_duration}s. Strengths: {strengths_count}, Risks: {risks_count}")
             logs.append({
                 "agent": "SWOTRiskAgent",
                 "step": 4,
@@ -183,36 +263,19 @@ class AgentPipelineOrchestrator:
                 "duration_sec": step4_duration,
                 "message": f"Synthesized SWOT matrix ({strengths_count} strengths) and {risks_count} risk mitigation playbooks."
             })
-        except Exception as e:
-            step4_duration = round(time.time() - step4_start, 2)
-            print(f"❌ [STEP 4/7] SWOT & Risk Agent error: {e}. Generating fallback.")
-            swot_analysis = self.swot_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
-            logs.append({
-                "agent": "SWOTRiskAgent",
-                "step": 4,
-                "status": "fallback",
-                "duration_sec": step4_duration,
-                "message": f"SWOT and risk analysis fallback applied due to: {str(e)}"
-            })
 
-        # -----------------------------------------------------------------
-        # STEP 5: MVP Feature Recommendation Agent (Milestone 3)
-        # -----------------------------------------------------------------
-        step5_start = time.time()
-        print(f"⚡ [STEP 5/7] Invoking MVP Feature Recommendation Agent...")
-        try:
-            mvp_roadmap = self.mvp_agent.analyze(
-                startup_idea=startup_idea,
-                industry=industry,
-                target_market=target_market,
-                search_data=search_data,
-                market_context=market_analysis,
-                competitor_context=competitor_analysis,
-                swot_context=swot_analysis
-            )
-            step5_duration = round(time.time() - step5_start, 2)
+        if mvp_err:
+            print(f"❌ [STEP 5/7] MVP Agent fallback: {mvp_err}")
+            logs.append({
+                "agent": "MVPFeatureAgent",
+                "step": 5,
+                "status": "fallback",
+                "duration_sec": step5_duration,
+                "message": f"MVP feature recommendation fallback applied due to: {str(mvp_err)}"
+            })
+        else:
             must_count = len(mvp_roadmap.get("moscow_matrix", {}).get("must_have", []))
-            print(f"✅ [STEP 5/7] MVP Feature Agent completed in {step5_duration}s. Status: {mvp_roadmap.get('agent_status')}, Must-Haves: {must_count}")
+            print(f"✅ [STEP 5/7] MVP Feature Agent completed in {step5_duration}s. Must-Haves: {must_count}")
             logs.append({
                 "agent": "MVPFeatureAgent",
                 "step": 5,
@@ -220,54 +283,25 @@ class AgentPipelineOrchestrator:
                 "duration_sec": step5_duration,
                 "message": f"Prioritized {must_count} core Must-Have MVP features with MoSCoW and Effort vs Impact scoring."
             })
-        except Exception as e:
-            step5_duration = round(time.time() - step5_start, 2)
-            print(f"❌ [STEP 5/7] MVP Feature Agent error: {e}. Generating fallback.")
-            mvp_roadmap = self.mvp_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
-            logs.append({
-                "agent": "MVPFeatureAgent",
-                "step": 5,
-                "status": "fallback",
-                "duration_sec": step5_duration,
-                "message": f"MVP feature recommendation fallback applied due to: {str(e)}"
-            })
 
-        # -----------------------------------------------------------------
-        # STEP 6: Go-To-Market Strategy Agent (Milestone 3)
-        # -----------------------------------------------------------------
-        step6_start = time.time()
-        print(f"🎯 [STEP 6/7] Invoking Go-To-Market Strategy Agent...")
-        try:
-            gtm_strategy = self.gtm_agent.analyze(
-                startup_idea=startup_idea,
-                industry=industry,
-                target_market=target_market,
-                search_data=search_data,
-                market_context=market_analysis,
-                competitor_context=competitor_analysis,
-                swot_context=swot_analysis,
-                mvp_context=mvp_roadmap
-            )
-            step6_duration = round(time.time() - step6_start, 2)
+        if gtm_err:
+            print(f"❌ [STEP 6/7] GTM Agent fallback: {gtm_err}")
+            logs.append({
+                "agent": "GTMStrategyAgent",
+                "step": 6,
+                "status": "fallback",
+                "duration_sec": step6_duration,
+                "message": f"GTM strategy fallback applied due to: {str(gtm_err)}"
+            })
+        else:
             channels_count = len(gtm_strategy.get("acquisition_channels", []))
-            print(f"✅ [STEP 6/7] GTM Strategy Agent completed in {step6_duration}s. Status: {gtm_strategy.get('agent_status')}, Channels: {channels_count}")
+            print(f"✅ [STEP 6/7] GTM Strategy Agent completed in {step6_duration}s. Channels: {channels_count}")
             logs.append({
                 "agent": "GTMStrategyAgent",
                 "step": 6,
                 "status": "success",
                 "duration_sec": step6_duration,
                 "message": f"Formulated strategic positioning, {channels_count} acquisition channels, and First 100 Customers playbook."
-            })
-        except Exception as e:
-            step6_duration = round(time.time() - step6_start, 2)
-            print(f"❌ [STEP 6/7] GTM Strategy Agent error: {e}. Generating fallback.")
-            gtm_strategy = self.gtm_agent._heuristic_fallback(startup_idea, industry, target_market, search_data)
-            logs.append({
-                "agent": "GTMStrategyAgent",
-                "step": 6,
-                "status": "fallback",
-                "duration_sec": step6_duration,
-                "message": f"GTM strategy fallback applied due to: {str(e)}"
             })
 
         # -----------------------------------------------------------------
