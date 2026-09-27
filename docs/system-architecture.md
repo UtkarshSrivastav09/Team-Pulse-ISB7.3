@@ -8,41 +8,49 @@ This document outlines the multi-agent system architecture, component roles, orc
 
 ```mermaid
 graph TD
-    User([Founder / User]) --> UI["Web Interface - React 19 + Vite"]
-    UI -->|POST /validate| API["FastAPI API Server (v4.0.0)"]
-    UI -->|POST /advisor/chat| API
-    UI -->|POST /export/report| API
-    API --> Orchestrator["Agent Pipeline Orchestrator"]
-    API --> AdvisorAgent["Conversational Startup Advisor Agent"]
+    classDef client fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef server fill:#0f172a,stroke:#818cf8,stroke-width:2px,color:#f8fafc;
+    classDef agent fill:#1e1e38,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
+    classDef output fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#f8fafc;
+
+    User([Founder / User]):::client --> UI["Web Interface - React 19 + Vite"]:::client
+    UI -->|"POST /validate"| API["FastAPI API Server (v4.0.0)"]:::server
+    UI -->|"POST /advisor/chat"| API
+    UI -->|"POST /surveys"| API
+    API --> Orchestrator["Concurrent Pipeline Orchestrator"]:::server
+    API --> AdvisorAgent["Conversational Startup Advisor Agent"]:::agent
     
-    subgraph MultiAgentEngine [Autonomous Multi-Agent Sequential Pipeline]
-        Orchestrator -->|Step 1: Scrape Records| WSA["Agent 1: Web Search Agent (M1)"]
-        WSA -->|Live Web Query & Scrape| Tavily[Tavily Search Index]
-        Tavily -->|Raw Records & Snippets| WSA
-        WSA -->|Structured Search Snippets| Orchestrator
+    subgraph MultiAgentEngine ["Autonomous Multi-Agent Concurrent Pipeline (Sub-6s)"]
+        Orchestrator -->|"Step 1: Scrape Records"| WSA["Agent 1: Web Search Agent (M1)"]:::agent
+        WSA -->|"Live Web Query & Scrape"| Tavily[Tavily Search Index]:::server
+        Tavily -->|"Raw Records & Snippets"| WSA
+        WSA -->|"Structured Search Snippets"| Orchestrator
         
-        Orchestrator -->|Step 2: Search Data + Params| MOA["Agent 2: Market Opportunity Agent (M2)"]
-        MOA -->|TAM/SAM/SOM, CAGR, Personas, Pain Points| Orchestrator
+        subgraph Batch1 ["Concurrent Parallel Batch 1"]
+            Orchestrator -->|"Thread 1"| MOA["Agent 2: Market Opportunity Agent (M2)"]:::agent
+            Orchestrator -->|"Thread 2"| CCA["Agent 3: Competitor Discovery Agent (M2)"]:::agent
+        end
         
-        Orchestrator -->|Step 3: Market Context + Competitors| CCA["Agent 3: Competitor Discovery Agent (M2)"]
-        CCA -->|Direct/Indirect Matrix, Market White Spaces| Orchestrator
+        MOA -->|"TAM/SAM/SOM, CAGR, Personas"| Orchestrator
+        CCA -->|"Direct/Indirect Matrix, White Spaces"| Orchestrator
 
-        Orchestrator -->|Step 4: Market & Competitor Intelligence| SRA["Agent 4: SWOT & Risk Analysis Agent (M3)"]
-        SRA -->|2x2 SWOT Matrix, Multi-Category Risk Mitigations| Orchestrator
+        subgraph Batch2 ["Concurrent Parallel Batch 2"]
+            Orchestrator -->|"Thread 3"| SRA["Agent 4: SWOT & Risk Analysis Agent (M3)"]:::agent
+            Orchestrator -->|"Thread 4"| MVPA["Agent 5: MVP Feature Recommendation Agent (M3)"]:::agent
+            Orchestrator -->|"Thread 5"| GTMA["Agent 6: Go-To-Market Strategy Agent (M3)"]:::agent
+        end
 
-        Orchestrator -->|Step 5: Pain Points & Market Gaps| MVPA["Agent 5: MVP Feature Recommendation Agent (M3)"]
-        MVPA -->|MoSCoW Prioritization, Effort vs Impact Matrix| Orchestrator
+        SRA -->|"2x2 SWOT Matrix, Risk Mitigations"| Orchestrator
+        MVPA -->|"MoSCoW Backlog, Effort/Impact"| Orchestrator
+        GTMA -->|"Positioning, Channels CAC, First 100"| Orchestrator
 
-        Orchestrator -->|Step 6: Positioning & Acquisition| GTMA["Agent 6: Go-To-Market Strategy Agent (M3)"]
-        GTMA -->|Positioning, Channels CAC, First 100 Playbook| Orchestrator
-
-        Orchestrator -->|Step 7: Compile Validation Dossier| VRA["Agent 7: Validation Report Agent (M4)"]
-        VRA -->|Executive Markdown, JSON Scorecard, Print HTML| Orchestrator
+        Orchestrator -->|"Step 7: Synthesis"| VRA["Agent 7: Validation Report Agent (M4)"]:::output
+        VRA -->|"Executive Markdown, JSON Scorecard"| Orchestrator
     end
     
-    Orchestrator -->|Unified Milestone 4 JSON Payload| API
-    API -->|HTTP 200 OK| UI
-    UI -->|Renders Interactive Tabs, Sizing, Matrix, SWOT, MoSCoW, GTM, Report & Export| User
+    Orchestrator -->|"Unified Milestone 4 JSON Payload"| API
+    API -->|"HTTP 200 OK"| UI
+    UI -->|"Interactive Views, Export Dossier"| User
 ```
 
 ---
@@ -52,8 +60,8 @@ graph TD
 | Agent / Component | Milestone | Role | Description |
 | :--- | :--- | :--- | :--- |
 | **Frontend Client** | M1–M4 | User Interface & Analytics | React + Vite client featuring real-time DAG visualizers, TAM/SAM/SOM calculators, 2x2 competitor matrices, interactive SWOT grids, MoSCoW boards, GTM playbooks, Executive Report views, Markdown/JSON/PDF exports, and Venture Copilot. |
-| **FastAPI Backend** | M1–M4 | API Routing & Validation | Exposes `/validate`, `/advisor/chat`, `/export/report`, `/search`, `/agents`, and `/health` endpoints with CORS and Pydantic validation. |
-| **Agent Pipeline Orchestrator** | M1–M4 | Pipeline Coordination | Sequentially executes WSA $\rightarrow$ MOA $\rightarrow$ CCA $\rightarrow$ SRA $\rightarrow$ MVPA $\rightarrow$ GTMA $\rightarrow$ VRA, logging step telemetry, schema normalization, and error fallbacks. |
+| **FastAPI Backend** | M1–M4 | API Routing & Validation | Exposes `/validate`, `/advisor/chat`, `/surveys`, `/export/report`, `/search`, `/agents`, and `/health` endpoints with CORS and Pydantic validation. |
+| **Agent Pipeline Orchestrator** | M1–M4 | Pipeline Coordination | Concurrently executes WSA -> [MOA, CCA] -> [SRA, MVPA, GTMA] -> VRA using multi-threading, logging step telemetry, schema normalization, and error fallbacks. |
 | **Web Search Agent (`WSA`)** | M1 | Web Intelligence Scraping | Queries real-time search indices for competitors, market trends, and live industry records. |
 | **Market Opportunity Agent (`MOA`)** | M2 | Market Sizing & Segmentation | Extracts TAM/SAM/SOM estimates, CAGR growth rate, customer buyer personas, decision makers vs users, and core pain points. |
 | **Competitor Discovery Agent (`CCA`)** | M2 | Benchmarking & White Space | Identifies direct and indirect competitors, creates feature/positioning comparison matrices, and surfaces high-value market gaps. |
