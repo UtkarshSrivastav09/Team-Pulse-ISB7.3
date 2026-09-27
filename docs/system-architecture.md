@@ -6,52 +6,10 @@ This document outlines the multi-agent system architecture, component roles, orc
 
 ## 🏗️ Multi-Agent Architecture Flow
 
-```mermaid
-graph TD
-    classDef client fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
-    classDef server fill:#0f172a,stroke:#818cf8,stroke-width:2px,color:#f8fafc;
-    classDef agent fill:#1e1e38,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
-    classDef output fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#f8fafc;
-
-    User([Founder / User]):::client --> UI["Web Interface - React 19 + Vite"]:::client
-    UI -->|"POST /validate"| API["FastAPI API Server (v4.0.0)"]:::server
-    UI -->|"POST /advisor/chat"| API
-    UI -->|"POST /surveys"| API
-    API --> Orchestrator["Concurrent Pipeline Orchestrator"]:::server
-    API --> AdvisorAgent["Conversational Startup Advisor Agent"]:::agent
-    
-    subgraph MultiAgentEngine ["Autonomous Multi-Agent Concurrent Pipeline (Sub-6s)"]
-        Orchestrator -->|"Step 1: Scrape Records"| WSA["Agent 1: Web Search Agent (M1)"]:::agent
-        WSA -->|"Live Web Query & Scrape"| Tavily[Tavily Search Index]:::server
-        Tavily -->|"Raw Records & Snippets"| WSA
-        WSA -->|"Structured Search Snippets"| Orchestrator
-        
-        subgraph Batch1 ["Concurrent Parallel Batch 1"]
-            Orchestrator -->|"Thread 1"| MOA["Agent 2: Market Opportunity Agent (M2)"]:::agent
-            Orchestrator -->|"Thread 2"| CCA["Agent 3: Competitor Discovery Agent (M2)"]:::agent
-        end
-        
-        MOA -->|"TAM/SAM/SOM, CAGR, Personas"| Orchestrator
-        CCA -->|"Direct/Indirect Matrix, White Spaces"| Orchestrator
-
-        subgraph Batch2 ["Concurrent Parallel Batch 2"]
-            Orchestrator -->|"Thread 3"| SRA["Agent 4: SWOT & Risk Analysis Agent (M3)"]:::agent
-            Orchestrator -->|"Thread 4"| MVPA["Agent 5: MVP Feature Recommendation Agent (M3)"]:::agent
-            Orchestrator -->|"Thread 5"| GTMA["Agent 6: Go-To-Market Strategy Agent (M3)"]:::agent
-        end
-
-        SRA -->|"2x2 SWOT Matrix, Risk Mitigations"| Orchestrator
-        MVPA -->|"MoSCoW Backlog, Effort/Impact"| Orchestrator
-        GTMA -->|"Positioning, Channels CAC, First 100"| Orchestrator
-
-        Orchestrator -->|"Step 7: Synthesis"| VRA["Agent 7: Validation Report Agent (M4)"]:::output
-        VRA -->|"Executive Markdown, JSON Scorecard"| Orchestrator
-    end
-    
-    Orchestrator -->|"Unified Milestone 4 JSON Payload"| API
-    API -->|"HTTP 200 OK"| UI
-    UI -->|"Interactive Views, Export Dossier"| User
-```
+<div align="center">
+  <img src="assets/system_architecture.png" alt="VenturePulse Multi-Agent Architecture" width="100%" />
+  <p><em>Figure 1: VenturePulse Multi-Agent Concurrent Validation Pipeline Architecture (v4.0.0)</em></p>
+</div>
 
 ---
 

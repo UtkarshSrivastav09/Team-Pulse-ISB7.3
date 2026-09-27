@@ -75,50 +75,24 @@ While traditional sequential pipelines take **60+ seconds**, VenturePulse employ
 
 ## 🏗️ Multi-Agent System Architecture
 
-```mermaid
-graph TD
-    classDef client fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
-    classDef server fill:#0f172a,stroke:#818cf8,stroke-width:2px,color:#f8fafc;
-    classDef agent fill:#1e1e38,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
-    classDef output fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#f8fafc;
+<div align="center">
+  <img src="docs/assets/system_architecture.png" alt="VenturePulse Multi-Agent System Architecture" width="100%" />
+  <p><em>Figure 1: VenturePulse Multi-Agent Concurrent Validation Pipeline Architecture (Sub-6s End-to-End)</em></p>
+</div>
 
-    User([Founder / Investor]):::client --> UI["React 19 + Vite Dashboard Client"]:::client
-    UI -->|"POST /validate"| API["FastAPI Web Server (v4.0.0)"]:::server
-    UI -->|"POST /advisor/chat"| API
-    UI -->|"GET/POST /surveys"| API
-    
-    API --> Orchestrator["Concurrent Pipeline Orchestrator"]:::server
-    API --> AdvisorAgent["Agent 8: Venture Copilot Advisor"]:::agent
-    
-    subgraph MultiAgentPipeline ["Concurrent Multi-Agent Validation Engine (Sub-6s Latency)"]
-        Orchestrator -->|"Step 1: Ingest"| WSA["Agent 1: WebSearchAgent"]:::agent
-        WSA -->|"Market Intel & Records"| Orchestrator
-        
-        subgraph Batch1 ["Concurrent Parallel Batch 1"]
-            Orchestrator -->|"Thread 1"| MOA["Agent 2: MarketOpportunityAgent"]:::agent
-            Orchestrator -->|"Thread 2"| CCA["Agent 3: CompetitorDiscoveryAgent"]:::agent
-        end
-        
-        MOA -->|"TAM/SAM/SOM & Personas"| Orchestrator
-        CCA -->|"Matrix & White Spaces"| Orchestrator
-        
-        subgraph Batch2 ["Concurrent Parallel Batch 2"]
-            Orchestrator -->|"Thread 3"| SRA["Agent 4: SWOTRiskAgent"]:::agent
-            Orchestrator -->|"Thread 4"| MVPA["Agent 5: MVPFeatureAgent"]:::agent
-            Orchestrator -->|"Thread 5"| GTMA["Agent 6: GTMStrategyAgent"]:::agent
-        end
-        
-        SRA -->|"SWOT & Risk Playbook"| Orchestrator
-        MVPA -->|"MoSCoW Backlog & Roadmap"| Orchestrator
-        GTMA -->|"GTM Positioning & Channels"| Orchestrator
-        
-        Orchestrator -->|"Step 7: Synthesis"| VRA["Agent 7: ValidationReportAgent"]:::output
-        VRA -->|"Executive Scorecard & Markdown Dossier"| Orchestrator
-    end
-    
-    Orchestrator -->|"Unified Intelligence JSON"| API
-    API -->|"HTTP 200 Response Payload"| UI
-```
+<details>
+<summary><b>🔍 Click to view Architecture Execution Flow Breakdown</b></summary>
+<br />
+
+1. **Client Tier**: Founder enters idea $\rightarrow$ React 19 Client dispatches concurrent async payload.
+2. **Gateway & Orchestration**: FastAPI server delegates validation payload to the `Concurrent Pipeline Orchestrator` (`ThreadPoolExecutor`).
+3. **Step 1 (Ingest)**: `WebSearchAgent` indexes Tavily search queries for active market players, customer reviews, and pricing tiers.
+4. **Step 2 (Parallel Batch 1)**: `MarketOpportunityAgent` (TAM/SAM/SOM sizing) and `CompetitorDiscoveryAgent` (2x2 matrix & white spaces) execute simultaneously in ~0.5s.
+5. **Step 3 (Parallel Batch 2)**: `SWOTRiskAgent`, `MVPFeatureAgent`, and `GTMStrategyAgent` execute simultaneously in ~0.4s.
+6. **Step 4 (Synthesis)**: `ValidationReportAgent` in-memory compiles the 0–100% Executive Feasibility Scorecard, Markdown Dossier, and JSON export.
+7. **Step 5 (Advisory Copilot)**: `ConversationalAdvisorAgent` provides interactive context-aware consultation on unit economics and strategy.
+
+</details>
 
 ---
 
