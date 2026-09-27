@@ -33,37 +33,43 @@ VenturePulse delivers an end-to-end, multi-agent intelligence pipeline where 8 s
 
 ```mermaid
 graph TD
-    subgraph Client Layer
-        UI["React 19 + Vite Dashboard (Glassmorphism UI)"]
-        Copilot["Venture AI Copilot (Conversational Advisor)"]
+    classDef client fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef server fill:#0f172a,stroke:#818cf8,stroke-width:2px,color:#f8fafc;
+    classDef agent fill:#1e1e38,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
+
+    subgraph ClientLayer ["Client Layer"]
+        UI["React 19 + Vite Dashboard (Glassmorphism UI)"]:::client
+        Copilot["Venture AI Copilot (Conversational Advisor)"]:::client
     end
 
-    subgraph API & Orchestration Layer
-        API["FastAPI Backend Server (v4.0.0)"]
-        Orchestrator["Agent Pipeline Orchestrator"]
-        LLMAdapter["Universal Multi-Provider LLM Adapter"]
+    subgraph APILayer ["API & Orchestration Layer"]
+        API["FastAPI Backend Server (v4.0.0)"]:::server
+        Orchestrator["Concurrent Multi-Threaded Orchestrator"]:::server
+        LLMAdapter["Universal Multi-Provider LLM Adapter"]:::server
     end
 
-    subgraph Autonomous 7-Step Sequential Pipeline
-        Step1["1. WebSearchAgent (Tavily Live Indexing)"]
-        Step2["2. MarketOpportunityAgent (TAM/SAM/SOM Sizing)"]
-        Step3["3. CompetitorDiscoveryAgent (2x2 Matrix & White Spaces)"]
-        Step4["4. SWOTRiskAgent (SWOT & 4-Category Risk Mitigations)"]
-        Step5["5. MVPFeatureAgent (MoSCoW & Effort/Impact Scoring)"]
-        Step6["6. GTMStrategyAgent (Positioning, CAC & First 100 Playbook)"]
-        Step7["7. ValidationReportAgent (Executive Dossier Compiler)"]
+    subgraph Pipeline ["Concurrent 7-Agent Validation Pipeline (Sub-6s)"]
+        Step1["1. WebSearchAgent (Tavily Live Indexing)"]:::agent
+        Step2["2. MarketOpportunityAgent (TAM/SAM/SOM Sizing)"]:::agent
+        Step3["3. CompetitorDiscoveryAgent (2x2 Matrix & White Spaces)"]:::agent
+        Step4["4. SWOTRiskAgent (SWOT & 4-Category Risk Mitigations)"]:::agent
+        Step5["5. MVPFeatureAgent (MoSCoW & Effort/Impact Scoring)"]:::agent
+        Step6["6. GTMStrategyAgent (Positioning, CAC & First 100 Playbook)"]:::agent
+        Step7["7. ValidationReportAgent (Executive Dossier Compiler)"]:::agent
     end
 
-    subgraph Interactive Copilot
-        Step8["8. ConversationalAdvisorAgent (Context-Aware Q&A)"]
+    subgraph CopilotAgent ["Interactive Advisory Agent"]
+        Step8["8. ConversationalAdvisorAgent (Context-Aware Q&A)"]:::agent
     end
 
-    UI -->|POST /validate| API
-    Copilot -->|POST /advisor/chat| API
-    UI -->|POST /export/report| API
+    UI -->|"POST /validate"| API
+    Copilot -->|"POST /advisor/chat"| API
     API --> Orchestrator
     API --> Step8
-    Orchestrator --> Step1 --> Step2 --> Step3 --> Step4 --> Step5 --> Step6 --> Step7
+    Orchestrator --> Step1
+    Step1 --> Step2 & Step3
+    Step2 & Step3 --> Step4 & Step5 & Step6
+    Step4 & Step5 & Step6 --> Step7
     Step1 -.-> LLMAdapter
     Step2 -.-> LLMAdapter
     Step3 -.-> LLMAdapter

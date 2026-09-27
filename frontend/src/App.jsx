@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import './App.css'
+import brandTitleLogo from './assets/venturepulse_brand_title.png'
 
 // Professional Inline SVG Icons for top-tier enterprise UI aesthetics
 const Icons = {
@@ -744,6 +745,7 @@ const HUD_AGENTS_METADATA = [
     id: "wsa",
     num: "01",
     name: "Web Search Agent",
+    shortName: "Web Search",
     role: "Real-Time Market Scraping & Competitor Indexing",
     tagline: "Crawls live web indices for active competitors, pricing models, and target market records.",
     engine: "Tavily Search Index API + Heuristic Web Fallback",
@@ -762,6 +764,7 @@ const HUD_AGENTS_METADATA = [
     id: "moa",
     num: "02",
     name: "Market Opportunity Agent",
+    shortName: "Market Sizing",
     role: "TAM/SAM/SOM Sizing & Customer Segmentation",
     tagline: "Synthesizes market sizing boundaries, CAGR projection trajectories, and buyer vs user personas.",
     engine: "Google Gemini 1.5 Flash / Groq Llama-3 / Mathematical Sizing Model",
@@ -781,6 +784,7 @@ const HUD_AGENTS_METADATA = [
     id: "cca",
     num: "03",
     name: "Competitor Discovery Agent",
+    shortName: "Competitor Intel",
     role: "Multi-Axis Benchmarking Matrix & Market White Spaces",
     tagline: "Builds a 2x2 competitive positioning matrix and isolates unserved market white-space opportunities.",
     engine: "Universal Strategic Synthesis Multi-LLM Engine",
@@ -799,6 +803,7 @@ const HUD_AGENTS_METADATA = [
     id: "sra",
     num: "04",
     name: "SWOT & Risk Analysis Agent",
+    shortName: "SWOT & Risk",
     role: "Structured SWOT Matrix & Risk Mitigation Playbooks",
     tagline: "Generates internal strengths/weaknesses and external opportunities/threats with risk severity audits.",
     engine: "LLM Risk Reasoning & Heuristic Auditor",
@@ -817,6 +822,7 @@ const HUD_AGENTS_METADATA = [
     id: "mvpa",
     num: "05",
     name: "MVP Feature Recommendation Agent",
+    shortName: "MVP Scope",
     role: "MoSCoW Prioritization & Effort vs Impact Matrix",
     tagline: "Prioritizes core lean features based on market fit and resource constraints for 30/60-day sprints.",
     engine: "Product Management Strategy Engine",
@@ -835,6 +841,7 @@ const HUD_AGENTS_METADATA = [
     id: "gtma",
     num: "06",
     name: "Go-To-Market Strategy Agent",
+    shortName: "GTM Strategy",
     role: "Positioning, Acquisition Channels & Launch Flywheel",
     tagline: "Formulates positioning statement, acquisition channel CAC dynamics, and First 100 Customers playbook.",
     engine: "Growth Strategy & Marketing Flywheel Engine",
@@ -853,6 +860,7 @@ const HUD_AGENTS_METADATA = [
     id: "vra",
     num: "07",
     name: "Validation Report Generation Agent",
+    shortName: "Executive Report",
     role: "Executive Synthesis, Scorecards & Export Engine",
     tagline: "Synthesizes multi-agent outputs into publication-ready Markdown dossiers, JSON scorecards, and investor reports.",
     engine: "Executive Synthesis & Report Compiler Engine",
@@ -870,6 +878,7 @@ const HUD_AGENTS_METADATA = [
     id: "adva",
     num: "08",
     name: "Conversational Startup Advisor Agent",
+    shortName: "Advisor Copilot",
     role: "Context-Aware Multi-turn Q&A Advisory Copilot",
     tagline: "Provides real-time interactive consultation on unit economics, GTM execution, and defensibility.",
     engine: "Multi-Turn Contextual Conversation Engine",
@@ -2758,7 +2767,7 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                     />
                     <div className="tab-agent-text">
                       <span className="tab-agent-sub">AGENT {agent.num}</span>
-                      <span className="tab-agent-name">{agent.name}</span>
+                      <span className="tab-agent-name">{agent.shortName || agent.name}</span>
                     </div>
                   </button>
                 );
@@ -2830,10 +2839,19 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
       {/* Top Header & Navigation Section */}
       <header className="app-header">
         <div className="header-top-nav animate-fade-in">
-          <div className="brand-badge">
-            <span className="badge-dot"></span>
-            <span className="brand-badge-name">VenturePulse</span>
-            <span className="brand-badge-sub">8 AI Agents</span>
+          <div 
+            className="navbar-brand-lockup" 
+            onClick={resetForm} 
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') resetForm(); }}
+            title="VenturePulse (Click to return home)"
+          >
+            <img 
+              src={brandTitleLogo} 
+              alt="VenturePulse Logo" 
+              className="navbar-solo-logo" 
+            />
           </div>
 
           <div className="header-actions-cluster">
