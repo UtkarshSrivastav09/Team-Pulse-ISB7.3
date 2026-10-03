@@ -1140,7 +1140,7 @@ function App() {
 
   // Background backend warmup ping on page load (wakes up cloud server / Render instance early)
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://team-pulse-isb7-3.onrender.com'
     fetch(`${apiUrl}/health`).catch(() => {})
   }, [])
 
@@ -1164,7 +1164,7 @@ function App() {
   // Fetch metadata for Standalone Survey if opened by end user
   useEffect(() => {
     if (!standaloneSurveyId) return
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://team-pulse-isb7-3.onrender.com'
     fetch(`${apiUrl}/survey/${standaloneSurveyId}`)
       .then(res => res.json())
       .then(data => setStandaloneSurveyMeta(data))
@@ -1225,7 +1225,7 @@ function App() {
 
   // Real-time sync engine: Auto-polling backend + BroadcastChannel + LocalStorage event listener
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://team-pulse-isb7-3.onrender.com'
     let isMounted = true
 
     const fetchLiveResponses = async () => {
@@ -1340,7 +1340,8 @@ function App() {
     {
       id: "healthtech",
       group: "HEALTH",
-      category: "HealthTech",
+      category: "  HealthTech",
+      emoji: "🩺",
       label: "AI Pet Tele-triage Platform",
       summary: "Photo-based symptom triage & clinic routing",
       idea: "An on-demand veterinary telehealth platform with instant AI triage and symptom detection from smartphone photos.",
@@ -1355,7 +1356,8 @@ function App() {
     {
       id: "logistics",
       group: "MOBILITY",
-      category: "Green Mobility",
+      category: " Green Mobility",
+      emoji: "🌱",
       label: "Urban Cargo Bike Routing",
       summary: "AI micro-hub delivery routing in city zones",
       idea: "An AI-powered route planning app for electric cargo bike deliveries in dense urban areas.",
@@ -1370,22 +1372,24 @@ function App() {
     {
       id: "edtech",
       group: "SAAS",
-      category: "EdTech",
+      category: "  EdTech",
+      emoji: "🎓",
       label: "Adaptive Exam AI Copilot",
       summary: "Active recall & automated quiz synthesis",
       idea: "An intelligent learning copilot that converts college lectures and PDF textbooks into interactive flashcards, quizzes, and mock tests.",
       industry: "EdTech & Higher Education",
       market: "University students, certification exam candidates",
       iconComponent: Icons.Education,
-      badgeColor: "#6366f1",
-      badgeBg: "rgba(99, 102, 241, 0.12)",
-      borderColor: "rgba(99, 102, 241, 0.28)",
-      glowColor: "rgba(99, 102, 241, 0.18)"
+      badgeColor: "#3b82f6",
+      badgeBg: "rgba(59, 130, 246, 0.12)",
+      borderColor: "rgba(59, 130, 246, 0.28)",
+      glowColor: "rgba(59, 130, 246, 0.18)"
     },
     {
       id: "foodtech",
       group: "HEALTH",
-      category: "FoodTech",
+      category: "  FoodTech",
+      emoji: "🥗",
       label: "Smart Household Nutrition",
       summary: "AI pantry vision to minimize waste & macros",
       idea: "A personalized AI meal planner that scans household groceries to minimize food waste and optimize nutrition.",
@@ -1400,7 +1404,8 @@ function App() {
     {
       id: "fintech",
       group: "FINTECH",
-      category: "FinTech",
+      category: "  FinTech",
+      emoji: "💳",
       label: "Automated SMB Cash Flow",
       summary: "AI invoice factoring & cash forecasting",
       idea: "An automated cash flow intelligence and instant invoice factoring platform tailored for SMB contractors.",
@@ -1415,22 +1420,24 @@ function App() {
     {
       id: "legaltech",
       group: "SAAS",
-      category: "B2B SaaS",
+      category: "  B2B SaaS",
+      emoji: "⚖️",
       label: "AI Contract Risk Redliner",
       summary: "Automated liability check & redlining",
       idea: "An AI legal assistant that scans vendor contracts and SaaS agreements to automatically flag non-standard liability clauses.",
       industry: "LegalTech & Enterprise SaaS",
       market: "Startup founders, procurement teams, in-house counsel",
       iconComponent: Icons.Legal,
-      badgeColor: "#a855f7",
-      badgeBg: "rgba(168, 85, 247, 0.12)",
-      borderColor: "rgba(168, 85, 247, 0.28)",
-      glowColor: "rgba(168, 85, 247, 0.18)"
+      badgeColor: "#0284c7",
+      badgeBg: "rgba(2, 132, 199, 0.12)",
+      borderColor: "rgba(2, 132, 199, 0.28)",
+      glowColor: "rgba(2, 132, 199, 0.18)"
     },
     {
       id: "cybersecurity",
       group: "SAAS",
-      category: "CyberSecurity",
+      category: "  CyberSecurity",
+      emoji: "🛡️",
       label: "Autonomous API Guardian",
       summary: "Real-time vulnerability & endpoint patch AI",
       idea: "An autonomous developer agent that continuously audits API endpoints for authorization leaks and auto-generates security patches.",
@@ -1445,7 +1452,8 @@ function App() {
     {
       id: "climatetech",
       group: "MOBILITY",
-      category: "ClimateTech",
+      category: "  ClimateTech",
+      emoji: "⚡",
       label: "Commercial Microgrid Arbitrage",
       summary: "Smart battery storage & peak-load shaving",
       idea: "An intelligent energy management software that optimizes commercial battery storage to arbitrage peak-hour electricity tariffs.",
@@ -1460,11 +1468,11 @@ function App() {
   ]
 
   const categories = [
-    { key: "ALL", label: "All Templates" },
-    { key: "HEALTH", label: "Health & Food" },
-    { key: "SAAS", label: "AI SaaS & Dev" },
-    { key: "FINTECH", label: "FinTech" },
-    { key: "MOBILITY", label: "Mobility & Climate" }
+    { key: "ALL", label: "All Templates", emoji: "✨" },
+    { key: "HEALTH", label: "Health & Food", emoji: "🩺" },
+    { key: "SAAS", label: "AI SaaS & Dev", emoji: "⚡" },
+    { key: "FINTECH", label: "FinTech", emoji: "💳" },
+    { key: "MOBILITY", label: "Mobility & Climate", emoji: "🌱" }
   ]
 
   const filteredPrompts = activeCategoryFilter === "ALL" 
@@ -1588,7 +1596,7 @@ function App() {
     }, 450)
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://team-pulse-isb7-3.onrender.com'
       const response = await fetch(`${apiUrl}/validate`, {
         method: 'POST',
         headers: {
@@ -1638,7 +1646,7 @@ function App() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (err) {
       console.error("Validation failed:", err)
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://team-pulse-isb7-3.onrender.com'
       setError(err.message || `An unexpected error occurred while communicating with the backend. Make sure your API server is running at ${apiUrl}.`)
     } finally {
       clearInterval(stepInterval)
@@ -1700,10 +1708,20 @@ function App() {
   // Customer Discovery Survey Actions & Handlers
   // ============================================================================
   const getShareableSurveyUrl = () => {
-    const base = window.location.origin + window.location.pathname
-    const currentIdea = searchResult?.startup_idea || startupIdea || 'AI Venture Concept'
-    const currentIndustry = searchResult?.industry || industry || 'Technology & Software'
-    const currentMarket = searchResult?.target_market || targetMarket || 'Target Customers'
+    // Production Vercel Deployment Link (prevents localhost in shared links)
+    const deployedBase = import.meta.env.VITE_APP_URL || 'https://team-pulse-isb-7-3.vercel.app'
+    const isLocal = typeof window !== 'undefined' && (
+      window.location.hostname === 'localhost' || 
+      window.location.hostname === '127.0.0.1' || 
+      window.location.hostname.endsWith('.local')
+    )
+    const origin = isLocal ? deployedBase : (window.location.origin || deployedBase)
+    const path = (window.location.pathname && window.location.pathname !== '/') ? window.location.pathname : ''
+    const base = `${origin.replace(/\/+$/, '')}${path}`
+
+    const currentIdea = searchResult?.startup_idea || startupIdea || 'An AI-powered route planning app for electric cargo bike deliveries in dense urban areas.'
+    const currentIndustry = searchResult?.industry || industry || 'Green Logistics & Mobility'
+    const currentMarket = searchResult?.target_market || targetMarket || 'Local e-commerce shops, urban couriers'
     const cleanId = currentIdea
       .toLowerCase()
       .replace(/[^a-z0-9]/g, '')
@@ -1722,7 +1740,7 @@ function App() {
 
     // Register survey on backend in background
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://team-pulse-isb7-3.onrender.com'
       fetch(`${apiUrl}/survey/create`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1740,29 +1758,58 @@ function App() {
 
   const handleShareWhatsApp = () => {
     const link = getShareableSurveyUrl()
-    const currentIdea = searchResult?.startup_idea || startupIdea || "an automated venture intelligence platform"
-    const currentIndustry = searchResult?.industry || industry || "Technology & Software"
-    const currentMarket = searchResult?.target_market || targetMarket || "Early Adopters & Product Teams"
+    const currentIdea = searchResult?.startup_idea || startupIdea || "An AI-powered route planning app for electric cargo bike deliveries in dense urban areas."
+    const currentIndustry = searchResult?.industry || industry || "Green Logistics & Mobility"
+    const currentMarket = searchResult?.target_market || targetMarket || "Local e-commerce shops, urban couriers"
 
-    const msg = `🚀 *Startup Validation & Early Feedback Request*
+    const msg = `🔬 *Startup Validation & Early Feedback Request* 🔬
 
 👋 Hi there! We are currently conducting early customer research to validate a new startup solution:
 
-🎯 *Startup Concept:*
+💡 *Startup Concept:*
 "${currentIdea}"
 
 🏢 *Industry Sector:* ${currentIndustry}
-👥 *Target Audience:* ${currentMarket}
+🎯 *Target Audience:* ${currentMarket}
 
 Could you please take *30 seconds* to answer 4 quick questions to help us shape our 100% Free community MVP?
 
-🔗 *Take the 30-Second Free Survey:*
+📋 *Take the 30-Second Free Survey:*
 ${link}
 
-✨ *No login or signup required • 100% Free access for early testers.*
-Your honest thoughts mean the world to our founding team! 🙏`
+🎁 *No login or signup required • 100% Free access for early testers.*
+Your honest thoughts mean the world to our founding team! 🚀`
 
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank')
+  }
+
+  const handleShareTrelloWhatsApp = () => {
+    const link = getShareableSurveyUrl()
+    const currentIdea = searchResult?.startup_idea || startupIdea || "An AI-powered route planning app for electric cargo bike deliveries in dense urban areas."
+    const currentIndustry = searchResult?.industry || industry || "Green Logistics & Mobility"
+    const currentMarket = searchResult?.target_market || targetMarket || "Local e-commerce shops, urban couriers"
+
+    const trelloMsg = `📋 *Trello / WhatsApp Pipeline Task Card*
+
+🚀 *Venture Concept:* "${currentIdea}"
+🏢 *Industry:* ${currentIndustry}
+🎯 *Target Audience:* ${currentMarket}
+
+📌 *Trello Action Items:*
+1. 🟩 [TODO] Distribute 30-sec Survey to 25 target prospects on WhatsApp
+2. 🟨 [IN PROGRESS] Track live responses on Vercel Dashboard
+3. 🟦 [DONE] Prioritize MVP must-haves based on pain points
+
+🌐 *Live Application:* https://team-pulse-isb-7-3.vercel.app/
+📋 *Live Survey Link:* ${link}
+
+⚡ Generated by VenturePulse Validation Engine`
+
+    navigator.clipboard.writeText(trelloMsg)
+    showToast("📋 Trello / WhatsApp card copied! Opening WhatsApp...")
+    setTimeout(() => {
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(trelloMsg)}`, '_blank')
+    }, 350)
   }
 
   const handleShareEmail = () => {
@@ -1879,7 +1926,7 @@ Founding Team • VenturePulse Validation Hub`
   const handleStandaloneSurveySubmit = async (e) => {
     e.preventDefault()
     setIsSubmittingSurvey(true)
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://team-pulse-isb7-3.onrender.com'
     const newEntry = {
       id: `resp_${Date.now()}`,
       respondent_name: surveyForm.name.trim() || "Anonymous Explorer",
@@ -1926,7 +1973,7 @@ Founding Team • VenturePulse Validation Hub`
     setCopilotInput('')
     setCopilotThinking(true)
 
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://team-pulse-isb7-3.onrender.com'
 
     try {
       const response = await fetch(`${apiUrl}/advisor/chat`, {
@@ -3108,7 +3155,8 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                       className={`cat-filter-btn ${activeCategoryFilter === cat.key ? 'active' : ''}`}
                       onClick={() => setActiveCategoryFilter(cat.key)}
                     >
-                      {cat.label}
+                      <span className="cat-filter-emoji">{cat.emoji}</span>
+                      <span className="cat-filter-label">{cat.label}</span>
                     </button>
                   ))}
                 </div>
@@ -3117,7 +3165,6 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
               {/* High-Precision Blueprint Cards Grid */}
               <div className="blueprint-chips-grid">
                 {filteredPrompts.map((preset) => {
-                  const IconComp = preset.iconComponent || Icons.Sparkle;
                   const isSelected = activePreset === preset.id;
                   return (
                     <button
@@ -3140,8 +3187,8 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                             borderColor: preset.borderColor
                           }}
                         >
-                          <IconComp />
-                          <span>{preset.category}</span>
+                          <span className="pill-badge-emoji">{preset.emoji}</span>
+                          <span className="pill-badge-text">{preset.category}</span>
                         </div>
                         <span className="pill-action-icon" style={{ color: isSelected ? preset.badgeColor : undefined }}>
                           {isSelected ? <Icons.Check /> : <Icons.ArrowRight />}
@@ -5027,6 +5074,9 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                       <button type="button" onClick={handleShareWhatsApp} className="share-btn share-btn-whatsapp">
                         <span>💬 Share on WhatsApp</span>
                       </button>
+                      <button type="button" onClick={handleShareTrelloWhatsApp} className="share-btn share-btn-trello">
+                        <span>📋 Trello / WhatsApp Sync</span>
+                      </button>
                       <button type="button" onClick={handleShareEmail} className="share-btn share-btn-email">
                         <span>✉️ Send via Email</span>
                       </button>
@@ -5316,6 +5366,22 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                     </div>
 
                     <div className="report-action-buttons">
+                      <button 
+                        type="button" 
+                        onClick={handleShareWhatsApp} 
+                        className="btn btn-whatsapp-action"
+                        title="Share live validation survey on WhatsApp"
+                      >
+                        <span>💬 Share on WhatsApp</span>
+                      </button>
+                      <button 
+                        type="button" 
+                        onClick={handleShareTrelloWhatsApp} 
+                        className="btn btn-trello-action"
+                        title="Sync to Trello / WhatsApp Pipeline"
+                      >
+                        <span>📋 Trello / WhatsApp Sync</span>
+                      </button>
                       <button 
                         type="button" 
                         onClick={handleDownloadMarkdownReport} 

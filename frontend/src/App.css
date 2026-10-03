@@ -796,7 +796,8 @@
 .presets-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .presets-header-bar {
@@ -804,62 +805,100 @@
   justify-content: space-between;
   align-items: flex-end;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 14px;
 }
 
 .presets-title-wrap {
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+}
+
+.presets-eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .presets-eyebrow {
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #2563eb;
+  letter-spacing: 0.07em;
+  color: var(--brand-primary, #2563eb);
+}
+
+.presets-mobile-hint {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted, #64748b);
+  background: rgba(100, 116, 139, 0.1);
+  padding: 2px 8px;
+  border-radius: 9999px;
 }
 
 .presets-title {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 16.5px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary, #0f172a);
   margin: 0;
+  letter-spacing: -0.015em;
 }
 
 /* Category Filter Pills */
 .category-filter-pills {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .cat-filter-btn {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 11.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
   font-weight: 600;
-  color: #475569;
+  border-radius: 8px;
+  background: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-card, #e2e8f0);
+  color: var(--text-secondary, #475569);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
   font-family: var(--font-sans);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.cat-filter-btn:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+.cat-filter-btn:hover:not(.active) {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: var(--text-primary, #0f172a);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.8);
 }
 
 .cat-filter-btn.active {
-  background: #2563eb;
-  color: #ffffff;
-  border-color: #2563eb;
+  background: var(--brand-primary, #2563eb);
+  color: #ffffff !important;
+  border-color: var(--brand-primary, #2563eb);
   font-weight: 700;
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+}
+
+.cat-filter-emoji {
+  font-size: 14px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cat-filter-label {
+  letter-spacing: -0.01em;
 }
 
 .vault-filter-btn {
@@ -872,9 +911,10 @@
 }
 
 .vault-filter-btn:hover {
-  background: #eff6ff;
-  border-color: #93c5fd;
+  background: #ffffff;
+  border-color: #ffffff;
   color: #2563eb;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
 }
 
 /* ==========================================================================
@@ -904,7 +944,7 @@
   background: var(--surface-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-card);
+  border: 1px solid var(--card-border-subtle, var(--border-card));
   border-radius: 14px;
   padding: 16px 18px;
   text-align: left;
@@ -933,10 +973,10 @@
 }
 
 .blueprint-pill-card:hover {
-  background: var(--surface-card-hover);
-  border-color: var(--card-border-subtle, var(--border-blue));
+  background: #ffffff;
+  border-color: var(--card-accent, var(--card-border-subtle));
   transform: translateY(-3px);
-  box-shadow: 0 10px 24px -4px var(--card-glow, rgba(37, 99, 235, 0.15)), 0 2px 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 12px 28px -4px var(--card-glow, rgba(37, 99, 235, 0.2)), 0 0 0 1.5px var(--card-border-subtle, rgba(255, 255, 255, 0.6));
 }
 
 .blueprint-pill-card:hover::before {
@@ -951,6 +991,19 @@
 
 .blueprint-pill-card.selected::before {
   opacity: 1;
+}
+
+[data-theme='dark'] .cat-filter-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.8);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
+}
+
+[data-theme='dark'] .blueprint-pill-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--card-accent, rgba(255, 255, 255, 0.8));
+  box-shadow: 0 12px 28px -4px var(--card-glow, rgba(255, 255, 255, 0.15)), 0 0 0 1px var(--card-border-subtle, rgba(255, 255, 255, 0.3));
 }
 
 .pill-card-top {
@@ -3282,11 +3335,12 @@ textarea {
 
 .concept-title {
   font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 700;
-  color: #0f172a;
+  font-size: 21px;
+  font-weight: 800;
+  color: #0b1a3d;
   margin: 0;
   line-height: 1.4;
+  letter-spacing: -0.02em;
 }
 
 /* Executive Synthesis Summary */
@@ -3294,35 +3348,56 @@ textarea {
   background: #ffffff;
   border: 1px solid #bfdbfe;
   border-left: 5px solid #2563eb;
-  padding: 24px 26px;
+  padding: 24px 28px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.05);
+  position: relative;
+  overflow: hidden;
 }
 
 .exec-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: #1d4ed8;
-  background: #dbeafe;
-  padding: 3px 10px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 4px 10px;
   border-radius: 6px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .card-title {
   font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0 0 8px 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: #091e42;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+}
+
+.executive-summary-card .card-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1e3a8a;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
 }
 
 .synthesized-answer {
-  font-size: 14.5px;
-  line-height: 1.65;
+  font-size: 15px;
+  line-height: 1.7;
   color: #334155;
   margin: 0;
+  font-weight: 450;
 }
 
 /* ==========================================================================
@@ -4596,16 +4671,24 @@ html[data-theme='dark'] .sim-out-sub {
 
 .persona-name {
   font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0 0 4px 0;
+  font-size: 18.5px;
+  font-weight: 800;
+  color: #1d4ed8;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
 .persona-users {
-  font-size: 13px;
+  font-size: 13.5px;
   color: #475569;
   margin: 0;
+  font-weight: 500;
+}
+
+.persona-users strong {
+  color: #0f172a;
+  font-weight: 700;
 }
 
 .persona-block {
@@ -6866,7 +6949,6 @@ html[data-theme='dark'] .log-message {
 [data-theme='dark'] .slide-main-title,
 [data-theme='dark'] .hud-io-title,
 [data-theme='dark'] .comp-name,
-[data-theme='dark'] .persona-name,
 [data-theme='dark'] .moat-pillar-name,
 [data-theme='dark'] .swot-title,
 [data-theme='dark'] .calc-head-title,
@@ -7428,6 +7510,18 @@ html[data-theme='dark'] .log-message {
   border-left-color: #3b82f6 !important;
 }
 
+[data-theme='dark'] .executive-summary-card .card-title {
+  color: #93c5fd !important;
+  background: linear-gradient(135deg, #ffffff 20%, #60a5fa 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+[data-theme='dark'] .card-title {
+  color: #f8fafc !important;
+}
+
 [data-theme='dark'] .exec-badge {
   background: rgba(30, 58, 138, 0.35) !important;
   border: 1px solid rgba(59, 130, 246, 0.35) !important;
@@ -7470,7 +7564,8 @@ html[data-theme='dark'] .log-message {
 }
 
 [data-theme='dark'] .pane-section-title {
-  color: #f8fafc !important;
+  color: #60a5fa !important;
+  font-weight: 800 !important;
 }
 
 [data-theme='dark'] .market-narrative {
@@ -7488,8 +7583,8 @@ html[data-theme='dark'] .log-message {
 }
 
 [data-theme='dark'] .som-card {
-  background: rgba(88, 28, 135, 0.35) !important;
-  border-color: rgba(168, 85, 247, 0.4) !important;
+  background: rgba(2, 132, 199, 0.25) !important;
+  border-color: rgba(56, 189, 248, 0.4) !important;
 }
 
 [data-theme='dark'] .cagr-card {
@@ -7574,13 +7669,17 @@ html[data-theme='dark'] .log-message {
 }
 
 [data-theme='dark'] .persona-badge {
-  background: rgba(99, 102, 241, 0.25) !important;
-  border: 1px solid rgba(99, 102, 241, 0.4) !important;
-  color: #a5b4fc !important;
+  background: rgba(30, 58, 138, 0.35) !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+  color: #60a5fa !important;
 }
 
 [data-theme='dark'] .persona-name {
-  color: #f8fafc !important;
+  color: #38bdf8 !important;
+  font-weight: 800 !important;
+  font-size: 18.5px !important;
+  letter-spacing: -0.02em !important;
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.25) !important;
 }
 
 [data-theme='dark'] .persona-users {
@@ -7588,7 +7687,8 @@ html[data-theme='dark'] .log-message {
 }
 
 [data-theme='dark'] .persona-users strong {
-  color: #f8fafc !important;
+  color: #93c5fd !important;
+  font-weight: 700 !important;
 }
 
 [data-theme='dark'] .pain-title {
@@ -8650,140 +8750,124 @@ html[data-theme='dark'] .diff-step-card p {
 /* ==========================================================================
    Blueprint Presets Section & Category Filter Bar
    ========================================================================== */
-.presets-section {
-  margin-bottom: 24px;
-}
-
-.presets-header-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.presets-eyebrow {
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: #2563eb;
-  letter-spacing: 0.06em;
-  display: block;
-  margin-bottom: 2px;
-}
-
-.presets-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.category-filter-pills {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.cat-filter-btn {
-  padding: 5px 12px;
-  font-size: 11.5px;
-  font-weight: 600;
-  border-radius: 6px;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  color: #475569;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.cat-filter-btn:hover {
-  background: #e2e8f0;
-  color: #0f172a;
-}
-
-.cat-filter-btn.active {
-  background: #2563eb;
-  color: #ffffff;
-  border-color: #2563eb;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
-}
-
 .blueprint-chips-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
 .blueprint-pill-card {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 14px 16px;
-  border-radius: 10px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--surface-card, #ffffff);
+  border: 1px solid var(--border-card, #e2e8f0);
   text-align: left;
   cursor: pointer;
-  transition: all 0.2s ease;
-  overflow-wrap: break-word;
-  word-break: normal;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  position: relative;
+  overflow: hidden;
 }
 
 .blueprint-pill-card:hover {
-  border-color: #3b82f6;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.08);
+  border-color: var(--card-accent, #3b82f6);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.07), 0 0 0 1px var(--card-accent, #3b82f6);
 }
 
 .blueprint-pill-card.selected {
-  border-color: #2563eb;
-  background: #eff6ff;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
+  border-color: var(--card-accent, #2563eb);
+  background: var(--surface-tinted-blue, #eff6ff);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.12), 0 0 0 1.5px var(--card-accent, #2563eb);
 }
 
 .pill-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
 }
 
 .pill-category-badge {
-  font-size: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
   font-weight: 700;
-  color: #2563eb;
-  background: rgba(37, 99, 235, 0.08);
-  padding: 2px 7px;
-  border-radius: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
+.pill-badge-emoji {
+  font-size: 13.5px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pill-badge-text {
+  line-height: 1.2;
+}
+
 .pill-card-title {
-  font-size: 13px;
+  font-family: var(--font-display);
+  font-size: 14.5px;
   font-weight: 700;
-  color: #0f172a;
-  flex: 1;
-  word-break: normal;
+  color: var(--text-primary, #0f172a);
+  margin: 0;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
 }
 
 .pill-action-icon {
-  color: #94a3b8;
-  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.blueprint-pill-card:hover .pill-action-icon {
+  transform: translateX(2px);
+  color: var(--card-accent, #2563eb);
 }
 
 .blueprint-pill-card.selected .pill-action-icon {
-  color: #2563eb;
+  color: var(--card-accent, #2563eb);
 }
 
 .pill-card-desc {
-  font-size: 12px;
-  color: #64748b;
-  line-height: 1.45;
+  font-size: 12.5px;
+  color: var(--text-muted, #64748b);
+  line-height: 1.5;
+  margin: 0;
   word-break: normal;
   overflow-wrap: break-word;
+}
+
+/* Dark Mode Overrides for Presets */
+[data-theme='dark'] .blueprint-pill-card {
+  background: rgba(15, 23, 42, 0.65);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme='dark'] .blueprint-pill-card:hover {
+  background: rgba(30, 41, 59, 0.75);
+  border-color: var(--card-accent, #3b82f6);
+}
+
+[data-theme='dark'] .blueprint-pill-card.selected {
+  background: rgba(30, 58, 138, 0.25);
+  border-color: var(--card-accent, #60a5fa);
 }
 
 /* ==========================================================================
@@ -11426,6 +11510,60 @@ html[data-theme='dark'] .pricing-tier-row p {
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.btn-whatsapp-action {
+  background: linear-gradient(135deg, #25d366, #128c7e) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  padding: 9px 16px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.btn-whatsapp-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5) !important;
+  filter: brightness(1.08);
+}
+
+.btn-whatsapp-action:active {
+  transform: translateY(0);
+}
+
+.btn-trello-action {
+  background: linear-gradient(135deg, #0079bf, #026aa7) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  padding: 9px 16px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 121, 191, 0.35) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.btn-trello-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 121, 191, 0.5) !important;
+  filter: brightness(1.08);
+}
+
+.btn-trello-action:active {
+  transform: translateY(0);
 }
 
 .btn-export-primary {
@@ -15496,6 +15634,16 @@ html[data-theme='dark'] .debate-hero-card {
 .share-btn-whatsapp:hover {
   background: #20ba59;
   box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+}
+
+.share-btn-trello {
+  background: #0079bf;
+  color: #ffffff;
+}
+
+.share-btn-trello:hover {
+  background: #026aa7;
+  box-shadow: 0 4px 14px rgba(0, 121, 191, 0.35);
 }
 
 .share-btn-email {
