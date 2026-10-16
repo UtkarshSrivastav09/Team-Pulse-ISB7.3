@@ -100,7 +100,7 @@ While traditional sequential pipelines take **60+ seconds**, VenturePulse employ
 
 ```
 Team-Pulse-ISB7.3/
-├── Backend/                         # Python FastAPI API Server (v4.0.0)
+├── backend/                         # Python FastAPI API Server (v4.0.0)
 │   ├── data/
 │   │   └── surveys.json             # Persistent Community Survey Storage
 │   ├── services/                    # Autonomous Multi-Agent Architecture
@@ -133,12 +133,18 @@ Team-Pulse-ISB7.3/
 │   ├── package.json                 # Node dependencies and build scripts
 │   ├── vercel.json                  # Vercel SPA routing configuration
 │   └── vite.config.js               # Vite build configuration
+├── agile/                           # Official Sprint Deliverables & Agile Sheets
+│   ├── Agile_Sprint_Backlog_Sheet.csv # Master Backlog CSV (Importable to Google Sheets)
+│   ├── AGILE_SCRUM_MASTER_SHEET.md   # Executive Scrum Master Metrics & User Stories
+│   ├── agile-development-document.md # Full Scrum Lifecycle, Gantt, DoR/DoD & Retrospectives
+│   └── README.md                     # Agile overview & submission links
 ├── docs/                            # Project documentation
 │   ├── system-architecture.md        # Architectural blueprint & Data Schemas
 │   ├── agile-development-document.md # Sprint plans, velocity & retrospectives
+│   ├── project-report.md             # Comprehensive Academic & Industry Project Report
 │   └── presentation-deck.md         # Final Pitch Deck & Demo Walkthrough
 ├── LICENSE                          # MIT Open-Source License
-└── README.md                        # Project documentation index
+└── README.md                        # Master Project Documentation
 ```
 
 ---

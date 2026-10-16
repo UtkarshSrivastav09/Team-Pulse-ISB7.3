@@ -739,6 +739,96 @@ function computeIdeaClarity(idea, ind, target) {
   }
 }
 
+// Intelligent bullet point parser for Executive Synthesis
+const parseExecutiveSynthesisPoints = (rawText) => {
+  if (!rawText || typeof rawText !== 'string') return [];
+
+  const rawTrimmed = rawText.trim();
+  // Check if it already has explicit bullet points / line breaks
+  const rawLines = rawTrimmed
+    .split(/\r?\n/)
+    .map(l => l.trim())
+    .filter(l => l.length > 0);
+
+  let bulletCandidates = [];
+  const hasExplicitBullets = rawLines.some(l => /^([-*•]|\d+[\.)])\s+/.test(l));
+
+  if (hasExplicitBullets) {
+    bulletCandidates = rawLines
+      .map(l => l.replace(/^([-*•]|\d+[\.)])\s+/, '').trim())
+      .filter(l => l.length > 5);
+  } else {
+    // Split by sentence ends: `. `, `? `, `! ` while avoiding common abbreviations
+    const sentences = rawTrimmed
+      .replace(/\b(e\.g\.|i\.e\.|vs\.|Inc\.|Ltd\.|Co\.|approx\.|est\.)/gi, (match) => match.replace(/\./g, '@@DOT@@'))
+      .split(/(?<=[.!?])\s+/)
+      .map(s => s.replace(/@@DOT@@/g, '.').trim())
+      .filter(s => s.length > 10);
+
+    bulletCandidates = sentences.length > 0 ? sentences : [rawTrimmed];
+  }
+
+  // Categorize and structure each point with intelligent priority
+  return bulletCandidates.map((pointText, index) => {
+    const lower = pointText.toLowerCase();
+    let category = 'Strategic Takeaway';
+    let icon = '📌';
+    let themeClass = 'point-unified';
+
+    // 1. Data Gaps & Information Audit
+    if (lower.includes('do not provide') || lower.includes('does not provide') || lower.includes('not provide') || lower.includes('missing data') || lower.includes('no information') || lower.includes('lack of specific') || (lower.includes('tam') && lower.includes('not')) || lower.includes('did not find')) {
+      category = 'Data Insights & Market Gaps';
+      icon = '🔍';
+    } 
+    // 2. Pricing & Commercial Model
+    else if (lower.includes('$') || lower.includes('pricing') || lower.includes('priced') || lower.includes('annually') || lower.includes('cost') || lower.includes('tier') || lower.includes('subscription') || lower.includes('/month') || lower.includes('/year') || lower.includes('fee')) {
+      category = 'Pricing & Cost Model';
+      icon = '💰';
+    } 
+    // 3. Market Sizing, Capital Flow & Industry Momentum (e.g. substantial market, capital flowing)
+    else if (lower.includes('market for') || lower.includes('market size') || lower.includes('substantial') || lower.includes('capital flowing') || lower.includes('capital') || lower.includes('funding') || lower.includes('venture capital') || lower.includes('cagr') || lower.includes('tam') || lower.includes('billion') || lower.includes('million') || lower.includes('growing market')) {
+      category = 'Market Sizing & Capital Flow';
+      icon = '📈';
+    }
+    // 4. Competitor Landscape & Market Leaders
+    else if (lower.includes('competitor') || lower.includes('leader') || lower.includes('leading') || lower.includes('among the top') || lower.includes('top competitors') || lower.includes('rival') || lower.includes('alternative') || lower.includes('dominant') || lower.includes('market share') || lower.includes('space, each')) {
+      category = 'Competitor Landscape';
+      icon = '🏆';
+    } 
+    // 5. Target Audience & Segment Fit
+    else if (lower.includes('target') || lower.includes('founder') || lower.includes('freelancer') || lower.includes('procurement') || lower.includes('in-house') || lower.includes('audience') || lower.includes('buyer') || lower.includes('devsecops') || lower.includes('teams')) {
+      category = 'Target Audience & Market Fit';
+      icon = '🎯';
+    } 
+    // 6. Product Capabilities, Scans & Tech Features
+    else if (lower.includes('scan') || lower.includes('catalog') || lower.includes('redlining') || lower.includes('extraction') || lower.includes('misconfiguration') || lower.includes('exposure') || lower.includes('feature') || lower.includes('capabilities') || lower.includes('integrat') || lower.includes('automated solution') || lower.includes('ai-powered') || lower.includes('technology')) {
+      category = 'Product Capabilities & Tech';
+      icon = '⚡';
+    }
+
+    return {
+      id: `pt-${index}`,
+      index: String(index + 1).padStart(2, '0'),
+      category,
+      icon,
+      themeClass,
+      text: pointText
+    };
+  });
+};
+
+// Render text with markdown bold ( **bold** ) support and key metrics highlighting
+const renderFormattedPointText = (text) => {
+  if (!text) return null;
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="point-strong-text">{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+};
+
 // Multi-Agent System Architecture Metadata for Interactive HUD (Milestones 1, 2 & 3)
 const HUD_AGENTS_METADATA = [
   {
@@ -949,6 +1039,7 @@ function App() {
   const [showSpeakerNotes, setShowSpeakerNotes] = useState(false)
   const [isDeckAutoplaying, setIsDeckAutoplaying] = useState(false)
   const [deckTimerSeconds, setDeckTimerSeconds] = useState(0)
+  const [execViewMode, setExecViewMode] = useState('points') // 'points' | 'narrative'
 
   // AI Investor Committee Debate States (Devil's Advocate)
   const [debateRound, setDebateRound] = useState(1) // 1: Market & TAM, 2: Moat & Defensibility, 3: Unit Economics & GTM
@@ -3501,8 +3592,10 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
         {/* State 3: Results Display */}
         {searchResult && !loading && (
           <div className="results-container animate-fade-in">
-            {/* Top Indicator & Executive Action Bar */}
-            <div className="results-meta-bar">
+            {/* Screen-Only Interactive Validation Content */}
+            <div className="screen-only-result-content">
+              {/* Top Indicator & Executive Action Bar */}
+              <div className="results-meta-bar">
               <div className="meta-left-group">
                 <span className="pipeline-status-badge">
                   <span className="badge-dot-green"></span>
@@ -3558,13 +3651,96 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
             </div>
 
             {/* Executive Synthesis Summary */}
-            {searchResult.answer && (
-              <div className="glass-card executive-summary-card">
-                <div className="exec-badge">Executive Synthesis</div>
-                <h3 className="card-title">Market Analysis & Feasibility Overview</h3>
-                <p className="synthesized-answer">{searchResult.answer}</p>
-              </div>
-            )}
+            {searchResult.answer && (() => {
+              const parsedPoints = parseExecutiveSynthesisPoints(searchResult.answer);
+              return (
+                <div className="glass-card executive-summary-card">
+                  <div className="exec-header-row">
+                    <div className="exec-header-left">
+                      <div className="exec-badge-wrap">
+                        <span className="exec-badge">
+                          <Icons.Sparkle /> Executive Synthesis
+                        </span>
+                        <span className="exec-meta-pill">
+                          <Icons.Check /> {parsedPoints.length} Key Takeaways
+                        </span>
+                      </div>
+                      <h3 className="card-title">Market Analysis & Feasibility Overview</h3>
+                      <p className="exec-subtitle">High-density intelligence distilled from multi-agent market validation.</p>
+                    </div>
+
+                    <div className="exec-header-actions">
+                      <div className="exec-view-toggle">
+                        <button
+                          type="button"
+                          className={`exec-toggle-btn ${execViewMode === 'points' ? 'active' : ''}`}
+                          onClick={() => setExecViewMode('points')}
+                          title="View structured point-by-point breakdown"
+                        >
+                          <Icons.Layers />
+                          <span>Point-by-Point</span>
+                        </button>
+                        <button
+                          type="button"
+                          className={`exec-toggle-btn ${execViewMode === 'narrative' ? 'active' : ''}`}
+                          onClick={() => setExecViewMode('narrative')}
+                          title="View continuous narrative paragraph"
+                        >
+                          <Icons.Terminal />
+                          <span>Paragraph</span>
+                        </button>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="exec-copy-btn"
+                        onClick={() => {
+                          const formattedPoints = parsedPoints.map(p => `• [${p.category}] ${p.text}`).join('\n');
+                          navigator.clipboard.writeText(execViewMode === 'points' ? formattedPoints : searchResult.answer);
+                          showToast("Executive Synthesis copied to clipboard!");
+                        }}
+                        title="Copy synthesis"
+                      >
+                        <Icons.Copy />
+                        <span>Copy</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {execViewMode === 'points' ? (
+                    <div className="exec-points-grid">
+                      {parsedPoints.map((point) => (
+                        <div key={point.id} className={`exec-point-item ${point.themeClass}`}>
+                          <div className="point-header-tag">
+                            <span className="point-num-pill">{point.index}</span>
+                            <span className="point-category-pill">
+                              <span className="point-icon">{point.icon}</span>
+                              <span>{point.category}</span>
+                            </span>
+                          </div>
+                          <div className="point-content-text">
+                            {renderFormattedPointText(point.text)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="exec-narrative-box">
+                      <p className="synthesized-answer">{renderFormattedPointText(searchResult.answer)}</p>
+                    </div>
+                  )}
+
+                  <div className="exec-footer-bar">
+                    <span className="exec-source-hint">
+                      ⚡ Synthesized dynamically by VenturePulse Orchestrator & Multi-Agent Engine
+                    </span>
+                    <span className="exec-pill-hint">
+                      Display: {execViewMode === 'points' ? 'Structured Bullet Takeaways' : 'Narrative Overview'}
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Multi-Agent Results Navigation Ribbon (Smooth Gliding Track with Pause-on-Hover & 1-Click Select) */}
             <div className="agent-tabs-stream-wrap">
@@ -6353,6 +6529,348 @@ Generated autonomously by VenturePulse Multi-Agent Intelligence Engine (v4.0.0).
                 </div>
               </div>
             )}
+            </div>
+            {/* End of screen-only-result-content */}
+
+            {/* COMPLETE PRINT & PDF FULL DOSSIER DOCUMENT (Renders All 7+ Intelligence Tabs in PDF/Print with Crisp White Background & Zero Lag) */}
+            <div className="print-dossier-full-document">
+              {/* Document Header */}
+              <div className="print-doc-header">
+                <div className="print-doc-brand">
+                  <span className="print-brand-title">VENTUREPULSE</span>
+                  <span className="print-brand-tag">AUTONOMOUS MULTI-AGENT VENTURE INTELLIGENCE DOSSIER</span>
+                </div>
+                <div className="print-doc-meta">
+                  <span><strong>Date:</strong> {new Date().toLocaleDateString()}</span>
+                  <span><strong>Engine:</strong> v{pipelineMeta?.pipeline_version || '4.0.0'} ({pipelineMeta?.total_duration_sec || '1.4'}s runtime)</span>
+                  <span><strong>Overall Feasibility:</strong> {insights?.score || 88}%</span>
+                </div>
+              </div>
+
+              {/* Startup Concept Banner */}
+              <div className="print-hero-box">
+                <div className="print-tag-row">
+                  <span className="print-pill">Vertical: {searchResult.industry}</span>
+                  <span className="print-pill">Target Market: {searchResult.target_market}</span>
+                  <span className="print-pill print-score-pill">Feasibility Rating: {insights?.score || 88}/100</span>
+                </div>
+                <h1 className="print-idea-title">"{searchResult.startup_idea}"</h1>
+              </div>
+
+              {/* Section 1: Executive Synthesis */}
+              {searchResult.answer && (
+                <div className="print-section-block">
+                  <h2 className="print-sec-heading">1. Executive Synthesis & Key Findings</h2>
+                  <div className="print-points-list">
+                    {parseExecutiveSynthesisPoints(searchResult.answer).map((pt) => (
+                      <div key={pt.id} className="print-point-item">
+                        <div className="print-pt-tag">
+                          <span className="print-num">{pt.index}</span>
+                          <span className="print-cat">{pt.icon} {pt.category}</span>
+                        </div>
+                        <p className="print-pt-text">{renderFormattedPointText(pt.text)}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Section 2: Market Opportunity & Sizing */}
+              {marketData && (
+                <div className="print-section-block">
+                  <h2 className="print-sec-heading">2. Market Opportunity, TAM Sizing & Financial Model</h2>
+                  <div className="print-card-box">
+                    <h3 className="print-sub-heading">Market Narrative & Opportunity Overview</h3>
+                    <p className="print-body-text">{marketData.market_summary}</p>
+                  </div>
+
+                  {marketData.market_size_and_growth && (
+                    <div className="print-metrics-grid">
+                      <div className="print-metric-box print-tam">
+                        <span className="print-m-label">TAM (Total Addressable)</span>
+                        <h4 className="print-m-val">{marketData.market_size_and_growth.tam_estimate}</h4>
+                        <span className="print-m-sub">Overall industry addressable potential</span>
+                      </div>
+                      <div className="print-metric-box print-sam">
+                        <span className="print-m-label">SAM (Serviceable)</span>
+                        <h4 className="print-m-val">{marketData.market_size_and_growth.sam_estimate}</h4>
+                        <span className="print-m-sub">Specific regional/vertical target segment</span>
+                      </div>
+                      <div className="print-metric-box print-som">
+                        <span className="print-m-label">SOM (Beachhead)</span>
+                        <h4 className="print-m-val">{marketData.market_size_and_growth.som_estimate}</h4>
+                        <span className="print-m-sub">Realistic initial capture in 1-3 years</span>
+                      </div>
+                      <div className="print-metric-box print-cagr">
+                        <span className="print-m-label">Growth Trajectory</span>
+                        <h4 className="print-m-val">{marketData.market_size_and_growth.cagr_growth_rate}</h4>
+                        <span className="print-m-sub">{marketData.market_size_and_growth.growth_stage || 'High Growth'}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Customer Personas */}
+                  {marketData.customer_segments && marketData.customer_segments.length > 0 && (
+                    <div className="print-personas-wrap">
+                      <h3 className="print-sub-heading">Customer Segmentation & Buyer Profiles</h3>
+                      <div className="print-personas-grid">
+                        {marketData.customer_segments.map((seg, idx) => (
+                          <div key={idx} className="print-persona-card">
+                            <span className="print-seg-badge">Segment {idx + 1}</span>
+                            <h4 className="print-persona-name">{seg.segment_name}</h4>
+                            <p className="print-persona-sub"><strong>Audience:</strong> {seg.who_they_are}</p>
+                            <p className="print-persona-sub"><strong>Procurement:</strong> {seg.buying_behavior}</p>
+                            <p className="print-persona-sub"><strong>Willingness to Pay:</strong> {seg.willingness_to_pay}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Growth Drivers & Domain Terminology */}
+                  <div className="print-split-row">
+                    {marketData.demand_drivers && (
+                      <div className="print-card-box print-half">
+                        <h3 className="print-sub-heading">Key Market Growth Drivers</h3>
+                        <ul className="print-bullet-list">
+                          {marketData.demand_drivers.map((d, i) => (
+                            <li key={i}>✓ {d}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {marketData.industry_terminology && (
+                      <div className="print-card-box print-half">
+                        <h3 className="print-sub-heading">Industry Domain Terminology</h3>
+                        <div className="print-chips-wrap">
+                          {marketData.industry_terminology.map((t, i) => (
+                            <span key={i} className="print-chip">{t}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Section 3: Competitive Landscape */}
+              {competitorData && (
+                <div className="print-section-block">
+                  <h2 className="print-sec-heading">3. Competitive Landscape, White Spaces & Moats</h2>
+                  <div className="print-card-box">
+                    <p className="print-body-text">{competitorData.competitor_summary}</p>
+                  </div>
+
+                  {competitorData.direct_competitors && competitorData.direct_competitors.length > 0 && (
+                    <div className="print-comp-grid">
+                      {competitorData.direct_competitors.map((comp, idx) => (
+                        <div key={idx} className="print-comp-card">
+                          <span className="print-comp-badge">Direct Competitor {idx + 1}</span>
+                          <h4 className="print-comp-name">{comp.name}</h4>
+                          <p className="print-comp-desc">{comp.description}</p>
+                          <div className="print-comp-meta">
+                            <span><strong>Pricing:</strong> {comp.pricing_model || 'Enterprise / Custom'}</span>
+                            <span><strong>Market Share:</strong> {comp.market_share_tier || 'Established'}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="print-split-row">
+                    {competitorData.market_gaps_and_white_space && (
+                      <div className="print-card-box print-half">
+                        <h3 className="print-sub-heading">Market White Space Opportunities</h3>
+                        <ul className="print-bullet-list">
+                          {competitorData.market_gaps_and_white_space.map((gap, i) => (
+                            <li key={i}>★ {gap}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {competitorData.differentiation_strategy && (
+                      <div className="print-card-box print-half">
+                        <h3 className="print-sub-heading">Strategic Differentiation Playbook</h3>
+                        <ul className="print-bullet-list">
+                          {competitorData.differentiation_strategy.map((strat, i) => (
+                            <li key={i}>🛡️ {strat}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Section 4: SWOT & Risk Audit */}
+              {swotData && (
+                <div className="print-section-block">
+                  <h2 className="print-sec-heading">4. SWOT Analysis & Strategic Risk Audit</h2>
+                  {swotData.swot && (
+                    <div className="print-swot-grid">
+                      <div className="print-swot-box print-swot-s">
+                        <h4 className="print-swot-title">Strengths</h4>
+                        <ul>
+                          {swotData.swot.strengths?.map((s, i) => (
+                            <li key={i}><strong>{s.title}:</strong> {s.description}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="print-swot-box print-swot-w">
+                        <h4 className="print-swot-title">Weaknesses</h4>
+                        <ul>
+                          {swotData.swot.weaknesses?.map((w, i) => (
+                            <li key={i}><strong>{w.title}:</strong> {w.description}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="print-swot-box print-swot-o">
+                        <h4 className="print-swot-title">Opportunities</h4>
+                        <ul>
+                          {swotData.swot.opportunities?.map((o, i) => (
+                            <li key={i}><strong>{o.title}:</strong> {o.description}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="print-swot-box print-swot-t">
+                        <h4 className="print-swot-title">Threats</h4>
+                        <ul>
+                          {swotData.swot.threats?.map((t, i) => (
+                            <li key={i}><strong>{t.title}:</strong> {t.description}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+
+                  {swotData.risk_assessment && swotData.risk_assessment.length > 0 && (
+                    <div className="print-card-box">
+                      <h3 className="print-sub-heading">Risk Assessment & Mitigation Matrix</h3>
+                      <table className="print-table">
+                        <thead>
+                          <tr>
+                            <th>Risk Category</th>
+                            <th>Severity</th>
+                            <th>Mitigation Strategy</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {swotData.risk_assessment.map((r, i) => (
+                            <tr key={i}>
+                              <td><strong>{r.category}</strong></td>
+                              <td><span className="print-sev-tag">{r.severity || 'Medium'}</span></td>
+                              <td>{r.mitigation_strategy}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Section 5: MVP MoSCoW Roadmap */}
+              {mvpData && (
+                <div className="print-section-block">
+                  <h2 className="print-sec-heading">5. MVP MoSCoW Prioritization & Roadmap</h2>
+                  <div className="print-card-box">
+                    <p className="print-body-text">{mvpData.mvp_summary}</p>
+                  </div>
+
+                  {mvpData.moscow_matrix && (
+                    <div className="print-moscow-grid">
+                      <div className="print-moscow-box print-must">
+                        <h4 className="print-moscow-title">Must-Have (Core Loop Features)</h4>
+                        <ul>
+                          {mvpData.moscow_matrix.must_have?.map((f, i) => (
+                            <li key={i}><strong>{f.feature_name}</strong> (Effort: {f.effort_score}/10, Impact: {f.impact_score}/10): {f.description}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="print-moscow-box print-should">
+                        <h4 className="print-moscow-title">Should-Have (Enhancements)</h4>
+                        <ul>
+                          {mvpData.moscow_matrix.should_have?.map((f, i) => (
+                            <li key={i}><strong>{f.feature_name}</strong>: {f.description}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="print-moscow-box print-could">
+                        <h4 className="print-moscow-title">Could-Have (Future Backlog)</h4>
+                        <ul>
+                          {mvpData.moscow_matrix.could_have?.map((f, i) => (
+                            <li key={i}><strong>{f.feature_name}</strong>: {f.description}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Section 6: Go-To-Market Strategy */}
+              {gtmData && (
+                <div className="print-section-block">
+                  <h2 className="print-sec-heading">6. Go-To-Market & First 100 Customers Playbook</h2>
+                  {gtmData.positioning_statement && (
+                    <div className="print-card-box">
+                      <h3 className="print-sub-heading">Positioning Statement</h3>
+                      <p className="print-body-text">
+                        For <strong>{gtmData.positioning_statement.for_target_customers || searchResult.target_market}</strong> who <strong>{gtmData.positioning_statement.who_statement || 'seek vertical automation'}</strong>, our solution is a <strong>{gtmData.positioning_statement.our_solution_is || 'autonomous platform'}</strong> that <strong>{gtmData.positioning_statement.that_provides || 'delivers superior ROI'}</strong>.
+                      </p>
+                    </div>
+                  )}
+
+                  {gtmData.acquisition_channels && gtmData.acquisition_channels.length > 0 && (
+                    <div className="print-card-box">
+                      <h3 className="print-sub-heading">Customer Acquisition Flywheel & Estimated CAC</h3>
+                      <table className="print-table">
+                        <thead>
+                          <tr>
+                            <th>Acquisition Channel</th>
+                            <th>Estimated CAC</th>
+                            <th>Channel Strategy & Conversion Trigger</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gtmData.acquisition_channels.map((ch, i) => (
+                            <tr key={i}>
+                              <td><strong>{ch.channel_name}</strong></td>
+                              <td><span className="print-cac-tag">{ch.estimated_cac || '$50'}</span></td>
+                              <td>{ch.channel_strategy}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Section 7: Grounded Intelligence Sources */}
+              {searchResult.results && searchResult.results.length > 0 && (
+                <div className="print-section-block">
+                  <h2 className="print-sec-heading">7. Grounded Intelligence Citations & Sources</h2>
+                  <div className="print-sources-list">
+                    {searchResult.results.map((src, i) => (
+                      <div key={i} className="print-source-row">
+                        <span className="print-src-num">[{i + 1}]</span>
+                        <div className="print-src-details">
+                          <strong>{src.title || src.name || 'Verified Industry Source'}</strong>
+                          <span className="print-src-url">{src.url || src.link}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Print Footer */}
+              <div className="print-doc-footer">
+                <span>VenturePulse Multi-Agent Autonomous Intelligence Engine</span>
+                <span>Confidential Venture Validation Report</span>
+              </div>
+            </div>
           </div>
         )}
       </main>
